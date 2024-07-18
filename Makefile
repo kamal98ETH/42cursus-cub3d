@@ -9,7 +9,7 @@ COMPILER = cc
 # FLAGS = -Wall -Wextra -Werror
 FLAGS = -g
 
-SRCS = main.c
+SRCS = main.c raycasting.c rendering.c
 
 OBJS = $(SRCS:.c=.o)
 

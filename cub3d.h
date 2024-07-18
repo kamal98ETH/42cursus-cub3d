@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/08 17:40:11 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:24:36 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@
 #include <math.h>
 #include <stdio.h>
 
-#define TILE_SIZE 10
+#define TILE 40
+#define STILE 256
 #define	RAYS 1280
+#define	MVTSPEED 20
+#define RTTSPEED .2
 #define PI 3.1415926535
-#define FOV PI/2
+#define FOV PI / 2.0
+#define EPSILON 0.01
 
 typedef struct s_coordinates
 {
@@ -64,5 +68,11 @@ typedef struct s_val
 void	draw_map(t_val *val);
 void	render(t_val *val);
 float	limit_angle(float angle);
+void	draw_rays(t_val *val);
+int	inside_empty_space(t_val val, float x, float y);
+t_tile	coordinates_to_tile(int x, int y, char *map);
+void	color_map_pixel(t_val val, int x, int y, int color);
+void	color_game_pixel(t_val val, int x, int y, int color);
+void	render(t_val *val);
 
 #endif
