@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/18 13:23:25 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:42:14 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	move_player(int keycode, t_val *val)
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
 
 	if (keycode == 119) //forward
 	{
-		x = val->game->plyr_x + round(cos(val->game->plyr_dir) * MVTSPEED);
-		y = val->game->plyr_y - round(sin(val->game->plyr_dir) * MVTSPEED);
+		x = val->game->plyr_x + cos(val->game->plyr_dir) * MVTSPEED;
+		y = val->game->plyr_y - sin(val->game->plyr_dir) * MVTSPEED;
 	}
 	else if (keycode == 115) //backward
 	{
-		x = val->game->plyr_x - round(cos(val->game->plyr_dir) * MVTSPEED);
-		y = val->game->plyr_y + round(sin(val->game->plyr_dir) * MVTSPEED);
+		x = val->game->plyr_x - cos(val->game->plyr_dir) * MVTSPEED;
+		y = val->game->plyr_y + sin(val->game->plyr_dir) * MVTSPEED;
 	}
 	else if (keycode == 97) //left
 	{
-		x = val->game->plyr_x - round(cos(PI /2 - val->game->plyr_dir) * MVTSPEED);
-		y = val->game->plyr_y - round(sin(PI /2 - val->game->plyr_dir) * MVTSPEED);
+		x = val->game->plyr_x - cos(PI /2 - val->game->plyr_dir) * MVTSPEED;
+		y = val->game->plyr_y - sin(PI /2 - val->game->plyr_dir) * MVTSPEED;
 	}
 	else // right
 	{
-		x = val->game->plyr_x + round(cos(PI /2 - val->game->plyr_dir) * MVTSPEED);
-		y = val->game->plyr_y + round(sin(PI /2 - val->game->plyr_dir) * MVTSPEED);
+		x = val->game->plyr_x + cos(PI /2 - val->game->plyr_dir) * MVTSPEED;
+		y = val->game->plyr_y + sin(PI /2 - val->game->plyr_dir) * MVTSPEED;
 	}
 	if (inside_empty_space(*val, x, y))
 	{
@@ -115,13 +115,13 @@ t_coordinates	tile_to_coordinates(t_tile tile)
 	return (coordinates);
 }
 
-t_tile	coordinates_to_tile(int x, int y, char *map)
+t_tile	coordinates_to_tile(float x, float y, char *map)
 {
 	t_tile	tile;
 	int		i;
 
-	tile.x = round(x / TILE);
-	tile.y = round(y / TILE);
+	tile.x = floor(x / TILE);
+	tile.y = floor(y / TILE);
 	// you should handle maps that isn't squares
 	i = 0;
 	while (*map && tile.y != i) // to be reviewed
@@ -141,14 +141,39 @@ t_tile	coordinates_to_tile(int x, int y, char *map)
 
 int	inside_empty_space(t_val val, float x, float y)
 {
-	char	c;
+	int	X;
+	int	Y;
+	int	i;
+	int	offset;
 
-	c = coordinates_to_tile(round(x), round(y), val.game->map).c;
-	if (c != '1' && c != '!'
-		&& round(x) >= 0 && round(x) < val.game->map_x
-		&& round(y) >= 0 && round(y) < val.game->map_y)
-		return (1);
-	return (0);
+	X = floor(x);
+	Y = floor(y);
+	if (X >= val.game->map_x || Y >= val.game->map_y || X < 0 || Y < 0)
+		return (0);
+	X /= TILE;
+	Y /= TILE;
+	i = 0;
+	offset = 0;
+	while (i < Y)
+	{
+		while (val.game->map[offset] != '\n')
+			offset++;
+		offset++;
+		i++;
+	}
+	offset += X;
+	if (val.game->map[offset] == '1')
+		return (0);
+	return (1);
+
+	// char	c;
+
+	// c = coordinates_to_tile(x, y, val.game->map).c;
+	// if (c != '1' && c != '!')
+	// 	// && round(x) >= 0 && round(x) < val.game->map_x
+	// 	// && round(y) >= 0 && round(y) < val.game->map_y)
+	// 	return (1);
+	// return (0);
 }
 
 void	draw_map(t_val *val)
@@ -156,32 +181,6 @@ void	draw_map(t_val *val)
 	int	x = 0;
 	int	y = 0;
 	char c;
-
-	// while (y < val->game->map_y) //map height
-	// {
-	// 	while (x < val->game->map_x) //map width
-	// 	{
-	// 		c = coordinates_to_tile(x, y, val->game->map).c;
-	// 		if (!(x % TILE) || !(y % TILE))
-	// 			color_map_pixel(*val, x, y, 0xc4c4c4);
-	// 		else if (c == '1')
-	// 			color_map_pixel(*val, x, y, 0xffffff);
-	// 		// else if (x == val.game->plyr_x && y == val.game->plyr_y)
-	// 		// {
-	// 		// 	// if (!val.game->plyr_x)
-	// 		// 	// {
-	// 		// 	// 	val.game->plyr_x = x + TILE /2;
-	// 		// 	// 	val.game->plyr_y = y + TILE /2;
-	// 		// 	// }
-	// 		// 	color_map_pixel(val, xx yy;
-	// 		// }
-	// 		else
-	// 			color_map_pixel(*val, x, y, 0);
-	// 		x++;
-	// 	}
-	// 	x = 0;
-	// 	y++;
-	// }
 	
 	while (y < val->game->map_y) //map height
 	{
@@ -189,24 +188,15 @@ void	draw_map(t_val *val)
 		{
 			c = coordinates_to_tile(x, y, val->game->map).c;
 			if (!(x % TILE) || !(y % TILE))
-				color_map_pixel(*val, x/2, y/2, 0xc4c4c4);
+				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xc4c4c4);
 			else if (c == '1')
-				color_map_pixel(*val, x/2, y/2, 0xffffff);
-			// else if (x == val.game->plyr_x && y == val.game->plyr_y)
-			// {
-			// 	// if (!val.game->plyr_x)
-			// 	// {
-			// 	// 	val.game->plyr_x = x + TILE /2;
-			// 	// 	val.game->plyr_y = y + TILE /2;
-			// 	// }
-			// 	color_map_pixel(val, xx yy;
-			// }
+				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xffffff);
 			else
-				color_map_pixel(*val, x/2, y/2, 0);
-			x+=2;
+				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0);
+			x+=MSCALE;
 		}
 		x = 0;
-		y+=2;
+		y += MSCALE;
 	}
 }
 
@@ -257,9 +247,9 @@ int	main()
 	val->game->map_x = 800; // should not be hard coded
 	val->game->map_y = 800; // should not be hard coded
 
-	val->game->plyr_x = 434; // should not be hard coded
-	val->game->plyr_y = 78; // should not be hard coded
-	val->game->plyr_dir = 0.017183 * PI; // should not be hard coded
+	val->game->plyr_x = 256; // should not be hard coded
+	val->game->plyr_y = 397; // should not be hard coded
+	val->game->plyr_dir = 0.3 * PI; // should not be hard coded
 	
 	val->game->map = hard_coded_map();
 	if (!val->game->map)
@@ -280,10 +270,10 @@ int	main()
 	val->win_ptr = mlx_new_window(val->mlx_ptr, val->width, val->height, "cub3D");
 	val->img_ptr = mlx_new_image(val->mlx_ptr, val->width, val->height);
 	// val->img_map_ptr = mlx_new_image(val->mlx_ptr, val->game->map_x, val->game->map_y);
-	val->img_map_ptr = mlx_new_image(val->mlx_ptr, val->game->map_x /2, val->game->map_y /2);
+	val->img_map_ptr = mlx_new_image(val->mlx_ptr, val->game->map_x /MSCALE, val->game->map_y /MSCALE);
 	mlx_key_hook(val->win_ptr, key_hook, val);
 
-	printf("player init coordinates: x: %d, y: %d\n", val->game->plyr_x, val->game->plyr_y);
+	printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
 	// draw_map(*val);
 	// test(*val);
 	render(val);
@@ -300,204 +290,3 @@ int	main()
 	free(val);
 	return (0);
 }
-
-
-// t_tile	coordinates_to_tile(t_coordinates coordinates, char *map)
-// {
-// 	t_tile	tile;
-// 	int		i;
-
-// 	tile.x = coordinates.x / TILE;
-// 	tile.y = coordinates.y / TILE;
-// 	// you should handle maps that isn't squares
-// 	i = 0;
-// 	while (tile.y != i)
-// 	{
-// 		while (*map != '\n')
-// 			map++;
-// 		map++;
-// 		i++;
-// 	}
-// 	tile.c = map[tile.x];
-// 	return (tile);
-// }
-
-// void	draw_rays(t_val val, char *map, float p_dir)
-// {
-// 	int	i = 0;
-// 	int	height = 0;
-// 	int	opposite;
-// 	int	adjacent;
-// 	float	angle;
-// 	int	x;
-// 	char	c;
-
-// 	angle = p_dir - FOV / 2;
-// 	while (i < RAYS)
-// 	{
-// 		height = val.game->plyr_y;
-// 		while (height >= 0)
-// 		{
-// 			if (angle < PI / 2)
-// 			{
-// 				opposite = val.game->plyr_y - height;
-// 				adjacent = opposite / tan(angle);
-// 				x = adjacent + val.game->plyr_x;
-// 				c = coordinates_to_tile(x, height, map).c;
-// 				if (c == '1' || c == '!')
-// 					break;
-// 				color_pixel(val, x, height, 0x7e00ff);
-// 			}
-// 			else if (angle < PI)
-// 			{
-// 				opposite = val.game->plyr_y - height;
-// 				adjacent = opposite / tan(PI - angle);
-// 				x = val.game->plyr_x - adjacent;
-// 				c = coordinates_to_tile(x, height, map).c;
-// 				if (c == '1' || c == '!')
-// 					break;
-// 				color_pixel(val, x, height, 0x7e00ff);
-// 			}
-// 			else if (angle < (3 * PI) / 2)
-// 			{
-// 				opposite = val.game->plyr_y - height;
-// 				adjacent = opposite / tan(angle - PI);
-// 				x = val.game->plyr_x - adjacent;
-// 				c = coordinates_to_tile(x, val.game->plyr_y + height % val.game->plyr_y, map).c;
-// 				if (c == '1' || c == '!')
-// 					break;
-// 				color_pixel(val, x, val.game->plyr_y + height % val.game->plyr_y, 0x7e00ff);
-// 			}
-// 			else
-// 			{
-				
-// 			}
-// 			height--;
-// 		}
-// 		angle += FOV / RAYS;
-// 		i++;
-// 	}
-	
-
-
-
-	
-// }
-// void	draw_north_east_rays(t_val val, char *map, float angle)
-// {
-// 	int	a;
-// 	int	x;
-// 	int y;
-
-// 	a = tan(angle);
-// 	y = 0;
-// 	while (y < val.game->map_y)
-// 	{
-// 		x = 0;
-// 		while (x < val.game->map_x)
-// 		{
-// 			if (round(y) == round(a * x))
-// 			{
-// 				color_pixel(val, x, y, 0xffffff);
-// 			}
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	// int	opposite;
-// 	// int	adjacent;
-// 	// int	height;
-// 	// int	x;
-// 	// int	y;
-// 	// char c;
-	
-// 	// height = val.game->plyr_y;
-// 	// while (height >= 0)
-// 	// {
-// 	// 	opposite = val.game->plyr_y - height;
-// 	// 	adjacent = opposite / tan(angle);
-// 	// 	x = val.game->plyr_x + adjacent;
-// 	// 	y = height;
-// 	// 	c = coordinates_to_tile(x, y, map).c;
-// 	// 	if (c == '1' || c == '!')
-// 	// 		break;
-// 	// 	color_pixel(val, round(x), round(y), 0x7e00ff);
-// 	// 	height--;
-// 	// }
-	
-// }
-
-// void	draw_north_west_rays(t_val val, char *map, float angle)
-// {
-// 	int	opposite;
-// 	int	adjacent;
-// 	int	height;
-// 	int	x;
-// 	int	y;
-// 	char c;
-	
-// 	height = val.game->plyr_y;
-// 	while (height >= 0)
-// 	{
-// 		opposite = val.game->plyr_y - height;
-// 		adjacent = opposite / tan(PI - angle);
-// 		x = val.game->plyr_x - adjacent;
-// 		y = height;
-// 		c = coordinates_to_tile(x, y, map).c;
-// 		if (c == '1' || c == '!')
-// 			break;
-// 		color_pixel(val, round(x), round(y), 0x7e00ff);
-// 		height--;
-// 	}
-	
-// }
-
-// void	draw_south_west_rays(t_val val, char *map, float angle)
-// {
-// 	int	opposite;
-// 	int	adjacent;
-// 	int	height;
-// 	int	x;
-// 	int	y;
-// 	char c;
-	
-// 	height = val.game->plyr_y;
-// 	while (height < val.game->map_y)
-// 	{
-// 		opposite = height - val.game->plyr_y;
-// 		adjacent = opposite / tan(angle - PI);
-// 		x = val.game->plyr_x - adjacent;
-// 		y = height;
-// 		c = coordinates_to_tile(x, y, map).c;
-// 		if (c == '1' || c == '!')
-// 			break;
-// 		color_pixel(val, round(x), round(y), 0x7e00ff);
-// 		height++;
-// 	}
-	
-// }
-
-// void	draw_south_east_rays(t_val val, char *map, float angle)
-// {
-// 	int	opposite;
-// 	int	adjacent;
-// 	int	height;
-// 	int	x;
-// 	int	y;
-// 	char c;
-	
-// 	height = val.game->plyr_y;
-// 	while (height < val.game->map_y)
-// 	{
-// 		opposite = height - val.game->plyr_y;
-// 		adjacent = opposite / tan(angle - 3 * PI / 2);
-// 		x = val.game->plyr_x + adjacent;
-// 		y = height;
-// 		c = coordinates_to_tile(x, y, map).c;
-// 		if (c == '1' || c == '!')
-// 			break;
-// 		color_pixel(val, round(x), round(y), 0x7e00ff);
-// 		height++;
-// 	}
-	
-// }
