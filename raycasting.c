@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/21 01:55:10 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:56:21 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,14 @@
 
 void	draw_line(t_val val, float endX, float endY, int color)
 {
-	// double	deltaX = endX - val.game->plyr_x;
-	// double	deltaY = endY - val.game->plyr_y;
-	// printf("draw_line end point: x: %d, y: %d\n", endX, endY);
 	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
 	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
 
 	int	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
 	deltaX /= pixels;
 	deltaY /= pixels;
-
-	// double	pixelX = val.game->plyr_x;
-	// double	pixelY = val.game->plyr_y;
 	double	pixelX = val.game->plyr_x /MSCALE;
 	double	pixelY = val.game->plyr_y /MSCALE;
-	
 	while (pixels)
 	{
 		color_map_pixel(val, round(pixelX), round(pixelY), color);
@@ -36,147 +29,114 @@ void	draw_line(t_val val, float endX, float endY, int color)
 		pixelY += deltaY;
 		pixels--;
 	}
-	
 }
+
 float	dist(t_val val, float x, float y)
 {
 	return (sqrt(pow(x - val.game->plyr_x, 2) + pow(y - val.game->plyr_y, 2)));
 }
 
-float	vertical_cast(t_val val, float *vx, float *vy, float angle, int ray_number)
+void	vertical_cast(t_val val, t_ray *ray, float angle)
 {
-	int	r, dof;
-	float	x, y, xo, yo;
+	float	xo;
+	float	yo;
 	float	Tan;
 
-	r = 0;
 	Tan = tan(angle);
-	dof = 0;
-	// while (r < 1)
-	// {
-		if ((angle > 0 && angle < PI / 2.0) || (angle > 3.0 * PI / 2.0 && angle < 2.0 * PI))
-		{
-			x = (((int)val.game->plyr_x / TILE) * TILE) + TILE;
-			y = val.game->plyr_y + (val.game->plyr_x - x) * Tan;
-			xo = TILE;
-			yo = -TILE * Tan;
-		}
-		else if (angle > PI / 2 && angle < 3.0 * PI / 2.0)
-		{
-			x = (((int)val.game->plyr_x / TILE) * TILE) - 0.001;
-			y = val.game->plyr_y + (val.game->plyr_x - x) * Tan;
-			xo = -TILE;
-			yo = TILE * Tan;
-		}
-		else
-		{
-			
-		}
-		r++;
-	// }
-	while (dof < 20)
+	ray->dof = 0;
+	if ((angle > 0 && angle < PI / 2.0) || (angle > 3.0 * PI / 2.0 && angle < 2.0 * PI))
 	{
-		if (!inside_empty_space(val, x, y))
-			break;
-		// {
-		// 	dof = 20;
-		// }
-		x += xo;
-		y += yo;
-		dof++;
+		ray->dir = 'E';
+		ray->x = (((int)val.game->plyr_x / TILE) * TILE) + TILE;
+		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
+		xo = TILE;
+		yo = -TILE * Tan;
 	}
-	*vx = x;
-	*vy = y;
-	return (dist(val, x, y));
+	else if (angle > PI / 2 && angle < 3.0 * PI / 2.0)
+	{
+		ray->dir = 'W';
+		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.001;
+		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
+		xo = -TILE;
+		yo = TILE * Tan;
+	}
+	else
+	{
+		ray->x = val.game->plyr_x;
+		ray->y = val.game->plyr_y;
+		ray->dof = 20;
+	}
+	while (ray->dof < 20 && inside_empty_space(val, ray->x, ray->y))
+	{
+		ray->x += xo;
+		ray->y += yo;
+		ray->dof++;
+	}
+	ray->dist = dist(val, ray->x, ray->y);
 }
 
-float	horizontal_cast(t_val val, float *hx, float *hy, float angle, int ray_number)
+void	horizontal_cast(t_val val, t_ray *ray, float angle)
 {
-	int	r, dof;
-	float	x, y, xo, yo;
+	float	xo;
+	float	yo;
 	float	Tan;
 
-	r = 0;
 	Tan = 1 / tan(angle);
-	// while (r < 1)
-	// {
-		dof = 0;
-		if (angle < PI && angle > 0)// looking up
-		{
-			y = (((int)val.game->plyr_y / TILE) * TILE) -0.0001;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
-			x = val.game->plyr_x + (val.game->plyr_y - y) * Tan;
-			yo = -TILE;
-			xo = -yo * Tan;
-		}
-		else if (angle > PI && angle < 2.0 * PI)
-		{
-			y = (((int)val.game->plyr_y / TILE) * TILE) + TILE;
-			x = val.game->plyr_x + (val.game->plyr_y - y) * Tan;
-			yo = TILE;
-			xo = -yo * Tan;
-		}
-		else
-		{
-			x = val.game->plyr_x;
-			y = val.game->plyr_y;
-			dof = 20;
-		}
-		// r++;
-	// }
-	while (dof < 20)
+	ray->dof = 0;
+	if (angle < PI && angle > 0)// looking up
 	{
-		if (!inside_empty_space(val, x, y))
-			break;
-		// {
-		// 	dof = 20;
-		// }
-		x += xo;
-		y += yo;
-		dof++;
+		ray->dir = 'N';
+		ray->y = (((int)val.game->plyr_y / TILE) * TILE) -0.0001;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
+		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
+		yo = -TILE;
+		xo = -yo * Tan;
 	}
-	*hx = x;
-	*hy = y;
-	return (dist(val, x, y));
+	else if (angle > PI && angle < 2.0 * PI)
+	{
+		ray->dir = 'S';
+		ray->y = (((int)val.game->plyr_y / TILE) * TILE) + TILE;
+		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
+		yo = TILE;
+		xo = -yo * Tan;
+	}
+	else
+	{
+		ray->x = val.game->plyr_x;
+		ray->y = val.game->plyr_y;
+		ray->dof = 20;
+	}
+	while (ray->dof < 20 && inside_empty_space(val, ray->x, ray->y))
+	{
+		ray->x += xo;
+		ray->y += yo;
+		ray->dof++;
+	}
+	ray->dist = dist(val, ray->x, ray->y);
 }
 
 
-// float	cast_ray(t_val val, float *x, float *y, float angle, int ray_number)
-float	cast_ray(t_val val,  float angle, int ray_number)
+void	cast_ray(t_val val, t_ray *ray, float angle)
 {
-	float hx, hy, vx, vy;
-	float	v_dest = vertical_cast(val, &vx, &vy, angle, ray_number);
-	float	h_dest = horizontal_cast(val, &hx, &hy, angle, ray_number);
-	
-	if (h_dest <= v_dest)
-	{
-		draw_line(val, hx, hy, 0xff0000);
-		return (h_dest);
-	}
-	draw_line(val, vx, vy, 0xff0000);
-	return (v_dest);
-	// printf("ray: x: %f, y: %f\n", x, y);
-	// draw_line(val, x, y, 0xff0000);
-}
+	t_ray	h_ray;
+	t_ray	v_ray;
 
-void	draw_rays(t_val *val)
-{
-	// printf("tan(PI / 2 - PI / 100) : %f\n", tan(PI / 2 - PI / 100));
-	float	x;
-	float	y;
-	int		i;
-	float	angle;
-
-	i = 0;
-	// angle = val->game->plyr_dir;
-	// cast_ray(*val, angle, i);
+	vertical_cast(val, &v_ray, angle);
+	horizontal_cast(val, &h_ray, angle);
 	
-	angle = limit_angle(val->game->plyr_dir + FOV /2);
-	while (i < val->width)
+	if (h_ray.dist <= v_ray.dist)
 	{
-		val->rays[i] = cast_ray(*val, angle, i);
-		// printf("final %d: x: %f, y: %f\n", i, round(x), round(y));
-		// draw_line(*val, round(x), round(y), 0xff0000);
-		i++;
-		angle = limit_angle(angle - FOV / (float)(val->width -1));
+		draw_line(val, h_ray.x, h_ray.y, 0xff0000);
+		ray->x = h_ray.x;
+		ray->y = h_ray.y;
+		ray->dist = h_ray.dist;
+		ray->dof = h_ray.dof;
+		ray->dir = h_ray.dir;
+		return ;
 	}
+	draw_line(val, v_ray.x, v_ray.y, 0xff0000);
+	ray->x = v_ray.x;
+	ray->y = v_ray.y;
+	ray->dist = v_ray.dist;
+	ray->dof = v_ray.dof;
+	ray->dir = v_ray.dir;
 }

@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/20 22:42:14 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:41:38 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,22 +200,6 @@ void	draw_map(t_val *val)
 	}
 }
 
-void	ray_casting()
-{
-	
-}
-
-void	test(t_val *val)
-{
-	
-
-	// printf("%s", map);
-	// printf("\n\ntile x: %d, tile y: %d, tile c: %c\n", tile1.x, tile1.y, tile1.c);
-	// printf("coordinates x: %d, coordinates y: %d\n", coordinates2.x, coordinates2.y);
-
-	draw_map(val);
-}
-
 char	*hard_coded_map()
 {
 	char	*map;
@@ -248,20 +232,12 @@ int	main()
 	val->game->map_y = 800; // should not be hard coded
 
 	val->game->plyr_x = 256; // should not be hard coded
-	val->game->plyr_y = 397; // should not be hard coded
-	val->game->plyr_dir = 0.3 * PI; // should not be hard coded
+	val->game->plyr_y = 200; // should not be hard coded
+	val->game->plyr_dir = 0.5 * PI; // should not be hard coded
 	
 	val->game->map = hard_coded_map();
 	if (!val->game->map)
 	{
-		free(val->game);
-		free(val);
-		return (1);
-	}
-	val->rays = (float *)malloc(RAYS * sizeof(float)); // maybe won't need this
-	if (!val->rays)
-	{
-		free(val->game->map);
 		free(val->game);
 		free(val);
 		return (1);
@@ -274,8 +250,6 @@ int	main()
 	mlx_key_hook(val->win_ptr, key_hook, val);
 
 	printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
-	// draw_map(*val);
-	// test(*val);
 	render(val);
 	
 	mlx_loop(val->mlx_ptr);
@@ -283,7 +257,6 @@ int	main()
 	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);
 	mlx_destroy_window(val->mlx_ptr, val->win_ptr);
 	mlx_destroy_display(val->mlx_ptr);
-	free(val->rays);
 	free(val->game->map);
 	free(val->game);
 	free(val->mlx_ptr);

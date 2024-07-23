@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/20 20:20:28 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:59:01 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@
 #include <stdio.h>
 
 #define TILE 40
-#define	MSCALE 2
-#define STILE 256
-#define	RAYS 1280
+#define	MSCALE 4
 #define	MVTSPEED 20
 #define RTTSPEED .2
 #define PI 3.1415926535
 #define FOV PI / 2.0
-#define EPSILON 0.01
 
 typedef struct s_coordinates
 {
@@ -54,6 +51,15 @@ typedef	struct s_game
 	int		map_y;
 }	t_game;
 
+typedef struct s_ray
+{
+	float	x;
+	float	y;
+	int		dof;
+	float	dist;
+	char	dir;
+}	t_ray;
+
 typedef struct s_val
 {
 	void	*mlx_ptr;
@@ -62,15 +68,14 @@ typedef struct s_val
 	void	*img_map_ptr;
 	int		width;
 	int		height;
-	float	*rays;
 	t_game	*game;
 }	t_val;
 
 void	draw_map(t_val *val);
 void	render(t_val *val);
 float	limit_angle(float angle);
-void	draw_rays(t_val *val);
-int	inside_empty_space(t_val val, float x, float y);
+void	cast_ray(t_val val, t_ray *ray, float angle);
+int		inside_empty_space(t_val val, float x, float y);
 t_tile	coordinates_to_tile(float x, float y, char *map);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
