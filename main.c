@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/07/23 18:41:38 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:47:16 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	move_player(int keycode, t_val *val)
 	{
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;
-		render(val);
+		// render(val);
 	}
 }
 
@@ -56,7 +56,7 @@ int key_hook(int keycode, t_val *val)
 			val->game->plyr_dir = limit_angle(val->game->plyr_dir + RTTSPEED);
 		else
 			val->game->plyr_dir = limit_angle(val->game->plyr_dir - RTTSPEED);
-		render(val);
+		// render(val);
 	}
 	if (keycode == 119 || keycode == 115 || keycode == 97 || keycode == 100)
 		move_player(keycode, val);
@@ -75,35 +75,22 @@ float	limit_angle(float angle)
 
 void	color_map_pixel(t_val val, int x, int y, int color) //int x, int y
 {
-	char	*img_data;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
 	int		offset;
 
 	if (x < 0 || y < 0 || x >= val.width || y >= val.height)
 		return ;
-	// try to save img data and bit per pixel and size line in mlx struct to color the wanted pixel without having to call mlx_gat_data_addr each time you color a pixel
-	img_data = mlx_get_data_addr(val.img_map_ptr, &bits_per_pixel, &size_line, &endian);
-	
-	offset = y * size_line + x * (bits_per_pixel / 8);
-	*(int *)(img_data + offset) = color;
+	offset = y * val.map_data.sline + x * (val.map_data.bpp / 8);
+	*(int *)(val.map_data.img_data + offset) = color;
 }
 
 void	color_game_pixel(t_val val, int x, int y, int color)
 {
-	char	*img_data;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
 	int		offset;
 
 	if (x < 0 || y < 0 || x >= val.width || y >= val.height)
 		return ;
-	// try to save img data and bit per pixel and size line in mlx struct to color the wanted pixel without having to call mlx_gat_data_addr each time you color a pixel
-	img_data = mlx_get_data_addr(val.img_ptr, &bits_per_pixel, &size_line, &endian);
-	offset = y * size_line + x * (bits_per_pixel / 8);
-	*(int *)(img_data + offset) = color;
+	offset = y * val.data.sline + x * (val.data.bpp / 8);
+	*(int *)(val.data.img_data + offset) = color;
 }
 
 t_coordinates	tile_to_coordinates(t_tile tile)
@@ -156,24 +143,19 @@ int	inside_empty_space(t_val val, float x, float y)
 	offset = 0;
 	while (i < Y)
 	{
-		while (val.game->map[offset] != '\n')
+		while (val.game->map[offset] && val.game->map[offset] != '\n')
 			offset++;
-		offset++;
+		if (val.game->map[offset])
+			offset++;
 		i++;
 	}
-	offset += X;
-	if (val.game->map[offset] == '1')
+	if (val.game->map[offset])
+		offset += X;
+	else
+		return (1);
+	if (offset <= val.game->map_size && val.game->map[offset] == '1')
 		return (0);
 	return (1);
-
-	// char	c;
-
-	// c = coordinates_to_tile(x, y, val.game->map).c;
-	// if (c != '1' && c != '!')
-	// 	// && round(x) >= 0 && round(x) < val.game->map_x
-	// 	// && round(y) >= 0 && round(y) < val.game->map_y)
-	// 	return (1);
-	// return (0);
 }
 
 void	draw_map(t_val *val)
@@ -181,10 +163,10 @@ void	draw_map(t_val *val)
 	int	x = 0;
 	int	y = 0;
 	char c;
-	
-	while (y < val->game->map_y) //map height
+
+	while (y < val->game->map_y && y <= 720) //map height
 	{
-		while (x < val->game->map_x) //map width
+		while (x < val->game->map_x && x <= 1280) //map width
 		{
 			c = coordinates_to_tile(x, y, val->game->map).c;
 			if (!(x % TILE) || !(y % TILE))
@@ -200,42 +182,23 @@ void	draw_map(t_val *val)
 	}
 }
 
-char	*hard_coded_map()
-{
-	char	*map;
-	map = (char *)malloc(420);
-	if (!map)
-		return NULL;
-	int		map_fd = open("test.cub", O_RDONLY);
-	read(map_fd, map, 420);
-	close(map_fd);
-	map[419] = 0;
-	return (map);
-}
-
-int	main()
+int	main(int ac, char **av)
 {
 	t_val	*val;
-	
+
+	if (ac != 2)
+		return (printf("usage:\n\t./cub3d <map filename>\n"), 1);
 	val = (t_val *)malloc(sizeof(t_val));
 	if (!val)
 		return (1);
-	val->game = (t_game *)malloc(sizeof(t_game));
+	val->game = parsing(av[1]);
 	if (!val->game)
-	{
-		free(val);
-		return (1);
-	}
+		return (free(val), 1);
+	// val->game->map_x = 1280;
+	// val->game->map_y = 720;
 	val->height = 720;
 	val->width = 1280;
-	val->game->map_x = 800; // should not be hard coded
-	val->game->map_y = 800; // should not be hard coded
 
-	val->game->plyr_x = 256; // should not be hard coded
-	val->game->plyr_y = 200; // should not be hard coded
-	val->game->plyr_dir = 0.5 * PI; // should not be hard coded
-	
-	val->game->map = hard_coded_map();
 	if (!val->game->map)
 	{
 		free(val->game);
@@ -245,20 +208,19 @@ int	main()
 	val->mlx_ptr = mlx_init();// check if these fail
 	val->win_ptr = mlx_new_window(val->mlx_ptr, val->width, val->height, "cub3D");
 	val->img_ptr = mlx_new_image(val->mlx_ptr, val->width, val->height);
-	// val->img_map_ptr = mlx_new_image(val->mlx_ptr, val->game->map_x, val->game->map_y);
-	val->img_map_ptr = mlx_new_image(val->mlx_ptr, val->game->map_x /MSCALE, val->game->map_y /MSCALE);
-	mlx_key_hook(val->win_ptr, key_hook, val);
-
-	printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
-	render(val);
+	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
+	val->img_map_ptr = mlx_new_image(val->mlx_ptr, 1280 /MSCALE, 720 /MSCALE);
+	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
+	mlx_hook(val->win_ptr, 2, (1L<<0), key_hook, val);
+	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
+	mlx_loop_hook(val->mlx_ptr, render, val);
 	
 	mlx_loop(val->mlx_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);
 	mlx_destroy_window(val->mlx_ptr, val->win_ptr);
 	mlx_destroy_display(val->mlx_ptr);
-	free(val->game->map);
-	free(val->game);
+	free_game(val->game);
 	free(val->mlx_ptr);
 	free(val);
 	return (0);
