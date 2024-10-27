@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/09/29 14:32:46 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/11 10:05:17 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,18 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -1)
+	if (flag == -4)
+		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
+	else if (flag == -3)
+		printf("\e[31m>> [PARSING ERORR] missing elements!\e[0m \n");
+	else if (flag == -2)
+		printf("\e[31m>> [PARSING ERORR] empty line in map!\e[0m \n");
+	else if (flag == -1)
 		write(2, "\e[31mError\e[0m\nMap not closed!\n", 32);
 	else if (flag == 0)
 		write(2, "\e[31mError\e[0m\nUnknown start position!\n", 40);
 	else if (flag > 1)
 		write(2, "\e[31mError\e[0m\nMultiple start positions!\n", 42);
-	exit(1);  //delete me
 }
 
 char	**square_format(char **str)
@@ -98,7 +103,7 @@ char	**square_format(char **str)
 	return (tmp);
 }
 
-void	get_map(char **str, char *content, t_game *map)
+t_game	*get_map(char **str, char *content, t_game *map)
 {
 	int		i;
 	int		flag;
@@ -108,10 +113,10 @@ void	get_map(char **str, char *content, t_game *map)
 	i = 0;
 	tmp = ft_strnstr(content, str[0], ft_strlen(content));
 	if (ft_strnstr(tmp, "\n\n", ft_strlen(tmp)))
-		printf("\e[31m>> [PARSING ERORR] empty line in map!\e[0m \n");
+		return (free(map), handle_map_error(-2), NULL);
 	flag = check_map_validation(square_format(str), &i);
 	if (flag != 1)
-		handle_map_error(flag);
+		return (free(map), handle_map_error(flag), NULL);
 	new = NULL;
 	i = 0;
 	flag = 0;
@@ -128,4 +133,5 @@ void	get_map(char **str, char *content, t_game *map)
 	map->map_x = map->map_x * TILE;
 	map->map = new;
 	get_player_position(map, str);
+	return (map);
 }

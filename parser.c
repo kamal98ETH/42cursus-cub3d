@@ -6,63 +6,11 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/09/29 17:34:28 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/11 10:08:19 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
-void affmap(t_game *map)
-{
-/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
-	printf("\n------------------------------ affichage -------------------------------\n");
-	if(map)
-	{
-		if (map->ccol.stat)
-			printf("ccol: %x\n", map->ccol.hexacode);
-		if (map->ccol.stat)
-			printf("fcol: %x\n", map->fcol.hexacode);
-		if (map->no.path)
-			printf("NO: %s\n", map->no.path);
-		if (map->so.path)
-			printf("SO: %s\n", map->so.path);
-		if (map->ea.path)
-			printf("EA: %s\n", map->ea.path);
-		if (map->we.path)
-			printf("WE: %s\n", map->we.path);
-		printf("POS: %d , %d\n", map->plyr_x, map->plyr_y);
-		printf("DIR: %.2f\n", map->plyr_dir);
-		printf("--------------------------------- map ----------------------------------\n");
-		if (map->map)
-			printf("%s\n", map->map);
-		else
-			printf("No map found!\n");
-	}
-/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
-}
-
-char	*reformate(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		j++;
-		if (str[i] != '\n')
-			i++;
-		else
-		{
-			while (str[i] == '\n')
-				i++;
-		}
-	}
-	printf("%d\n", j);
-	exit(1);
-}
 
 int fetch_color(t_game *map, char **elems, int opt)
 {
@@ -150,16 +98,15 @@ t_game	*data_treatment(char **arr, char *content)
 		if (!get_elements(map, arr[i]))
 		{
 			printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-			exit(1);
+			return (free(map), NULL);
 		}
 		i++;
 	}
 	if (arr[i] && check_if_map(arr[i]))
-		get_map(arr + i, content, map);
+		return (get_map(arr + i, content, map));
 	else if (!arr[i])
-		printf("\e[31m>> [PARSING ERORR] missing elements!\e[0m \n");
+		handle_map_error(-3);
 	else
-		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-	affmap(map);
-	return (map);
+		handle_map_error(-4);
+	return (free(map), NULL);
 }

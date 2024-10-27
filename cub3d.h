@@ -6,12 +6,19 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/09/29 16:38:10 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:20:39 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 #define CUB3D_H
+
+
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <string.h>
+
+
 
 #include "MiniLibX/mlx.h"
 #include "libft/libft.h"
@@ -23,10 +30,24 @@
 
 #define TILE 40
 #define	MSCALE 4
-#define	MVTSPEED 10
-#define RTTSPEED .2
+#define	MVTSPEED 12
+#define RTTSPEED .1
 #define PI 3.1415926535
 #define FOV PI / 2.0
+
+#define	W_KEYCODE 119
+#define	S_KEYCODE 115
+#define	A_KEYCODE 97
+#define	D_KEYCODE 100
+#define	RA_KEYCODE 65363
+#define	LA_KEYCODE 65361
+
+#define	W_K 0
+#define	S_K 1
+#define	A_K 2
+#define	D_K 3
+#define	LA_K 4
+#define	RA_K 5
 
 typedef struct	s_col
 {
@@ -104,6 +125,7 @@ typedef struct s_val
 	int		width;
 	int		height;
 	t_game	*game;
+	int		keys[6];
 }	t_val;
 
 void	draw_map(t_val *val);
@@ -115,12 +137,13 @@ t_tile	coordinates_to_tile(float x, float y, char *map);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
 
+void	move_player(t_val *val);
+
 /* parsing .... */
 void	get_player_position(t_game *map, char **tmp);
 void	get_player_direction(t_game *map, char flag);
 t_game	*data_treatment(char **arr, char *content);
 char	**square_format(char **str);
-char	*reformate(char *str);
 int		get_elements(t_game *map, char *str);
 int 	fetch_texture(t_game *map, char **elems, int flag);
 int 	fetch_color(t_game *map, char **elems, int opt);
@@ -128,7 +151,7 @@ t_game	*parsing(char *filename);
 
 /* map treatment functions */
 void	map_init(t_game *map);
-void	get_map(char **str, char *content, t_game *map);
+t_game	*get_map(char **str, char *content, t_game *map);
 void	handle_map_error(int flag);
 char	*get_data(char *str);
 void	free_game(t_game *map);

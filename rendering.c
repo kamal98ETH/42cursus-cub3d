@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/09/29 17:01:57 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:29:00 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	draw_walls(t_val *val)
 			if (y < y_top + wall_height && y > y_top) // wall
 			{
 				if (ray.dir == 'N') // hitting north side of wall
-					color_game_pixel(*val, x, y, 0xff0000);
+					color_game_pixel(*val, x, y, 0xffffff);
 				if (ray.dir == 'S') // hitting south
 					color_game_pixel(*val, x, y, 0x00ff00);
 				if (ray.dir == 'E') // hitting east
@@ -60,15 +60,9 @@ void	draw_walls(t_val *val)
 
 int	render(t_val *val)
 {
+	// printf("rendring...\n");
+	move_player(val);
 	draw_map(val);
-	// draw_rays(val);
-	// for debugging
-	// printf("rendering...\n");
-	// printf("Player position: x: %f, y: %f, direction: %f PI\n", val->game->plyr_x, val->game->plyr_y, val->game->plyr_dir / PI);
-	
-	// for (int i = 0; i < RAYS; i++)
-	// 	printf("%f, ", val->rays[i]);
-	// printf("\n\n\n");
 	draw_walls(val);
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr, val->img_map_ptr, 0, 0);
 }

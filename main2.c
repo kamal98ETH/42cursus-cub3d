@@ -6,11 +6,41 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/09/29 15:15:22 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/11 10:08:38 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+void affmap(t_game *map)
+{
+/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+	printf("\n------------------------------ affichage -------------------------------\n");
+	if(map)
+	{
+		if (map->ccol.stat)
+			printf("ccol: %x\n", map->ccol.hexacode);
+		if (map->ccol.stat)
+			printf("fcol: %x\n", map->fcol.hexacode);
+		if (map->no.path)
+			printf("NO: %s\n", map->no.path);
+		if (map->so.path)
+			printf("SO: %s\n", map->so.path);
+		if (map->ea.path)
+			printf("EA: %s\n", map->ea.path);
+		if (map->we.path)
+			printf("WE: %s\n", map->we.path);
+		printf("POS: %.2f , %.2f\n", map->plyr_x, map->plyr_y);
+		printf("DIR: %.2f\n", map->plyr_dir);
+		printf("--------------------------------- map ----------------------------------\n");
+		if (map->map)
+			printf("%s\n", map->map);
+		else
+			printf("No map found!\n");
+	}
+/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+}
 
 void	free_game(t_game *map)
 {
@@ -79,8 +109,11 @@ t_game	*parsing(char *filename)
 		return (NULL);
 	arr = ft_split(tmp, '\n');
 	map = data_treatment(arr, tmp);
-	map->map_size = ft_strlen(map->map);
 	ft_free(arr);
 	free(tmp);
+	if (!map)
+		return (NULL);
+	affmap(map);
+	map->map_size = ft_strlen(map->map);
 	return (map);
 }
