@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/25 19:39:17 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/30 02:18:04 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,29 +192,29 @@ int	inside_empty_space(t_val val, float x, float y)
 	return (1);
 }
 
-void	draw_map(t_val *val)
-{
-	int	x = 0;
-	int	y = 0;
-	char c;
+// void	draw_map(t_val *val)
+// {
+// 	int	x = 0;
+// 	int	y = 0;
+// 	char c;
 
-	while (y < val->game->map_y && y <= 720) //map height
-	{
-		while (x < val->game->map_x && x <= 1280) //map width
-		{
-			c = coordinates_to_tile(x, y, val->game->map).c;
-			if (!(x % TILE) || !(y % TILE))
-				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xc4c4c4);
-			else if (c == '1')
-				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xffffff);
-			else
-				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0);
-			x+=MSCALE;
-		}
-		x = 0;
-		y += MSCALE;
-	}
-}
+// 	while (y < val->game->map_y && y <= 720) //map height
+// 	{
+// 		while (x < val->game->map_x && x <= 1280) //map width
+// 		{
+// 			c = coordinates_to_tile(x, y, val->game->map).c;
+// 			if (!(x % TILE) || !(y % TILE))
+// 				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xc4c4c4);
+// 			else if (c == '1')
+// 				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0xffffff);
+// 			else
+// 				color_map_pixel(*val, x/MSCALE, y/MSCALE, 0);
+// 			x+=MSCALE;
+// 		}
+// 		x = 0;
+// 		y += MSCALE;
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -228,8 +228,8 @@ int	main(int ac, char **av)
 	val->game = parsing(av[1]);
 	if (!val->game)
 		return (free(val), 1);
-	val->height = 360;
-	val->width = 640;
+	val->height = 720;
+	val->width = 1280;
 
 	int i = 0;
 	while (i < 6)
@@ -245,7 +245,8 @@ int	main(int ac, char **av)
 	val->win_ptr = mlx_new_window(val->mlx_ptr, val->width, val->height, "cub3D");
 	val->img_ptr = mlx_new_image(val->mlx_ptr, val->width, val->height);
 	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
-	val->img_map_ptr = mlx_new_image(val->mlx_ptr, 1280 /MSCALE, 720 /MSCALE);
+	// val->img_map_ptr = mlx_new_image(val->mlx_ptr, 1280 /MSCALE, 720 /MSCALE);
+	val->img_map_ptr = mlx_new_image(val->mlx_ptr, 200, 150);
 	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
 	mlx_hook(val->win_ptr, KeyPress, KeyPressMask, key_hook_press, val);
 	mlx_hook(val->win_ptr, KeyRelease, KeyReleaseMask, key_hook_release, val);

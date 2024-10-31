@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/25 19:20:39 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:16:47 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 #define TILE 40
 #define	MSCALE 4
-#define	MVTSPEED 12
+#define	MVTSPEED 3
 #define RTTSPEED .1
 #define PI 3.1415926535
 #define FOV PI / 2.0

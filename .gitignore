@@ -1,1 +1,9 @@
+.gitignore
 MiniLibX
+*.o
+*.a
+test.c
+other.c
+test.cub
+.vscode
+cub3D

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/25 20:14:15 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:31:49 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 
 	Tan = tan(angle);
 	ray->dof = 0;
-	if ((angle > 0 && angle < PI / 2.0) || (angle > 3.0 * PI / 2.0 && angle < 2.0 * PI))
+	if (cos(angle) <= 1.0 && cos(angle) > 0) // right half of the cercle
 	{
 		ray->dir = 'E';
 		ray->x = (((int)val.game->plyr_x / TILE) * TILE) + TILE;
@@ -52,7 +52,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 		xo = TILE;
 		yo = -TILE * Tan;
 	}
-	else if (angle > PI / 2 && angle < 3.0 * PI / 2.0)
+	else if (cos(angle) >= -1.0 && cos(angle) < 0) // left half of the cercle
 	{
 		ray->dir = 'W';
 		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.001;
@@ -60,7 +60,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 		xo = -TILE;
 		yo = TILE * Tan;
 	}
-	else
+	else // vertical line in the middle of the cercle
 	{
 		ray->x = val.game->plyr_x;
 		ray->y = val.game->plyr_y;
@@ -83,7 +83,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 
 	Tan = 1 / tan(angle);
 	ray->dof = 0;
-	if (angle < PI && angle > 0)// looking up
+	if (sin(angle) <= 1.0 && sin(angle) > 0)// upper half of the cercle
 	{
 		ray->dir = 'N';
 		ray->y = (((int)val.game->plyr_y / TILE) * TILE) -0.0001;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
@@ -91,7 +91,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 		yo = -TILE;
 		xo = -yo * Tan;
 	}
-	else if (angle > PI && angle < 2.0 * PI)
+	else if (sin(angle) >= -1.0 && sin(angle) < 0) // lower half of the cercle
 	{
 		ray->dir = 'S';
 		ray->y = (((int)val.game->plyr_y / TILE) * TILE) + TILE;
@@ -99,7 +99,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 		yo = TILE;
 		xo = -yo * Tan;
 	}
-	else
+	else // horizontale line in the middle of the cercle
 	{
 		ray->x = val.game->plyr_x;
 		ray->y = val.game->plyr_y;
@@ -125,7 +125,7 @@ void	cast_ray(t_val val, t_ray *ray, float angle)
 	
 	if (h_ray.dist <= v_ray.dist)
 	{
-		draw_line(val, h_ray.x, h_ray.y, 0xff0000);
+		// draw_line(val, h_ray.x, h_ray.y, 0xff0000);
 		ray->x = h_ray.x;
 		ray->y = h_ray.y;
 		ray->dist = h_ray.dist;
@@ -133,7 +133,7 @@ void	cast_ray(t_val val, t_ray *ray, float angle)
 		ray->dir = h_ray.dir;
 		return ;
 	}
-	draw_line(val, v_ray.x, v_ray.y, 0xff0000);
+	// draw_line(val, v_ray.x, v_ray.y, 0xff0000);
 	ray->x = v_ray.x;
 	ray->y = v_ray.y;
 	ray->dist = v_ray.dist;

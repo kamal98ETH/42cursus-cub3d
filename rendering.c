@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/25 19:29:00 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:36:47 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	draw_walls(t_val *val)
 	t_ray	ray;
 
 	x = 0;
-	ray_angle = limit_angle(val->game->plyr_dir + FOV /2);
+	ray_angle = val->game->plyr_dir + FOV /2;
 	while (x < val->width)
 	{
 		cast_ray(*val, &ray, ray_angle);
 		wall_height = ray.dist;
-		wall_height *= cos(limit_angle(val->game->plyr_dir - ray_angle));
+		wall_height *= cos(val->game->plyr_dir - ray_angle);
 		wall_height = (30 * val->height) / wall_height;
 		if (wall_height > val->height)
 			wall_height = val->height;
@@ -52,7 +52,7 @@ void	draw_walls(t_val *val)
 				color_game_pixel(*val, x, y, val->game->fcol.hexacode);
 			y++;
 		}
-		ray_angle = limit_angle(ray_angle - FOV / (float)(val->width));
+		ray_angle = ray_angle - FOV / (float)(val->width);
 		x++;
 	}
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr, val->img_ptr, 0, 0);
@@ -62,7 +62,6 @@ int	render(t_val *val)
 {
 	// printf("rendring...\n");
 	move_player(val);
-	draw_map(val);
 	draw_walls(val);
-	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr, val->img_map_ptr, 0, 0);
+	draw_map(val);
 }
