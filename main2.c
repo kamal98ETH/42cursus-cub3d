@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/11 10:08:38 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:15:58 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void affmap(t_game *map)
 /*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
 }
 
-void	free_game(t_game *map)
+void	free_map(t_game *map)
 {
 	if (map)
 	{

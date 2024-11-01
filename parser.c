@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/11 10:08:19 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:14:51 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,19 @@ int	get_elements(t_game *map, char *str)
 	return (ft_free(elems), flag);
 }
 
+int	check_filename_extension(t_game *gm)
+{
+	if (gm->ea.path && ft_strncmp(gm->ea.path + ft_strlen(gm->ea.path) - 4, ".xpm", 5))
+		return (1);
+	if (gm->we.path && ft_strncmp(gm->we.path + ft_strlen(gm->we.path) - 4, ".xpm", 4))
+		return (1);
+	if (gm->no.path && ft_strncmp(gm->no.path + ft_strlen(gm->no.path) - 4, ".xpm", 4))
+		return (1);
+	if (gm->so.path && ft_strncmp(gm->so.path + ft_strlen(gm->so.path) - 4, ".xpm", 4))
+		return (1);
+	return (0);
+}
+
 t_game	*data_treatment(char **arr, char *content)
 {
 	int	i;
@@ -102,11 +115,13 @@ t_game	*data_treatment(char **arr, char *content)
 		}
 		i++;
 	}
-	if (arr[i] && check_if_map(arr[i]))
+	if (check_filename_extension(map))
+		handle_map_error(-5);
+	else if (arr[i] && check_if_map(arr[i]))
 		return (get_map(arr + i, content, map));
 	else if (!arr[i])
 		handle_map_error(-3);
 	else
 		handle_map_error(-4);
-	return (free(map), NULL);
+	return (free_map(map), NULL);   // potonial leak in texture paths string
 }

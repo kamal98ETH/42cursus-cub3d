@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/11 10:05:17 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:17:22 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -4)
+	if (flag == -5)
+		printf("\e[31m>> [TEXTURE ERORR] only .xpm file!\e[0m \n");
+	else if (flag == -4)
 		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
 	else if (flag == -3)
 		printf("\e[31m>> [PARSING ERORR] missing elements!\e[0m \n");

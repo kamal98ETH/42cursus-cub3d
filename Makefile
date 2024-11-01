@@ -10,7 +10,7 @@ COMPILER = cc
 FLAGS = -g
 # FLAGS	=	-fsanitize=address -g3
 
-SRCS = main.c raycasting.c rendering.c minimap.c main2.c parser.c map.c split.c multi_split.c utils.c checks.c
+SRCS = main.c raycasting.c rendering.c minimap.c main2.c parser.c map.c split.c multi_split.c utils.c checks.c texture.c
 
 OBJS = $(SRCS:.c=.o)
 
