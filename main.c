@@ -226,6 +226,7 @@ int	main(int ac, char **av)
 	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
 	
 	ft_open_textures(val);
+	
 
 	mlx_hook(val->win_ptr, KeyPress, KeyPressMask, key_hook_press, val);
 	mlx_hook(val->win_ptr, KeyRelease, KeyReleaseMask, key_hook_release, val);

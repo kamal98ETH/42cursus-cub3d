@@ -38,7 +38,7 @@ void	draw_walls(t_val *val)
 			if (y < y_top + wall_height && y > y_top) // wall
 			{
 				if (ray.dir == 'N') // hitting north side of wall
-					color_game_pixel(*val, x, y, 0xffffff);
+					color_game_pixel(*val, x, y, get_texture_px_color(val, x, y - y_top, wall_height, 1));
 				if (ray.dir == 'S') // hitting south
 					color_game_pixel(*val, x, y, 0x00ff00);
 				if (ray.dir == 'E') // hitting east
