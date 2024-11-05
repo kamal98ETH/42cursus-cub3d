@@ -175,7 +175,7 @@ char	*join_optclean(char *s1, char *s2, int flag);
 
 /* texture functions */
 void	ft_open_textures(t_val *val);
-int		get_texture_px_color(t_texture *txtr, float xray, int y, float wall_height);
+int		txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height);
 
 /* split functions */
 char	**multi_split(char const *s, char *c);

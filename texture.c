@@ -12,16 +12,21 @@
 
 #include "cub3d.h"
 
-int	get_texture_px_color(t_texture *txtr, float xray, int y, float wall_height)
+int x_off(t_ray ray, int width)
 {
-	int	x_off;
+	if (ray.dir == 'E' || ray.dir == 'W')
+		return ((width / TILE) * ray.y);
+	else
+		return ((width / TILE) * ray.x);
+}
+
+int	txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height)
+{
 	int	y_off;
 	int	offset;
 
-	// x_off = xray % 100;
 	y_off = 100. * y / wall_height;
-	// offset = y_off * txtr->width + x_off;
-	offset = y_off * txtr->width + xray;
+	offset = y_off * txtr->width + x_off(ray, txtr->width);
 	return (*(((unsigned int *)txtr->img.img_data) + offset));
 }
 

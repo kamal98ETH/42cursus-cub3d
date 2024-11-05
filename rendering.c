@@ -12,17 +12,10 @@
 
 #include "cub3d.h"
 
-int getx(t_ray ray, int width)
-{
-	if (ray.dir == 'E' || ray.dir == 'W')
-		return ((width / TILE) * ray.y);
-	else
-		return ((width / TILE) * ray.x);
-}
-
 void	draw_walls(t_val *val)
 {
 	float	wall_height;
+	float	save_h;
 	float	y_top;
 	int		y;
 	int		x;
@@ -37,6 +30,7 @@ void	draw_walls(t_val *val)
 		wall_height = ray.dist;
 		wall_height *= cos(val->game->plyr_dir - ray_angle);
 		wall_height = (30 * val->height) / wall_height;
+		save_h = wall_height;  // to fix the wall height problem when it surpasses window height later
 		if (wall_height > val->height)
 			wall_height = val->height;
 		y_top = (val->height / 2) - (wall_height / 2);
@@ -45,14 +39,14 @@ void	draw_walls(t_val *val)
 		{
 			if (y < y_top + wall_height && y > y_top) // wall
 			{
-				if (ray.dir == 'N') // hitting north side of wall
-					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->no, getx(ray, val->game->no.width), y - y_top, wall_height));
-				if (ray.dir == 'S') // hitting south
-					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->so, getx(ray, val->game->so.width), y - y_top, wall_height));
-				if (ray.dir == 'E') // hitting east
-					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->ea, getx(ray, val->game->ea.width), y - y_top, wall_height));
-				if (ray.dir == 'W') // hitting west
-					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->we, getx(ray, val->game->we.width), y - y_top, wall_height));
+				if (ray.dir == 'N')
+					color_game_pixel(*val, x, y, txtr_fetch(&val->game->no, ray, y - y_top, wall_height));
+				if (ray.dir == 'S')
+					color_game_pixel(*val, x, y, txtr_fetch(&val->game->so, ray, y - y_top, wall_height));
+				if (ray.dir == 'E')
+					color_game_pixel(*val, x, y, txtr_fetch(&val->game->ea, ray, y - y_top, wall_height));
+				if (ray.dir == 'W')
+					color_game_pixel(*val, x, y, txtr_fetch(&val->game->we, ray, y - y_top, wall_height));
 			}
 			else if (y < y_top) // ceiling
 				color_game_pixel(*val, x, y, val->game->ccol.hexacode);
