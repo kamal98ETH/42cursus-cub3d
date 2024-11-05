@@ -30,8 +30,8 @@
 
 #define TILE 40
 #define	MSCALE 4
-#define	MVTSPEED 3
-#define RTTSPEED .1
+#define	MVTSPEED 1
+#define RTTSPEED .02
 #define PI 3.1415926535
 #define FOV PI / 2.0
 
@@ -175,7 +175,7 @@ char	*join_optclean(char *s1, char *s2, int flag);
 
 /* texture functions */
 void	ft_open_textures(t_val *val);
-int	get_texture_px_color(t_val *val, int x, int y, float wall_height, int flag);
+int		get_texture_px_color(t_texture *txtr, float xray, int y, float wall_height);
 
 /* split functions */
 char	**multi_split(char const *s, char *c);

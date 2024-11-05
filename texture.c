@@ -12,18 +12,17 @@
 
 #include "cub3d.h"
 
-int	get_texture_px_color(t_val *val, int x, int y, float wall_height, int flag)
+int	get_texture_px_color(t_texture *txtr, float xray, int y, float wall_height)
 {
 	int	x_off;
 	int	y_off;
 	int	offset;
 
-	x_off = (x * 1) % 100;
+	// x_off = xray % 100;
 	y_off = 100. * y / wall_height;
-	offset = y_off * val->game->no.width + x_off;
-	if (flag == 1)
-		return (*(((unsigned int *)val->game->no.img.img_data) + offset));
-	return 0;
+	// offset = y_off * txtr->width + x_off;
+	offset = y_off * txtr->width + xray;
+	return (*(((unsigned int *)txtr->img.img_data) + offset));
 }
 
 void	ft_open_textures(t_val *val)

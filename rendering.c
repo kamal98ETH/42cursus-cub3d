@@ -12,12 +12,20 @@
 
 #include "cub3d.h"
 
+int getx(t_ray ray, int width)
+{
+	if (ray.dir == 'E' || ray.dir == 'W')
+		return ((width / TILE) * ray.y);
+	else
+		return ((width / TILE) * ray.x);
+}
+
 void	draw_walls(t_val *val)
 {
 	float	wall_height;
 	float	y_top;
-	int y;
-	int	x;
+	int		y;
+	int		x;
 	float	ray_angle;
 	t_ray	ray;
 
@@ -38,13 +46,13 @@ void	draw_walls(t_val *val)
 			if (y < y_top + wall_height && y > y_top) // wall
 			{
 				if (ray.dir == 'N') // hitting north side of wall
-					color_game_pixel(*val, x, y, get_texture_px_color(val, x, y - y_top, wall_height, 1));
+					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->no, getx(ray, val->game->no.width), y - y_top, wall_height));
 				if (ray.dir == 'S') // hitting south
-					color_game_pixel(*val, x, y, 0x00ff00);
+					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->so, getx(ray, val->game->so.width), y - y_top, wall_height));
 				if (ray.dir == 'E') // hitting east
-					color_game_pixel(*val, x, y, 0x0000ff);
+					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->ea, getx(ray, val->game->ea.width), y - y_top, wall_height));
 				if (ray.dir == 'W') // hitting west
-					color_game_pixel(*val, x, y, 0xff00ff);
+					color_game_pixel(*val, x, y, get_texture_px_color(&val->game->we, getx(ray, val->game->we.width), y - y_top, wall_height));
 			}
 			else if (y < y_top) // ceiling
 				color_game_pixel(*val, x, y, val->game->ccol.hexacode);
