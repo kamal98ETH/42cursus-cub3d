@@ -19,6 +19,7 @@ all: $(MINILIBX) $(LIBFT) $(NAME)
 bonus: all
 
 $(NAME): $(OBJS)
+		@echo "\n" 
 		$(COMPILER) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -L ./MiniLibX -lmlx -lXext -lX11 -lm
 
 .c.o:
@@ -40,3 +41,5 @@ fclean: clean
 		rm -f $(LIBFT)
 
 re: fclean all
+
+.SECONDARY: $(OBJS)

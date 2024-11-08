@@ -169,7 +169,7 @@ int	inside_empty_space(t_val val, float x, float y)
 
 	X = floor(x);
 	Y = floor(y);
-	if (X >= val.game->map_x || Y >= val.game->map_y || X < 0 || Y < 0)
+	if (X < 0 || Y < 0)
 		return (0);
 	X /= TILE;
 	Y /= TILE;
@@ -186,7 +186,7 @@ int	inside_empty_space(t_val val, float x, float y)
 	if (val.game->map[offset])
 		offset += X;
 	else
-		return (1);
+		return (0);
 	if (offset <= val.game->map_size && val.game->map[offset] == '1')
 		return (0);
 	return (1);

@@ -28,12 +28,12 @@
 #include <math.h>
 #include <stdio.h>
 
-#define TILE 40
+#define TILE 100
 #define	MSCALE 4
-#define	MVTSPEED 1
-#define RTTSPEED .02
+#define	MVTSPEED 4
+#define RTTSPEED .03
 #define PI 3.1415926535
-#define FOV PI / 2.0
+#define FOV PI / 3.0
 
 #define	W_KEYCODE 119
 #define	S_KEYCODE 115
@@ -147,7 +147,7 @@ void	move_player(t_val *val);
 void	get_player_position(t_game *map, char **tmp);
 void	get_player_direction(t_game *map, char flag);
 t_game	*data_treatment(char **arr, char *content);
-char	**square_format(char **str);
+char	**square_format(char **str, t_game *map);
 int		get_elements(t_game *map, char *str);
 int 	fetch_texture(t_game *map, char **elems, int flag);
 int 	fetch_color(t_game *map, char **elems, int opt);

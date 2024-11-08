@@ -73,17 +73,16 @@ int	check_map_validation(char **str, int *i)
 			{
 				if (!(*i && valid_chars(str[*i - 1][j]) && j && valid_chars(str[*i][j - 1])\
 					&& str[*i + 1] && valid_chars(str[*i + 1][j]) && valid_chars(str[*i][j + 1])))
-					return (ft_free(str), -1);
+					return (-1);
 				if (str[*i][j] != '0')
 					flag++;
 			}
 			else if (str[*i][j] != '1' && str[*i][j] != ' ')
-				return (ft_free(str), flag);
+				return (flag);
 			j++;
 		}
 		(*i)++;
 	}
-	ft_free(str);
 	return (flag);
 }
 

@@ -15,7 +15,6 @@
 void	draw_walls(t_val *val)
 {
 	float	wall_height;
-	float	save_h;
 	float	y_top;
 	int		y;
 	int		x;
@@ -27,17 +26,13 @@ void	draw_walls(t_val *val)
 	while (x < val->width)
 	{
 		cast_ray(*val, &ray, ray_angle);
-		wall_height = ray.dist;
-		wall_height *= cos(val->game->plyr_dir - ray_angle);
-		wall_height = (30 * val->height) / wall_height;
-		save_h = wall_height;  // to fix the wall height problem when it surpasses window height later
-		if (wall_height > val->height)
-			wall_height = val->height;
+		wall_height = ray.dist * cos(val->game->plyr_dir - ray_angle);
+		wall_height = (TILE * val->height) / wall_height;
 		y_top = (val->height / 2) - (wall_height / 2);
 		y = 0;
 		while (y < val->height)
 		{
-			if (y < y_top + wall_height && y > y_top) // wall
+			if (y < y_top + wall_height && y > y_top)
 			{
 				if (ray.dir == 'N')
 					color_game_pixel(*val, x, y, txtr_fetch(&val->game->no, ray, y - y_top, wall_height));

@@ -15,9 +15,9 @@
 int x_off(t_ray ray, int width)
 {
 	if (ray.dir == 'E' || ray.dir == 'W')
-		return ((width / TILE) * ray.y);
+		return (((int)ray.y) % width);
 	else
-		return ((width / TILE) * ray.x);
+		return (((int)ray.x) % width);
 }
 
 int	txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height)
@@ -25,7 +25,7 @@ int	txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height)
 	int	y_off;
 	int	offset;
 
-	y_off = 100. * y / wall_height;
+	y_off = txtr->width * y / wall_height;
 	offset = y_off * txtr->width + x_off(ray, txtr->width);
 	return (*(((unsigned int *)txtr->img.img_data) + offset));
 }
