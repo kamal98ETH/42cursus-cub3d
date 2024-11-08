@@ -22,10 +22,12 @@ void	draw_walls(t_val *val)
 	t_ray	ray;
 
 	x = 0;
-	ray_angle = val->game->plyr_dir + FOV /2;
+	ray_angle = val->game->plyr_dir + FOV / 2;  // 120
 	while (x < val->width)
 	{
 		cast_ray(*val, &ray, ray_angle);
+		// printf(">> %.2f\n", ray.x);
+		// sleep(1);
 		wall_height = ray.dist * cos(val->game->plyr_dir - ray_angle);
 		wall_height = (TILE * val->height) / wall_height;
 		y_top = (val->height / 2) - (wall_height / 2);

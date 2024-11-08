@@ -62,7 +62,6 @@ typedef	struct	s_data
 	int		bpp;
 	int		sline;
 	int		endian;
-	int		*px;
 }	t_data;
 
 typedef struct	s_texture

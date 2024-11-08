@@ -12,21 +12,18 @@
 
 #include "cub3d.h"
 
-int x_off(t_ray ray, int width)
+int	txtr_fetch(t_texture *txtr, t_ray ray, int y_off, float wall_height)
 {
-	if (ray.dir == 'E' || ray.dir == 'W')
-		return (((int)ray.y) % width);
-	else
-		return (((int)ray.x) % width);
-}
-
-int	txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height)
-{
-	int	y_off;
+	int	x_off;
 	int	offset;
 
-	y_off = txtr->width * y / wall_height;
-	offset = y_off * txtr->width + x_off(ray, txtr->width);
+	if (ray.dir == 'E' || ray.dir == 'W')
+		x_off = (int)ray.y % TILE;
+	else
+		x_off = (int)ray.x % TILE;
+	x_off = x_off * txtr->width / TILE;
+	y_off = y_off * txtr->height / wall_height;
+	offset = y_off * txtr->width + x_off;
 	return (*(((unsigned int *)txtr->img.img_data) + offset));
 }
 
@@ -48,10 +45,5 @@ void	ft_open_textures(t_val *val)
     map->no.img.img_data = mlx_get_data_addr(map->no.img.img, &(map->no.img.bpp), &(map->no.img.sline), &(map->no.img.endian));
     map->so.img.img_data = mlx_get_data_addr(map->so.img.img, &(map->so.img.bpp), &(map->so.img.sline), &(map->so.img.endian));
     map->we.img.img_data = mlx_get_data_addr(map->we.img.img, &(map->we.img.bpp), &(map->we.img.sline), &(map->we.img.endian));
-
-    map->ea.img.px = (int *)map->ea.img.img_data;
-    map->no.img.px = (int *)map->no.img.img_data;
-    map->so.img.px = (int *)map->so.img.img_data;
-    map->we.img.px = (int *)map->we.img.img_data;
     printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n");
 }
