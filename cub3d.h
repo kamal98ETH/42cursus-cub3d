@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/31 22:38:07 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/10 02:43:54 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 #define RTTSPEED .03
 #define PI 3.1415926535
 #define FOV PI / 3.0
+#define MINIMAP_X 200
+#define MINIMAP_Y 150
 
 #define	W_KEYCODE 119
 #define	S_KEYCODE 115
@@ -135,7 +137,7 @@ void	draw_map(t_val *val);
 int		render(t_val *val);
 float	limit_angle(float angle);
 void	cast_ray(t_val val, t_ray *ray, float angle);
-int		inside_empty_space(t_val val, float x, float y);
+int		corresponding_tile(t_val val, float x, float y); //int		inside_empty_space(t_val val, float x, float y);
 t_tile	coordinates_to_tile(float x, float y, char *map);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);

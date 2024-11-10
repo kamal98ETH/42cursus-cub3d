@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/31 22:34:32 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:51:27 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	move_player(t_val *val)
 		x += cos(PI /2 - val->game->plyr_dir) * MVTSPEED;
 		y += sin(PI /2 - val->game->plyr_dir) * MVTSPEED;
 	}
-	if (flag && inside_empty_space(*val, x, y))
+	if (flag && corresponding_tile(*val, x, y) == 0)
 	{
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;
@@ -160,7 +160,7 @@ t_tile	coordinates_to_tile(float x, float y, char *map)
 	return (tile);
 }
 
-int	inside_empty_space(t_val val, float x, float y)
+int	corresponding_tile(t_val val, float x, float y)
 {
 	int	X;
 	int	Y;
@@ -170,7 +170,7 @@ int	inside_empty_space(t_val val, float x, float y)
 	X = floor(x);
 	Y = floor(y);
 	if (X < 0 || Y < 0)
-		return (0);
+		return (-1);
 	X /= TILE;
 	Y /= TILE;
 	i = 0;
@@ -186,10 +186,12 @@ int	inside_empty_space(t_val val, float x, float y)
 	if (val.game->map[offset])
 		offset += X;
 	else
-		return (0);
-	if (offset <= val.game->map_size && val.game->map[offset] == '1')
-		return (0);
-	return (1);
+		return (-1);
+	if (offset <= val.game->map_size && val.game->map[offset] == '1')// map size ???? what if offset > map_size
+		return (1);
+	if (offset <= val.game->map_size && val.game->map[offset] == '2')// map size ???? what if offset > map_size
+		return (2);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -207,6 +209,12 @@ int	main(int ac, char **av)
 	val->height = 720;
 	val->width = 1280;
 
+	//to be deleted
+	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
+	// val->game->plyr_x = 163.534042;
+	// val->game->plyr_y = 411.003113;
+	// val->game->plyr_dir = 1.435832 * PI;
+
 	int i = 0;
 	while (i < 6)
 		val->keys[i++] = 0;
@@ -221,8 +229,7 @@ int	main(int ac, char **av)
 	val->win_ptr = mlx_new_window(val->mlx_ptr, val->width, val->height, "cub3D");
 	val->img_ptr = mlx_new_image(val->mlx_ptr, val->width, val->height);
 	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
-	// val->img_map_ptr = mlx_new_image(val->mlx_ptr, 1280 /MSCALE, 720 /MSCALE);
-	val->img_map_ptr = mlx_new_image(val->mlx_ptr, 200, 150);
+	val->img_map_ptr = mlx_new_image(val->mlx_ptr, MINIMAP_X, MINIMAP_Y);
 	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
 	
 	ft_open_textures(val);
@@ -232,7 +239,7 @@ int	main(int ac, char **av)
 	mlx_hook(val->win_ptr, KeyRelease, KeyReleaseMask, key_hook_release, val);
 	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
 	mlx_loop_hook(val->mlx_ptr, render, val);
-	
+	// render(val);
 	mlx_loop(val->mlx_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);

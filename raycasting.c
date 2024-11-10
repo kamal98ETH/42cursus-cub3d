@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/31 02:31:49 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:50:15 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 	else if (cos(angle) >= -1.0 && cos(angle) < 0) // left half of the cercle
 	{
 		ray->dir = 'W';
-		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.001;
+		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.00005;
 		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
 		xo = -TILE;
 		yo = TILE * Tan;
@@ -66,7 +66,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 		ray->y = val.game->plyr_y;
 		ray->dof = 20;
 	}
-	while (ray->dof < 20 && inside_empty_space(val, ray->x, ray->y))
+	while (ray->dof < 20 && corresponding_tile(val, ray->x, ray->y) == 0)
 	{
 		ray->x += xo;
 		ray->y += yo;
@@ -86,7 +86,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 	if (sin(angle) <= 1.0 && sin(angle) > 0)// upper half of the cercle
 	{
 		ray->dir = 'N';
-		ray->y = (((int)val.game->plyr_y / TILE) * TILE) -0.0001;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
+		ray->y = (((int)val.game->plyr_y / TILE) * TILE) -0.00005;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
 		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
 		yo = -TILE;
 		xo = -yo * Tan;
@@ -105,7 +105,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 		ray->y = val.game->plyr_y;
 		ray->dof = 20;
 	}
-	while (ray->dof < 20 && inside_empty_space(val, ray->x, ray->y))
+	while (ray->dof < 20 && corresponding_tile(val, ray->x, ray->y) == 0)
 	{
 		ray->x += xo;
 		ray->y += yo;

@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/10/31 02:36:47 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/10 03:44:53 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	draw_walls(t_val *val)
 
 int	render(t_val *val)
 {
-	// printf("rendring...\n");
+	// printf("Player position: x: %f, y: %f, direction: %f PI\n", val->game->plyr_x, val->game->plyr_y, val->game->plyr_dir / PI);
 	move_player(val);
 	draw_walls(val);
 	draw_map(val);

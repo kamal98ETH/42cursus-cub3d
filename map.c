@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/31 18:17:22 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/09 04:46:36 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ t_game	*get_map(char **str, char *content, t_game *map)
 		i++;
 	}
 	// map->map_y = i * TILE;
-	map->map_x = map->map_x * TILE;
+	// map->map_x = map->map_x * TILE;
 	map->map = new;
 	get_player_position(map, str);
 	return (ft_free(str), map);
