@@ -18,6 +18,8 @@ void	map_init(t_game *map)
 	map->fcol.stat = 0;
 	map->plyr_x = 0;
 	map->plyr_y = 0;
+	map->map_x = 0;
+	map->map_y = 0;
 	map->no.path = NULL;
 	map->ea.path = NULL;
 	map->so.path = NULL;

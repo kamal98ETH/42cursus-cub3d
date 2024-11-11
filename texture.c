@@ -12,19 +12,23 @@
 
 #include "cub3d.h"
 
-int	txtr_fetch(t_texture *txtr, t_ray ray, int y_off, float wall_height)
+int	txtr_fetch(t_texture *txtr, t_ray ray, float y_off, float wall_height)
 {
 	int	x_off;
 	int	offset;
 
-	if (ray.dir == 'E' || ray.dir == 'W')
+	if (ray.dir == 'E')
 		x_off = (int)ray.y % TILE;
-	else
+	else if (ray.dir == 'W')
+		x_off = TILE - ((int)ray.y % TILE);
+	else if (ray.dir == 'N')
 		x_off = (int)ray.x % TILE;
+	else
+		x_off = TILE - ((int)ray.x % TILE);
 	x_off = x_off * txtr->width / TILE;
 	y_off = y_off * txtr->height / wall_height;
-	offset = y_off * txtr->width + x_off;
-	return (*(((unsigned int *)txtr->img.img_data) + offset));
+	offset = (int)y_off * txtr->width + x_off;
+	return (*(((int *)txtr->img.img_data) + offset));
 }
 
 void	ft_open_textures(t_val *val)

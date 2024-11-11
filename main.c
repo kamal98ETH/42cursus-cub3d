@@ -62,7 +62,6 @@ void	move_player(t_val *val)
 
 int key_hook_press(int keycode, t_val *val)
 {
-    // printf("Key pressed: %d\n", keycode);
     if (keycode == 65307)
         mlx_loop_end(val->mlx_ptr);
 	if (keycode == W_KEYCODE)

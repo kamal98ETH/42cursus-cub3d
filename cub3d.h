@@ -28,6 +28,8 @@
 #include <math.h>
 #include <stdio.h>
 
+#include <limits.h>
+
 #define TILE 100
 #define	MSCALE 4
 #define	MVTSPEED 4
@@ -176,7 +178,7 @@ char	*join_optclean(char *s1, char *s2, int flag);
 
 /* texture functions */
 void	ft_open_textures(t_val *val);
-int		txtr_fetch(t_texture *txtr, t_ray ray, int y, float wall_height);
+int		txtr_fetch(t_texture *txtr, t_ray ray, float y, float wall_height);
 
 /* split functions */
 char	**multi_split(char const *s, char *c);
