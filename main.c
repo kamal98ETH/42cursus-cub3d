@@ -12,6 +12,14 @@
 
 #include "cub3d.h"
 
+int	check_move_possibilty(t_val *val, float x, float y, int flag)
+{
+	if (flag && (corresponding_tile(*val, x, val->game->plyr_y) == 0 \
+		|| corresponding_tile(*val, x, val->game->plyr_y) == 0))
+		return (1);
+	return (0);
+}
+
 void	move_player(t_val *val)
 {
 	float	x;
@@ -53,7 +61,9 @@ void	move_player(t_val *val)
 		x += cos(PI /2 - val->game->plyr_dir) * MVTSPEED;
 		y += sin(PI /2 - val->game->plyr_dir) * MVTSPEED;
 	}
-	if (flag && corresponding_tile(*val, x, y) == 0)
+	// printf("plr.x: %.2f, x: %.2f\n", val->game->plyr_x, x);
+	// printf("plr.y: %.2f, y: %.2f\n", val->game->plyr_y, y);
+	if (flag && corresponding_tile(*val, x, y) == 0 && check_move_possibilty(val, x, y, flag))
 	{
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;

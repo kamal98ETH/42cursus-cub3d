@@ -1,130 +1,135 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/31 18:14:51 by laoubaid         ###   ########.fr       */
+/*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
+/*   Updated: 2024/10/31 18:15:58 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	fetch_color(t_game *map, char **elems, int opt)
-{
-	int	i;
-	int	flag;
-	int	tab[3];
 
-	i = 0;
-	flag = 0;
-	if (!opt && map->ccol.stat == 0)
+/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+void affmap(t_game *map)
+{
+	printf("\n------------------------------ affichage -------------------------------\n");
+	if(map)
 	{
-		map->ccol.stat = 1;
-		while (elems[++i] && i < 4)
-			tab[i - 1] = unique_atoi(elems[i], &flag);
-		map->ccol.hexacode = tab[2] + tab[1] * 256 + tab[0] * 256 * 256;
+		if (map->ccol.stat)
+			printf("ccol: %x\n", map->ccol.hexacode);
+		if (map->ccol.stat)
+			printf("fcol: %x\n", map->fcol.hexacode);
+		if (map->no.path)
+			printf("NO: %s\n", map->no.path);
+		if (map->so.path)
+			printf("SO: %s\n", map->so.path);
+		if (map->ea.path)
+			printf("EA: %s\n", map->ea.path);
+		if (map->we.path)
+			printf("WE: %s\n", map->we.path);
+		printf("POS: %.2f , %.2f\n", map->plyr_x, map->plyr_y);
+		printf("DIR: %.2f\n", map->plyr_dir);
+		printf("--------------------------------- map ----------------------------------\n");
+		if (map->map)
+			printf("%s\n", map->map);
+		else
+			printf("No map found!\n");
 	}
-	else if (opt && map->fcol.stat == 0)
+}
+/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+
+void	map_init(t_game *map)
+{
+	map->ccol.stat = 0;
+	map->fcol.stat = 0;
+	map->plyr_x = 0;
+	map->plyr_y = 0;
+	map->map_x = 0;
+	map->map_y = 0;
+	map->no.path = NULL;
+	map->ea.path = NULL;
+	map->so.path = NULL;
+	map->we.path = NULL;
+	map->map = NULL;
+}
+
+void	free_map(t_game *map)
+{
+	if (map)
 	{
-		map->fcol.stat = 1;
-		while (elems[++i] && i < 4)
-			tab[i - 1] = unique_atoi(elems[i], &flag);
-		map->fcol.hexacode = tab[2] + tab[1] * 256 + tab[0] * 256 * 256;
+		if (map->no.path)
+			free(map->no.path);
+		if (map->so.path)
+			free(map->so.path);
+		if (map->ea.path)
+			free(map->ea.path);
+		if (map->we.path)
+			free(map->we.path);
+		if (map->map)
+			free(map->map);
+		free(map);
 	}
-	else
-		return (0);
-	if (i != 4 || flag)
-		return (0);
-	return (1);
 }
 
-int	fetch_texture(t_game *map, char **elems, int flag)
+void	get_player_direction(t_game *map, char flag)
 {
-	if (elems[1] && elems[2])
-		return (0);
-	if (flag == 1 && elems[1] && !map->no.path)
-		map->no.path = ft_strdup(elems[1]);
-	else if (flag == 2 && elems[1] && !map->so.path)
-		map->so.path = ft_strdup(elems[1]);
-	else if (flag == 3 && elems[1] && !map->ea.path)
-		map->ea.path = ft_strdup(elems[1]);
-	else if (flag == 4 && elems[1] && !map->we.path)
-		map->we.path = ft_strdup(elems[1]);
-	else
-		return (0);
-	return (1);
+	if (flag == 'E')
+		map->plyr_dir = 0;
+	else if (flag == 'W')
+		map->plyr_dir = PI;
+	else if (flag == 'N')
+		map->plyr_dir = 0.5 * PI;
+	else if (flag == 'S')
+		map->plyr_dir = 1.5 * PI;
 }
 
-int	get_elements(t_game *map, char *str)
-{
-	char	**elems;
-	int		flag;
-
-	flag = 0;
-	if (coma_check(str))
-		return (0);
-	elems = multi_split(str, "\t\n\v\f\r ,");
-	if (elems[0] && !ft_strncmp(elems[0], "C", 2))
-		flag = fetch_color(map, elems, 0);
-	else if (elems[0] && !ft_strncmp(elems[0], "F", 2))
-		flag = fetch_color(map, elems, 1);
-	else if (elems[0] && !ft_strncmp(elems[0], "NO", 3))
-		flag = fetch_texture(map, elems, 1);
-	else if (elems[0] && !ft_strncmp(elems[0], "SO", 3))
-		flag = fetch_texture(map, elems, 2);
-	else if (elems[0] && !ft_strncmp(elems[0], "EA", 3))
-		flag = fetch_texture(map, elems, 3);
-	else if (elems[0] && !ft_strncmp(elems[0], "WE", 3))
-		flag = fetch_texture(map, elems, 4);
-	else
-		return (ft_free(elems), 0);
-	return (ft_free(elems), flag);
-}
-
-int	check_filename_extension(t_game m)
-{
-	const char	*t;
-
-	t = ".xpm";
-	if (m.ea.path && ft_strncmp(m.ea.path + ft_strlen(m.ea.path) - 4, t, 5))
-		return (1);
-	if (m.we.path && ft_strncmp(m.we.path + ft_strlen(m.we.path) - 4, t, 5))
-		return (1);
-	if (m.no.path && ft_strncmp(m.no.path + ft_strlen(m.no.path) - 4, t, 5))
-		return (1);
-	if (m.so.path && ft_strncmp(m.so.path + ft_strlen(m.so.path) - 4, t, 5))
-		return (1);
-	return (0);
-}
-
-t_game	*data_treatment(char **arr, char *content)
+void	get_player_position(t_game *map, char **tmp)
 {
 	int		i;
-	int		n;
+	int		j;
+
+	j = 0;
+	while (tmp[j])
+	{
+		i = 0;
+		while (tmp[j][i])
+		{
+			if (tmp[j][i] == 'N' || tmp[j][i] == 'S' \
+			|| tmp[j][i] == 'W' || tmp[j][i] == 'E')
+			{
+				map->plyr_x = (float)(i * TILE + 20);
+				map->plyr_y = (float)(j * TILE + 20);
+				get_player_direction(map, tmp[j][i]);
+				return ;
+			}
+			i++;
+		}
+		j++;
+	}
+}
+
+t_game	*parsing(char *filename)
+{
+	char	*tmp;
+	char	**arr;
 	t_game	*map;
 
-	i = 0;
-	map = malloc(sizeof(t_game));
-	map_init(map);
-	while (arr[i] && i < 6)
-	{
-		if (!get_elements(map, arr[i]))
-		{
-			printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-			return (free(map), NULL);
-		}
-		i++;
-	}
-	if (check_filename_extension(*map))
-		handle_map_error(-5);
-	else if (arr[i] && check_if_map(arr[i]))
-		return (get_map(arr + i, content, map));
-	else if (!arr[i])
-		handle_map_error(-3);
-	else
-		handle_map_error(-4);
-	return (free_map(map), NULL);// potonial leak in texture paths string
+	if (!filename)
+		return (NULL);
+	tmp = get_data(filename);
+	if (!tmp)
+		return (NULL);
+	arr = ft_split(tmp, '\n');
+	map = data_treatment(arr, tmp);
+	ft_free(arr);
+	free(tmp);
+	if (!map)
+		return (NULL);
+	affmap(map);
+	map->map_size = ft_strlen(map->map);
+	return (map);
 }
