@@ -19,7 +19,7 @@ int	is_whitespace(int c)
 	return (0);
 }
 
-int	valid_chars(int c)
+int	valid(int c)
 {
 	if (c == '1' || c == '0' || c == 'S' \
 		|| c == 'W' || c == 'N' || c == 'E')
@@ -72,7 +72,7 @@ int	unique_atoi(const char *str, int *flag)
 	int	num;
 
 	num = 0;
-	while(*str == '0')
+	while (*str == '0')
 		str++;
 	if (ft_strlen(str) > 3)
 		return (*flag = 1, -1);

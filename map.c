@@ -12,21 +12,6 @@
 
 #include "cub3d.h"
 
-void	map_init(t_game *map)
-{
-	map->ccol.stat = 0;
-	map->fcol.stat = 0;
-	map->plyr_x = 0;
-	map->plyr_y = 0;
-	map->map_x = 0;
-	map->map_y = 0;
-	map->no.path = NULL;
-	map->ea.path = NULL;
-	map->so.path = NULL;
-	map->we.path = NULL;
-	map->map = NULL;
-}
-
 char	*get_data(char *str)
 {
 	char	*tmp;
@@ -142,8 +127,6 @@ t_game	*get_map(char **str, char *content, t_game *map)
 		new = join_optclean(new, "\n", 1);
 		i++;
 	}
-	// map->map_y = i * TILE;
-	// map->map_x = map->map_x * TILE;
 	map->map = new;
 	get_player_position(map, str);
 	return (ft_free(str), map);

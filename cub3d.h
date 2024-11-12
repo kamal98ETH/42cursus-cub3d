@@ -170,7 +170,7 @@ int		check_name(char	*str);
 int		check_if_map(char *str);
 
 /* utils functions to help with parsing */
-int		valid_chars(int c);
+int		valid(int c);
 int		is_whitespace(int c);
 void	ft_free(char **arr);
 int		unique_atoi(const char *str, int *flag);

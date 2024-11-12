@@ -13,9 +13,9 @@
 #include "cub3d.h"
 
 
+/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
 void affmap(t_game *map)
 {
-/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
 	printf("\n------------------------------ affichage -------------------------------\n");
 	if(map)
 	{
@@ -39,7 +39,22 @@ void affmap(t_game *map)
 		else
 			printf("No map found!\n");
 	}
+}
 /*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+
+void	map_init(t_game *map)
+{
+	map->ccol.stat = 0;
+	map->fcol.stat = 0;
+	map->plyr_x = 0;
+	map->plyr_y = 0;
+	map->map_x = 0;
+	map->map_y = 0;
+	map->no.path = NULL;
+	map->ea.path = NULL;
+	map->so.path = NULL;
+	map->we.path = NULL;
+	map->map = NULL;
 }
 
 void	free_map(t_game *map)
@@ -83,7 +98,8 @@ void	get_player_position(t_game *map, char **tmp)
 		i = 0;
 		while (tmp[j][i])
 		{
-			if (tmp[j][i] == 'N' || tmp[j][i]  == 'S' || tmp[j][i]  == 'W' || tmp[j][i]  == 'E')
+			if (tmp[j][i] == 'N' || tmp[j][i] == 'S' \
+			|| tmp[j][i] == 'W' || tmp[j][i] == 'E')
 			{
 				map->plyr_x = (float)(i * TILE + 20);
 				map->plyr_y = (float)(j * TILE + 20);
@@ -105,7 +121,6 @@ t_game	*parsing(char *filename)
 	if (!filename)
 		return (NULL);
 	tmp = get_data(filename);
-	// printf("----------------------------------------------\n%s\n\n\n", tmp);
 	if (!tmp)
 		return (NULL);
 	arr = ft_split(tmp, '\n');

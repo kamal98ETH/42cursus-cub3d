@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int fetch_color(t_game *map, char **elems, int opt)
+int	fetch_color(t_game *map, char **elems, int opt)
 {
 	int	i;
 	int	flag;
@@ -41,7 +41,7 @@ int fetch_color(t_game *map, char **elems, int opt)
 	return (1);
 }
 
-int fetch_texture(t_game *map, char **elems, int flag)
+int	fetch_texture(t_game *map, char **elems, int flag)
 {
 	if (elems[1] && elems[2])
 		return (0);
@@ -84,23 +84,26 @@ int	get_elements(t_game *map, char *str)
 	return (ft_free(elems), flag);
 }
 
-int	check_filename_extension(t_game *gm)
+int	check_filename_extension(t_game m)
 {
-	if (gm->ea.path && ft_strncmp(gm->ea.path + ft_strlen(gm->ea.path) - 4, ".xpm", 5))
+	const char	*t;
+
+	t = ".xpm";
+	if (m.ea.path && ft_strncmp(m.ea.path + ft_strlen(m.ea.path) - 4, t, 5))
 		return (1);
-	if (gm->we.path && ft_strncmp(gm->we.path + ft_strlen(gm->we.path) - 4, ".xpm", 4))
+	if (m.we.path && ft_strncmp(m.we.path + ft_strlen(m.we.path) - 4, t, 5))
 		return (1);
-	if (gm->no.path && ft_strncmp(gm->no.path + ft_strlen(gm->no.path) - 4, ".xpm", 4))
+	if (m.no.path && ft_strncmp(m.no.path + ft_strlen(m.no.path) - 4, t, 5))
 		return (1);
-	if (gm->so.path && ft_strncmp(gm->so.path + ft_strlen(gm->so.path) - 4, ".xpm", 4))
+	if (m.so.path && ft_strncmp(m.so.path + ft_strlen(m.so.path) - 4, t, 5))
 		return (1);
 	return (0);
 }
 
 t_game	*data_treatment(char **arr, char *content)
 {
-	int	i;
-	int	n;
+	int		i;
+	int		n;
 	t_game	*map;
 
 	i = 0;
@@ -115,7 +118,7 @@ t_game	*data_treatment(char **arr, char *content)
 		}
 		i++;
 	}
-	if (check_filename_extension(map))
+	if (check_filename_extension(*map))
 		handle_map_error(-5);
 	else if (arr[i] && check_if_map(arr[i]))
 		return (get_map(arr + i, content, map));
@@ -123,5 +126,5 @@ t_game	*data_treatment(char **arr, char *content)
 		handle_map_error(-3);
 	else
 		handle_map_error(-4);
-	return (free_map(map), NULL);   // potonial leak in texture paths string
+	return (free_map(map), NULL);// potonial leak in texture paths string
 }

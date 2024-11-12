@@ -14,7 +14,7 @@
 
 int	check_name(char	*str)
 {
-	int i;
+	int	i;
 
 	i = ft_strlen(str);
 	i--;
@@ -58,26 +58,27 @@ int	coma_check(char *str)
 	return (0);
 }
 
-int	check_map_validation(char **str, int *i)
+int	check_map_validation(char **s, int *i)
 {
 	int	j;
 	int	flag;
 
 	flag = 0;
-	while (str[*i])
+	while (s[*i])
 	{
 		j = 0;
-		while (str[*i][j])
+		while (s[*i][j])
 		{
-			if (str[*i][j] == 'S' || str[*i][j] == 'W' || str[*i][j] == 'N' || str[*i][j] == 'E' || str[*i][j] == '0')
+			if (s[*i][j] == 'S' || s[*i][j] == 'W' || s[*i][j] == 'N'\
+			|| s[*i][j] == 'E' || s[*i][j] == '0')
 			{
-				if (!(*i && valid_chars(str[*i - 1][j]) && j && valid_chars(str[*i][j - 1])\
-					&& str[*i + 1] && valid_chars(str[*i + 1][j]) && valid_chars(str[*i][j + 1])))
+				if (!(*i && valid(s[*i - 1][j]) && j && valid(s[*i][j - 1]) \
+				&& s[*i + 1] && valid(s[*i + 1][j]) && valid(s[*i][j + 1])))
 					return (-1);
-				if (str[*i][j] != '0')
+				if (s[*i][j] != '0')
 					flag++;
 			}
-			else if (str[*i][j] != '1' && str[*i][j] != ' ' && str[*i][j] != '2')
+			else if (s[*i][j] != '1' && s[*i][j] != ' ' && s[*i][j] != '2')
 				return (flag);
 			j++;
 		}
@@ -88,7 +89,7 @@ int	check_map_validation(char **str, int *i)
 
 int	check_if_map(char *str)
 {
-	char **elems;
+	char	**elems;
 
 	elems = multi_split(str, "\t\n\v\f\r ,");
 	if (elems[0] && !ft_strncmp(elems[0], "C", 2))
