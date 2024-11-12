@@ -77,7 +77,7 @@ int	check_map_validation(char **str, int *i)
 				if (str[*i][j] != '0')
 					flag++;
 			}
-			else if (str[*i][j] != '1' && str[*i][j] != ' ')
+			else if (str[*i][j] != '1' && str[*i][j] != ' ' && str[*i][j] != '2')
 				return (flag);
 			j++;
 		}

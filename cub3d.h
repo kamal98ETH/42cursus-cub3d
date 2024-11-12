@@ -32,8 +32,8 @@
 
 #define TILE 100
 #define	MSCALE 4
-#define	MVTSPEED 4
-#define RTTSPEED .03
+#define	MVTSPEED 6
+#define RTTSPEED .04
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
@@ -114,8 +114,8 @@ typedef	struct s_game
 
 typedef struct s_ray
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 	int		dof;
 	float	dist;
 	char	dir;

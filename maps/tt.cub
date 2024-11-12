@@ -1,13 +1,13 @@
-NO ./textures/NO.xpm
-SO ./textures/NO.xpm
-WE ./textures/NO.xpm
-EA ./textures/NO.xpm
+NO ./textures/test/north.xpm
+SO ./textures/test/south.xpm
+WE ./textures/test/west.xpm
+EA ./textures/test/east.xpm
 F 207,175,123
 C 156,184,250
 
 
         1111111111111111111111111
-        10N0000000110000000000001
+        1000000000110000000000001
         1011000001110000000000001
         1001000000000000000000001
 111111111011000001110000000000001

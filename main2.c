@@ -105,6 +105,7 @@ t_game	*parsing(char *filename)
 	if (!filename)
 		return (NULL);
 	tmp = get_data(filename);
+	// printf("----------------------------------------------\n%s\n\n\n", tmp);
 	if (!tmp)
 		return (NULL);
 	arr = ft_split(tmp, '\n');
