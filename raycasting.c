@@ -55,7 +55,7 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 	else if (cos(angle) >= -1.0 && cos(angle) < 0) // left half of the cercle
 	{
 		ray->dir = 'W'; 
-		ray->x = (((int)val.game->plyr_x / TILE) * TILE) -0.01;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
+		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.01;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
 		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
 		xo = -TILE;
 		yo = TILE * Tan;
@@ -88,7 +88,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 	if (sin(angle) <= 1.0 && sin(angle) > 0)// upper half of the cercle
 	{
 		ray->dir = 'N';
-		ray->y = (((int)val.game->plyr_y / TILE) * TILE) - 0.00005;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
+		ray->y = (((int)val.game->plyr_y / TILE) * TILE) - 0.01;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
 		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
 		yo = -TILE;
 		xo = -yo * Tan;

@@ -1,22 +1,13 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE	./path_to_the_west_texture	 
-EA ./path_to_the_east_texture
-F	207,175,123
-C 156,184,255
+NO ./textures/brick-wall_.xpm
+SO ./textures/brick-wall_.xpm
+WE ./textures/eagle.xpm
+EA ./textures/eagle.xpm
+F 207,175,123
+C 156,184,250
 
-111111111
-100000001
-100000001
-100W00001
-100000001
-100000001
-100000001
-100010001
-100100001
-101000001
-110000001
-100000001
-100000001
-111111111
-111110111
+
+11111
+11011
+10N01
+11011
+11111

@@ -12,13 +12,23 @@
 
 #include "cub3d.h"
 
+int	get_scale(int map_x, int map_y)
+{
+	if (map_x > map_y)
+		return (map_x / MINIMAP_X);
+	else
+		return (map_y / MINIMAP_Y);
+}
+
 void	draw_map_from_center(t_val *val, int x, int y)
 {
 	int	mini_x = 0;
 	int	mini_y = 0;
+	int	scale;
 
-	x -= MSCALE * MINIMAP_X / 2;
-	y -= MSCALE * MINIMAP_Y / 2;
+	scale = get_scale(val->game->map_x, val->game->map_y);
+	x -= scale * MINIMAP_X / 2;
+	y -= scale * MINIMAP_Y / 2;
 	while (mini_y < MINIMAP_Y)
 	{
 		mini_x = 0;
@@ -36,10 +46,10 @@ void	draw_map_from_center(t_val *val, int x, int y)
 			else
 				color_map_pixel(*val, mini_x, mini_y, 0xffffff);
 			mini_x++;
-			x += MSCALE;
+			x += scale;
 		}
-		x -= MSCALE * MINIMAP_X;
-		y += MSCALE;
+		x -= scale * MINIMAP_X;
+		y += scale;
 		mini_y++;
 	}
 }

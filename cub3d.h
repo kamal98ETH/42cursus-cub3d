@@ -30,10 +30,10 @@
 
 #include <limits.h>
 
-#define TILE 100
-#define	MSCALE 4
-#define	MVTSPEED 6
-#define RTTSPEED .04
+#define TILE 500
+#define	MSCALE 100
+#define	MVTSPEED 40
+#define RTTSPEED .05
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
