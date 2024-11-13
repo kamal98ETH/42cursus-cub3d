@@ -68,6 +68,10 @@ void	move_player(t_val *val)
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;
 	}
+	else if (flag && corresponding_tile(*val, x, val->game->plyr_y) == 0)
+		val->game->plyr_x = x;
+	else if (flag && corresponding_tile(*val, val->game->plyr_x, y) == 0)
+		val->game->plyr_y = y;
 }
 
 int key_hook_press(int keycode, t_val *val)
@@ -215,8 +219,8 @@ int	main(int ac, char **av)
 	val->game = parsing(av[1]);
 	if (!val->game)
 		return (free(val), 1);
-	val->height = 720;
-	val->width = 1280;
+	val->height = 800;
+	val->width = 1000;
 
 	//to be deleted
 	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);

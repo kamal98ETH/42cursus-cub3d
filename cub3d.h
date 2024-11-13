@@ -32,7 +32,7 @@
 
 #define TILE 500
 #define	MSCALE 100
-#define	MVTSPEED 40
+#define	MVTSPEED 50
 #define RTTSPEED .05
 #define PI 3.1415926535
 #define FOV PI / 3.0
