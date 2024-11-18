@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/10 02:43:54 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/18 03:52:48 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ typedef struct s_ray
 {
 	double	x;
 	double	y;
-	int		dof;
 	float	dist;
 	char	dir;
 }	t_ray;
@@ -145,6 +144,12 @@ void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
 
 void	move_player(t_val *val);
+
+/* raycasting*/
+void	right_half(t_val val, t_ray *ray, float angle, float angle_tan);
+void	left_half(t_val val, t_ray *ray, float angle, float angle_tan);
+void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan);
+void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan);
 
 /* parsing .... */
 void	get_player_position(t_game *map, char **tmp);

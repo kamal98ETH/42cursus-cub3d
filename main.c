@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/10 16:51:27 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:15:47 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,11 @@ int	corresponding_tile(t_val val, float x, float y)
 		offset += X;
 	else
 		return (-1);
-	if (offset <= val.game->map_size && val.game->map[offset] == '1')// map size ???? what if offset > map_size
+	if (offset >= val.game->map_size)
+		return (-1);
+	if (val.game->map[offset] == '1')// map size ???? what if offset > map_size
 		return (1);
-	if (offset <= val.game->map_size && val.game->map[offset] == '2')// map size ???? what if offset > map_size
+	if (val.game->map[offset] == '2')// map size ???? what if offset > map_size
 		return (2);
 	return (0);
 }
@@ -224,9 +226,9 @@ int	main(int ac, char **av)
 
 	//to be deleted
 	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
-	// val->game->plyr_x = 163.534042;
-	// val->game->plyr_y = 411.003113;
-	// val->game->plyr_dir = 1.435832 * PI;
+	// val->game->plyr_x = 1244.980347;
+	// val->game->plyr_y = 2805.075684;
+	// val->game->plyr_dir = 1.372170 * PI;
 
 	int i = 0;
 	while (i < 6)

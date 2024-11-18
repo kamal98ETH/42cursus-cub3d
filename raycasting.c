@@ -6,118 +6,66 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/11 19:12:21 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/18 04:00:12 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_line(t_val val, float endX, float endY, int color)
-{
-	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
-	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
+// void	draw_line(t_val val, float endX, float endY, int color)
+// {
+// 	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
+// 	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
 
-	int	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	deltaX /= pixels;
-	deltaY /= pixels;
-	double	pixelX = val.game->plyr_x /MSCALE;
-	double	pixelY = val.game->plyr_y /MSCALE;
-	while (pixels)
-	{
-		color_map_pixel(val, round(pixelX), round(pixelY), color);
-		pixelX += deltaX;
-		pixelY += deltaY;
-		pixels--;
-	}
-}
-
-float	dist(t_val val, float x, float y)
-{
-	return (sqrt(pow(x - val.game->plyr_x, 2) + pow(y - val.game->plyr_y, 2)));
-}
+// 	int	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+// 	deltaX /= pixels;
+// 	deltaY /= pixels;
+// 	double	pixelX = val.game->plyr_x /MSCALE;
+// 	double	pixelY = val.game->plyr_y /MSCALE;
+// 	while (pixels)
+// 	{
+// 		color_map_pixel(val, round(pixelX), round(pixelY), color);
+// 		pixelX += deltaX;
+// 		pixelY += deltaY;
+// 		pixels--;
+// 	}
+// }
 
 void	vertical_cast(t_val val, t_ray *ray, float angle)
 {
-	float	xo;
-	float	yo;
-	float	Tan;
+	float	angle_tan;
 
-	Tan = tan(angle);
-	ray->dof = 0;
-	if (cos(angle) <= 1.0 && cos(angle) > 0) // right half of the cercle
+	angle_tan = tan(angle);
+	if (cos(angle) <= 1.0 && cos(angle) > 0)
+		right_half(val, ray, angle, angle_tan);
+	else if (cos(angle) >= -1.0 && cos(angle) < 0)
+		left_half(val, ray, angle, angle_tan);
+	else
 	{
-		ray->dir = 'E';
-		ray->x = (((int)val.game->plyr_x / TILE) * TILE) + TILE;
-		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
-		xo = TILE;
-		yo = -TILE * Tan;
+		ray->x = INFINITY;
+		ray->y = INFINITY;
 	}
-	else if (cos(angle) >= -1.0 && cos(angle) < 0) // left half of the cercle
-	{
-		ray->dir = 'W'; 
-		ray->x = (((int)val.game->plyr_x / TILE) * TILE) - 0.01;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
-		ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * Tan;
-		xo = -TILE;
-		yo = TILE * Tan;
-	}
-	else // vertical line in the middle of the cercle
-	{
-		ray->x = val.game->plyr_x;
-		ray->y = val.game->plyr_y;
-		ray->dof = 20;
-	}
-	while (ray->dof < 20 && corresponding_tile(val, ray->x, ray->y) == 0)
-	{
-		ray->x += xo;
-		ray->y += yo;
-		ray->dof++;
-	}
-	ray->x = round(ray->x);
-	ray->y = round(ray->y);
-	ray->dist = dist(val, ray->x, ray->y);
+	ray->dist = sqrt(pow(ray->x - val.game->plyr_x, 2)
+			+ pow(ray->y - val.game->plyr_y, 2));
 }
 
 void	horizontal_cast(t_val val, t_ray *ray, float angle)
 {
-	float	xo;
-	float	yo;
-	float	Tan;
+	float	angle_tan;
 
-	Tan = 1 / tan(angle);
-	ray->dof = 0;
-	if (sin(angle) <= 1.0 && sin(angle) > 0)// upper half of the cercle
+	angle_tan = 1 / tan(angle);
+	if (sin(angle) <= 1.0 && sin(angle) > 0)
+		upper_half(val, ray, angle, angle_tan);
+	else if (sin(angle) >= -1.0 && sin(angle) < 0)
+		lower_half(val, ray, angle, angle_tan);
+	else
 	{
-		ray->dir = 'N';
-		ray->y = (((int)val.game->plyr_y / TILE) * TILE) - 0.01;// val.game->plyr_y / TILE * TILE for exp: 53 will become 50
-		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
-		yo = -TILE;
-		xo = -yo * Tan;
+		ray->x = INFINITY;
+		ray->y = INFINITY;
 	}
-	else if (sin(angle) >= -1.0 && sin(angle) < 0) // lower half of the cercle
-	{
-		ray->dir = 'S';
-		ray->y = (((int)val.game->plyr_y / TILE) * TILE) + TILE;
-		ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * Tan;
-		yo = TILE;
-		xo = -yo * Tan;
-	}
-	else // horizontale line in the middle of the cercle
-	{
-		ray->x = val.game->plyr_x;
-		ray->y = val.game->plyr_y;
-		ray->dof = 20;
-	}
-	while (ray->dof < 20 && corresponding_tile(val, ray->x, ray->y) == 0)
-	{
-		ray->x += xo;
-		ray->y += yo;
-		ray->dof++;
-	}
-	ray->x = round(ray->x);
-	ray->y = round(ray->y);
-	ray->dist = dist(val, ray->x, ray->y);
+	ray->dist = sqrt(pow(ray->x - val.game->plyr_x, 2)
+			+ pow(ray->y - val.game->plyr_y, 2));
 }
-
 
 void	cast_ray(t_val val, t_ray *ray, float angle)
 {
@@ -126,29 +74,16 @@ void	cast_ray(t_val val, t_ray *ray, float angle)
 
 	vertical_cast(val, &v_ray, angle);
 	horizontal_cast(val, &h_ray, angle);
-	
 	if (h_ray.dist < v_ray.dist)
 	{
-		// draw_line(val, h_ray.x, h_ray.y, 0xff0000);
 		ray->x = h_ray.x;
 		ray->y = h_ray.y;
 		ray->dist = h_ray.dist;
-		ray->dof = h_ray.dof;
 		ray->dir = h_ray.dir;
-		// return ;
+		return ;
 	}
-	else if (h_ray.dist > v_ray.dist)
-	{
-		// draw_line(val, v_ray.x, v_ray.y, 0xff0000);
-		ray->x = v_ray.x;
-		ray->y = v_ray.y;
-		ray->dist = v_ray.dist;
-		ray->dof = v_ray.dof;
-		ray->dir = v_ray.dir;
-		// return ;
-	}
-	else
-	{
-		cast_ray(val, ray, angle + 0.001);
-	}
+	ray->x = v_ray.x;
+	ray->y = v_ray.y;
+	ray->dist = v_ray.dist;
+	ray->dir = v_ray.dir;
 }
