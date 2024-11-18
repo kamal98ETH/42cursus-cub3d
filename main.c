@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 00:15:47 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:57:56 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,39 +140,6 @@ void	color_game_pixel(t_val val, int x, int y, int color)
 	*(int *)(val.data.img_data + offset) = color;
 }
 
-t_coordinates	tile_to_coordinates(t_tile tile)
-{
-	t_coordinates	coordinates;
-
-	coordinates.x = tile.x * TILE + TILE /2;
-	coordinates.y = tile.y * TILE + TILE /2;
-	return (coordinates);
-}
-
-t_tile	coordinates_to_tile(float x, float y, char *map)
-{
-	t_tile	tile;
-	int		i;
-
-	tile.x = floor(x / TILE);
-	tile.y = floor(y / TILE);
-	// you should handle maps that isn't squares
-	i = 0;
-	while (*map && tile.y != i) // to be reviewed
-	{
-		while (*map && *map != '\n')
-			map++;
-		if (*map)
-			map++;
-		i++;
-	}
-	if (tile.x > ft_strlen(map) || !*map) // to be reviewed (in case the coordinates are out of the map)
-		tile.c = '!';
-	else
-		tile.c = map[tile.x];
-	return (tile);
-}
-
 int	corresponding_tile(t_val val, float x, float y)
 {
 	int	X;
@@ -202,9 +169,9 @@ int	corresponding_tile(t_val val, float x, float y)
 		return (-1);
 	if (offset >= val.game->map_size)
 		return (-1);
-	if (val.game->map[offset] == '1')// map size ???? what if offset > map_size
+	if (val.game->map[offset] == '1')
 		return (1);
-	if (val.game->map[offset] == '2')// map size ???? what if offset > map_size
+	if (val.game->map[offset] == '2')
 		return (2);
 	return (0);
 }

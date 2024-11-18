@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 03:52:48 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:55:25 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,6 @@ typedef struct	s_pos
 	int	plr_y;
 }	t_pos;
 
-typedef struct s_coordinates
-{
-	int	x;
-	int	y;
-}	t_coordinates;
-
-typedef struct s_tile
-{
-	int		x;
-	int		y;
-	char	c;
-}	t_tile;
-
 typedef	struct s_game
 {
 	t_texture	no;
@@ -137,9 +124,7 @@ typedef struct s_val
 void	draw_map(t_val *val);
 int		render(t_val *val);
 float	limit_angle(float angle);
-void	cast_ray(t_val val, t_ray *ray, float angle);
-int		corresponding_tile(t_val val, float x, float y); //int		inside_empty_space(t_val val, float x, float y);
-t_tile	coordinates_to_tile(float x, float y, char *map);
+int		corresponding_tile(t_val val, float x, float y);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
 
@@ -150,6 +135,7 @@ void	right_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	left_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan);
+void	cast_ray(t_val val, t_ray *ray, float angle);
 
 /* parsing .... */
 void	get_player_position(t_game *map, char **tmp);
