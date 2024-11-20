@@ -119,6 +119,7 @@ typedef struct s_val
 	int		height;
 	t_game	*game;
 	int		keys[6];
+	int		start;
 }	t_val;
 
 void	draw_map(t_val *val);

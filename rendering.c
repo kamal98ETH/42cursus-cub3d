@@ -70,8 +70,26 @@ void	draw_walls(t_val *val)
 	// val->game->plyr_x, val->game->plyr_y, val->game->plyr_dir / PI);
 int	render(t_val *val)
 {
+	float	tmpx;
+	float	tmpy;
+	float	tmpd;
+	t_game	*game;
+
+	game = val->game;
+	tmpx = game->plyr_x;
+	tmpy = game->plyr_y;
+	tmpd = game->plyr_dir;
 	move_player(val);
-	draw_walls(val);
-	draw_map(val);
+	if (game->plyr_x != tmpx || game->plyr_y != tmpy || game->plyr_dir != tmpd)
+	{
+		draw_walls(val);
+		draw_map(val);
+	}
+	else if (val->start)
+	{
+		draw_walls(val);
+		draw_map(val);
+		val->start = 0;
+	}
 	return (0);
 }

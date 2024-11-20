@@ -126,5 +126,5 @@ t_game	*data_treatment(char **arr, char *content)
 		handle_map_error(-3);
 	else
 		handle_map_error(-4);
-	return (free_map(map), NULL);// potonial leak in texture paths string
+	return (free_map(map), NULL); // potonial leak in texture paths string
 }

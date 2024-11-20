@@ -63,5 +63,5 @@ void	ft_open_textures(t_val *val)
 		&(map->so.img.bpp), &(map->so.img.sline), &(map->so.img.endian));
 	map->we.img.img_data = mlx_get_data_addr(map->we.img.img, \
 		&(map->we.img.bpp), &(map->we.img.sline), &(map->we.img.endian));
-	printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n"); //to be deleted
+	printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n");
 }

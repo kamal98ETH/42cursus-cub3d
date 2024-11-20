@@ -171,9 +171,22 @@ int	corresponding_tile(t_val val, float x, float y)
 		return (-1);
 	if (val.game->map[offset] == '1')
 		return (1);
-	if (val.game->map[offset] == '2')
+	if (val.game->map[offset] == ' ')
 		return (2);
 	return (0);
+}
+
+int	ft_close(t_val *val)
+{
+	mlx_loop_end(val->mlx_ptr);
+	return (0);
+}
+
+void mlx_hooks(t_val *val)
+{
+	mlx_hook(val->win_ptr, 17, 0, ft_close, val);
+	mlx_hook(val->win_ptr, KeyPress, KeyPressMask, key_hook_press, val);
+	mlx_hook(val->win_ptr, KeyRelease, KeyReleaseMask, key_hook_release, val);
 }
 
 int	main(int ac, char **av)
@@ -190,6 +203,7 @@ int	main(int ac, char **av)
 		return (free(val), 1);
 	val->height = 800;
 	val->width = 1000;
+	val->start = 1;
 
 	//to be deleted
 	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
@@ -216,12 +230,8 @@ int	main(int ac, char **av)
 	
 	ft_open_textures(val);
 	
-
-	mlx_hook(val->win_ptr, KeyPress, KeyPressMask, key_hook_press, val);
-	mlx_hook(val->win_ptr, KeyRelease, KeyReleaseMask, key_hook_release, val);
-	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
+	mlx_hooks(val);
 	mlx_loop_hook(val->mlx_ptr, render, val);
-	// render(val);
 	mlx_loop(val->mlx_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);

@@ -92,7 +92,7 @@ char	**square_format(char **str, t_game *map)
 		k = 0;
 		while (j < map->map_x)
 		{
-			tmp[i][j] = '2';
+			tmp[i][j] = ' ';
 			if (str[i][k])
 				tmp[i][j] = str[i][k++];
 			j++;
