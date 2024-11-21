@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 02:44:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/21 14:23:41 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:45:39 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ void	right_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x += TILE / 2;
 			ray->y -= TILE / 2 * angle_tan;
+			ray->dir = 'D';
 			break;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
+	if (empty_space(val, ray->x - TILE * 0.75, ray->y) == 2)
+		ray->dir = 'd';
 }
 
 void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -55,11 +58,14 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x -= TILE / 2;
 			ray->y += TILE / 2 * angle_tan;
+			ray->dir = 'D';
 			break;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
+	if (empty_space(val, ray->x + TILE * 0.75, ray->y) == 2)
+		ray->dir = 'd';
 }
 
 void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -80,11 +86,14 @@ void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x += TILE / 2 * angle_tan;
 			ray->y -= TILE / 2;
+			ray->dir = 'D';
 			break;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
+	if (empty_space(val, ray->x, ray->y + TILE * 0.75) == 2)
+		ray->dir = 'd';
 }
 
 void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -105,9 +114,12 @@ void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x -= TILE / 2 * angle_tan;
 			ray->y += TILE / 2;
+			ray->dir = 'D';
 			break;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
+	if (empty_space(val, ray->x, ray->y - TILE * 0.75) == 2)
+		ray->dir = 'd';
 }

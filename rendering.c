@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 18:25:00 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:30:04 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int	color_fetched(t_val *val, t_ray ray, float y, float wall_height)
 		return (txtr_fetch(&val->game->ea, ray, y, wall_height));
 	if (ray.dir == 'W')
 		return (txtr_fetch(&val->game->we, ray, y, wall_height));
+	if (ray.dir == 'D')
+		return (0x004c7f);
+	if (ray.dir == 'd')
+		return (0xbae3ff);
 }
 
 void	cast_and_draw(t_val *val, int x, float ray_angle)

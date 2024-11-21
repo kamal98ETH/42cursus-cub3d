@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/21 14:36:05 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:48:36 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,10 @@ int key_hook_release(int keycode, t_val *val)
 		val->keys[RA_K] = 0;
 
 	if (keycode == E_KEYCODE)
+	{
 		open_door_nearby(*val);
+		val->start = 1;
+	}
 
     return (0);
 }
