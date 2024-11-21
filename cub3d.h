@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 18:55:25 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:41:48 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 #define	D_KEYCODE 100
 #define	RA_KEYCODE 65363
 #define	LA_KEYCODE 65361
+#define	ESC_KEYCODE	65307
+#define	E_KEYCODE 101
 
 #define	W_K 0
 #define	S_K 1
@@ -53,11 +55,25 @@
 #define	LA_K 4
 #define	RA_K 5
 
+typedef enum e_dstate
+{
+	OPEN,
+	CLOSED
+}	t_dstate;
+
 typedef struct	s_col
 {
 	int	stat;
 	int	hexacode;
 }	t_col;
+
+typedef struct s_door
+{
+	int				tile_x;
+	int				tile_y;
+	t_dstate		state;
+	struct s_door	*next;
+}	t_door;
 
 typedef	struct	s_data
 {
@@ -90,13 +106,14 @@ typedef	struct s_game
 	t_texture	so;
 	t_col		fcol;
 	t_col		ccol;
-	float	plyr_x;
-	float	plyr_y;
-	float	plyr_dir;
-	char	*map;
-	int		map_size;
-	int		map_x;
-	int		map_y;
+	float		plyr_x;
+	float		plyr_y;
+	float		plyr_dir;
+	char		*map;
+	int			map_size;
+	int			map_x;
+	int			map_y;
+	t_door		*doors;
 }	t_game;
 
 typedef struct s_ray
@@ -125,7 +142,8 @@ typedef struct s_val
 void	draw_map(t_val *val);
 int		render(t_val *val);
 float	limit_angle(float angle);
-int		corresponding_tile(t_val val, float x, float y);
+char	corresponding_tile(t_val val, float x, float y);
+int		empty_space(t_val val, float x, float y);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
 
@@ -137,6 +155,12 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan);
 void	cast_ray(t_val val, t_ray *ray, float angle);
+
+/* doors*/
+int		door_init(t_val *val);
+int		clean_doors(t_door *doors);
+t_door	*coordinate_to_door(t_val val, float x, float y);
+void	open_door_nearby(t_val val);
 
 /* parsing .... */
 void	get_player_position(t_game *map, char **tmp);

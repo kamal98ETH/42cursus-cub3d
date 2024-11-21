@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 20:30:28 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 18:53:06 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:52:02 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,21 @@ void	color_mini_horizontal_line(t_val *val, int *x, int y, int mini_y)
 			|| mini_y <= 2 || mini_y >= MINIMAP_Y -2)
 			color_map_pixel(*val, mini_x, mini_y, 0xffffff);
 		else if (*x < 0 || y < 0 || *x >= val->game->map_x
-			|| y >= val->game->map_y || corresponding_tile(*val, *x, y) == 2)
+			|| y >= val->game->map_y || corresponding_tile(*val, *x, y) == '2')
 			color_map_pixel(*val, mini_x, mini_y, 0xcccccc);
 		else if (mini_x >= MINIMAP_X / 2 - 2 && mini_x <= MINIMAP_X / 2 + 2
 			&& mini_y >= MINIMAP_Y / 2 - 2 && mini_y <= MINIMAP_Y / 2 + 2)
 			color_map_pixel(*val, mini_x, mini_y, 0xff0000);
-		else if (corresponding_tile(*val, *x, y) == 0)
+		else if (empty_space(*val, *x, y) == 1)
 			color_map_pixel(*val, mini_x, mini_y, 0x0);
+		else if (empty_space(*val, *x, y) == 2)
+			color_map_pixel(*val, mini_x, mini_y, 0xfbc21a);
 		else
 			color_map_pixel(*val, mini_x, mini_y, 0xffffff);
 		mini_x++;
 		*x += scale;
 	}
+	// char *str =  "        1111111111111111111111111";
 }
 
 void	draw_map_from_center(t_val *val, int x, int y)

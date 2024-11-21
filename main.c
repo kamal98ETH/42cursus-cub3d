@@ -6,18 +6,46 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 18:57:56 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:36:05 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_move_possibilty(t_val *val, float x, float y, int flag)
+int	empty_space(t_val val, float x, float y)
 {
-	if (flag && (corresponding_tile(*val, x, val->game->plyr_y) == 0 \
-		|| corresponding_tile(*val, x, val->game->plyr_y) == 0))
+	char	c;
+
+	c = corresponding_tile(val, x, y);
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
+	else if (c == 'D')
+		return (2);
 	return (0);
+}
+
+int	check_for_doors(t_val *val, int x, int y)
+{
+	t_door	*door;
+
+	if (!empty_space(*val, x, y))
+		return (0);
+	door = coordinate_to_door(*val, x, y);
+	if (!door)
+		return (1);
+	// printf("here %p\n\n", door);
+	if (door->state == OPEN)
+	{
+		door->state = CLOSED;
+		return (1);
+	}
+	else
+	{
+		if (corresponding_tile(*val, val->game->plyr_x, val->game->plyr_y) == 'D')
+			return (1);
+		return (0);
+	}
+	
 }
 
 void	move_player(t_val *val)
@@ -63,20 +91,34 @@ void	move_player(t_val *val)
 	}
 	// printf("plr.x: %.2f, x: %.2f\n", val->game->plyr_x, x);
 	// printf("plr.y: %.2f, y: %.2f\n", val->game->plyr_y, y);
-	if (flag && corresponding_tile(*val, x, y) == 0 && check_move_possibilty(val, x, y, flag))
+	if (flag && (empty_space(*val, x, y) == 1 || check_for_doors(val, x, y)))
 	{
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;
 	}
-	else if (flag && corresponding_tile(*val, x, val->game->plyr_y) == 0)
+	else if (flag && (empty_space(*val, x, val->game->plyr_y) == 1 || check_for_doors(val, x, val->game->plyr_y)))
 		val->game->plyr_x = x;
-	else if (flag && corresponding_tile(*val, val->game->plyr_x, y) == 0)
+	else if (flag && (empty_space(*val, val->game->plyr_x, y) == 1 || check_for_doors(val, val->game->plyr_x, y)))
 		val->game->plyr_y = y;
+
+		
+	// if (flag)
+	// {
+	// 	printf("---- doors in the map ----\n");
+	// 	for (t_door *door = val->game->doors; door; door = door->next)
+	// 	{
+	// 		printf("door number: %p, tile x: %d, tile y: %d, state: ", door, door->tile_x, door->tile_y);
+	// 		if (door->state == OPEN)
+	// 			printf("OPEN\n");
+	// 		if (door->state == CLOSED)
+	// 			printf("CLOSED\n");
+	// }
+	// }
 }
 
 int key_hook_press(int keycode, t_val *val)
 {
-    if (keycode == 65307)
+    if (keycode == ESC_KEYCODE)
         mlx_loop_end(val->mlx_ptr);
 	if (keycode == W_KEYCODE)
 		val->keys[W_K] = 1;
@@ -107,6 +149,10 @@ int key_hook_release(int keycode, t_val *val)
 		val->keys[LA_K] = 0;
 	if (keycode == RA_KEYCODE)
 		val->keys[RA_K] = 0;
+
+	if (keycode == E_KEYCODE)
+		open_door_nearby(*val);
+
     return (0);
 }
 
@@ -140,19 +186,17 @@ void	color_game_pixel(t_val val, int x, int y, int color)
 	*(int *)(val.data.img_data + offset) = color;
 }
 
-int	corresponding_tile(t_val val, float x, float y)
+char	corresponding_tile(t_val val, float x, float y)
 {
 	int	X;
 	int	Y;
 	int	i;
 	int	offset;
 
-	X = floor(x);
-	Y = floor(y);
+	X = floor(x / TILE);
+	Y = floor(y / TILE);
 	if (X < 0 || Y < 0)
-		return (-1);
-	X /= TILE;
-	Y /= TILE;
+		return (0);
 	i = 0;
 	offset = 0;
 	while (i < Y)
@@ -161,19 +205,19 @@ int	corresponding_tile(t_val val, float x, float y)
 			offset++;
 		if (val.game->map[offset])
 			offset++;
+		if (!val.game->map[offset])
+			return (0);
 		i++;
 	}
-	if (val.game->map[offset])
-		offset += X;
-	else
-		return (-1);
-	if (offset >= val.game->map_size)
-		return (-1);
-	if (val.game->map[offset] == '1')
-		return (1);
-	if (val.game->map[offset] == ' ')
-		return (2);
-	return (0);
+	i = 0;
+	while (val.game->map[offset] && val.game->map[offset] != '\n' && i < X)
+	{
+		offset++;
+		i++;
+	}
+	if (!val.game->map[offset] || val.game->map[offset] == '\n')
+		return (0);
+	return (val.game->map[offset]);
 }
 
 int	ft_close(t_val *val)
@@ -230,8 +274,14 @@ int	main(int ac, char **av)
 	
 	ft_open_textures(val);
 	
+	door_init(val);
 	mlx_hooks(val);
 	mlx_loop_hook(val->mlx_ptr, render, val);
+	
+	
+	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
+	
+
 	mlx_loop(val->mlx_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_ptr);
 	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);
@@ -239,6 +289,7 @@ int	main(int ac, char **av)
 	mlx_destroy_display(val->mlx_ptr);
 	free_map(val->game);
 	free(val->mlx_ptr);
+	clean_doors(val->game->doors);
 	free(val);
 	return (0);
 }
