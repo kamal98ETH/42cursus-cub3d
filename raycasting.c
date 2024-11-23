@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/18 04:00:12 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:13:07 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,12 @@ void	cast_ray(t_val val, t_ray *ray, float angle)
 		ray->y = h_ray.y;
 		ray->dist = h_ray.dist;
 		ray->dir = h_ray.dir;
+		ray->door = h_ray.door;
 		return ;
 	}
 	ray->x = v_ray.x;
 	ray->y = v_ray.y;
 	ray->dist = v_ray.dist;
 	ray->dir = v_ray.dir;
+	ray->door = v_ray.door;
 }

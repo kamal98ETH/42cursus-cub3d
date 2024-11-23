@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/21 10:41:48 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/23 01:08:21 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_ray
 	double	y;
 	float	dist;
 	char	dir;
+	char	door;
 }	t_ray;
 
 typedef struct s_val
@@ -161,6 +162,7 @@ int		door_init(t_val *val);
 int		clean_doors(t_door *doors);
 t_door	*coordinate_to_door(t_val val, float x, float y);
 void	open_door_nearby(t_val val);
+int		push_door_list(t_val *val, int x, int y);
 
 /* parsing .... */
 void	get_player_position(t_game *map, char **tmp);

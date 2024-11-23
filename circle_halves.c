@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 02:44:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/21 18:45:39 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:12:19 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	right_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	t_door	*door;
 
 	ray->dir = 'E';
+	ray->door = 0;
 	ray->x = (((int)val.game->plyr_x / TILE) * TILE) + TILE;
 	ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * angle_tan;
 	xo = TILE;
@@ -30,14 +31,14 @@ void	right_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x += TILE / 2;
 			ray->y -= TILE / 2 * angle_tan;
-			ray->dir = 'D';
-			break;
+			ray->door = 'D';
+			return ;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
-	if (empty_space(val, ray->x - TILE * 0.75, ray->y) == 2)
-		ray->dir = 'd';
+	if (empty_space(val, ray->x -1, ray->y) == 2)
+		ray->door = 'd';
 }
 
 void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -47,6 +48,7 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	t_door	*door;
 
 	ray->dir = 'W';
+	ray->door = 0;
 	ray->x = (((int)val.game->plyr_x / TILE) * TILE);
 	ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * angle_tan;
 	xo = -TILE;
@@ -58,14 +60,14 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x -= TILE / 2;
 			ray->y += TILE / 2 * angle_tan;
-			ray->dir = 'D';
-			break;
+			ray->door = 'D';
+			return ;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
-	if (empty_space(val, ray->x + TILE * 0.75, ray->y) == 2)
-		ray->dir = 'd';
+	if (empty_space(val, ray->x + 1, ray->y) == 2)
+		ray->door = 'd';
 }
 
 void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -75,6 +77,7 @@ void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	t_door	*door;
 
 	ray->dir = 'N';
+	ray->door = 0;
 	ray->y = (((int)val.game->plyr_y / TILE) * TILE);
 	ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * angle_tan;
 	yo = -TILE;
@@ -86,14 +89,14 @@ void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x += TILE / 2 * angle_tan;
 			ray->y -= TILE / 2;
-			ray->dir = 'D';
-			break;
+			ray->door = 'D';
+			return ;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
-	if (empty_space(val, ray->x, ray->y + TILE * 0.75) == 2)
-		ray->dir = 'd';
+	if (empty_space(val, ray->x, ray->y + 1) == 2)
+		ray->door = 'd';
 }
 
 void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
@@ -103,6 +106,7 @@ void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	t_door	*door;
 
 	ray->dir = 'S';
+	ray->door = 0;
 	ray->y = (((int)val.game->plyr_y / TILE) * TILE) + TILE;
 	ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * angle_tan;
 	yo = TILE;
@@ -114,12 +118,12 @@ void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		{
 			ray->x -= TILE / 2 * angle_tan;
 			ray->y += TILE / 2;
-			ray->dir = 'D';
-			break;
+			ray->door = 'D';
+			return ;
 		}
 		ray->x += xo;
 		ray->y += yo;
 	}
-	if (empty_space(val, ray->x, ray->y - TILE * 0.75) == 2)
-		ray->dir = 'd';
+	if (empty_space(val, ray->x, ray->y - 1) == 2)
+		ray->door = 'd';
 }

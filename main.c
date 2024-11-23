@@ -6,7 +6,7 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/21 17:48:36 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/23 00:35:58 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,24 @@ int	empty_space(t_val val, float x, float y)
 
 int	check_for_doors(t_val *val, int x, int y)
 {
-	t_door	*door;
+	t_door	*current_door;
+	t_door	*next_door;
 
 	if (!empty_space(*val, x, y))
 		return (0);
-	door = coordinate_to_door(*val, x, y);
-	if (!door)
+	next_door = coordinate_to_door(*val, x, y);
+	current_door = coordinate_to_door(*val, val->game->plyr_x, val->game->plyr_y);
+	if (!next_door)
 		return (1);
 	// printf("here %p\n\n", door);
-	if (door->state == OPEN)
+	if (next_door->state == OPEN)
 	{
-		door->state = CLOSED;
+		next_door->state = CLOSED;
 		return (1);
 	}
 	else
 	{
-		if (corresponding_tile(*val, val->game->plyr_x, val->game->plyr_y) == 'D')
+		if (current_door == next_door)
 			return (1);
 		return (0);
 	}
