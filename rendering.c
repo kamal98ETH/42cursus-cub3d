@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/24 01:44:00 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:32 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	render(t_val *val)
 	float	tmpd;
 	t_game	*game;
 
+	// printf("render ...\n");
+	// printf("Player position: x: %f, y: %f, direction: %f PI\n", val->game->plyr_x, val->game->plyr_y, val->game->plyr_dir / PI);
 	game = val->game;
 	tmpx = game->plyr_x;
 	tmpy = game->plyr_y;

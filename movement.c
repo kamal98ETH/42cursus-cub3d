@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:57:29 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:47:17 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:00:26 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	move_player(t_val *val)
 	y = val->game->plyr_y;
 
 
-	if (val->keys[W_K]) // forward
+	if (val->keys[W_K]) // forward 
 	{
 		// printf("forward\n");
 		flag++;
@@ -106,7 +106,8 @@ void	move_player(t_val *val)
 	}
 	// printf("plr.x: %.2f, x: %.2f\n", val->game->plyr_x, x);
 	// printf("plr.y: %.2f, y: %.2f\n", val->game->plyr_y, y);
-	if (flag && (empty_space(*val, x, y) == 1 || check_for_doors(val, x, y)))
+	if (flag && (empty_space(*val, x, y) == 1 || check_for_doors(val, x, y))\
+	 && (corresponding_tile(*val, x, val->game->plyr_y) == '0' || corresponding_tile(*val, x, val->game->plyr_y) == '0'))	
 	{
 		val->game->plyr_x = x;
 		val->game->plyr_y = y;

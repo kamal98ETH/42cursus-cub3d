@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 20:30:28 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/24 02:34:37 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:31:45 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	get_scale(int map_x, int map_y)
 {
+	// printf("map_x = %d, map_y = %d\n", map_x, map_y);
 	if (map_x > map_y)
-		return (map_x / MINIMAP_X);
+		return (10 * TILE / MINIMAP_X);
 	else
-		return (map_y / MINIMAP_Y);
+		return (10 * TILE / MINIMAP_Y);
 }
 
 void	color_mini_horizontal_line(t_val *val, int *x, int y, int mini_y)

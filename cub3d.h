@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/24 02:26:34 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:45:03 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 
 #include <limits.h>
 
-#define TILE 500
-#define	MSCALE 100
+#define TILE 200
+#define	MSCALE 12
 #define	MVTSPEED TILE / 10
 #define RTTSPEED .06
 #define PI 3.1415926535
