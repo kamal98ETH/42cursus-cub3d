@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/31 18:15:58 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:43:25 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void affmap(t_game *map)
 			printf("EA: %s\n", map->ea.path);
 		if (map->we.path)
 			printf("WE: %s\n", map->we.path);
+		if (map->dr.path)
+			printf("DR: %s\n", map->dr.path);
+		if (map->df.path)
+			printf("DF: %s\n", map->df.path);
 		printf("POS: %.2f , %.2f\n", map->plyr_x, map->plyr_y);
 		printf("DIR: %.2f\n", map->plyr_dir);
 		printf("--------------------------------- map ----------------------------------\n");
@@ -54,6 +58,8 @@ void	map_init(t_game *map)
 	map->ea.path = NULL;
 	map->so.path = NULL;
 	map->we.path = NULL;
+	map->dr.path = NULL;
+	map->df.path = NULL;
 	map->map = NULL;
 }
 
@@ -69,6 +75,10 @@ void	free_map(t_game *map)
 			free(map->ea.path);
 		if (map->we.path)
 			free(map->we.path);
+		if (map->dr.path)
+			free(map->dr.path);
+		if (map->df.path)
+			free(map->df.path);
 		if (map->map)
 			free(map->map);
 		free(map);

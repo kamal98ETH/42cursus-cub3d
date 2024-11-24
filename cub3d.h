@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/23 01:08:21 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/24 02:26:34 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 
 #define TILE 500
 #define	MSCALE 100
-#define	MVTSPEED 50
-#define RTTSPEED .05
+#define	MVTSPEED TILE / 10
+#define RTTSPEED .06
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
@@ -104,6 +104,8 @@ typedef	struct s_game
 	t_texture	we;
 	t_texture	ea;
 	t_texture	so;
+	t_texture	dr;
+	t_texture	df;
 	t_col		fcol;
 	t_col		ccol;
 	float		plyr_x;
@@ -138,6 +140,9 @@ typedef struct s_val
 	t_game	*game;
 	int		keys[6];
 	int		start;
+
+	int		tmpx;
+	int		tmpy;
 }	t_val;
 
 void	draw_map(t_val *val);
@@ -200,5 +205,8 @@ int		txtr_fetch(t_texture *txtr, t_ray ray, float y, float wall_height);
 
 /* split functions */
 char	**multi_split(char const *s, char *c);
+
+/* hooks */
+void	mlx_hooks(t_val *val);
 
 #endif

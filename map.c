@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/09 04:46:36 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/24 02:26:14 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,16 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -5)
-		printf("\e[31m>> [TEXTURE ERORR] only .xpm file!\e[0m \n");
+	if (flag == -6)
+		printf("\e[31m>> [TEXTURE ERORR] Illogical door placment!\e[0m \n");
+	else if (flag == -5)
+		printf("\e[31m>> [TEXTURE ERORR] Only .xpm file!\e[0m \n");
 	else if (flag == -4)
-		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Bad element!\e[0m \n");
 	else if (flag == -3)
-		printf("\e[31m>> [PARSING ERORR] missing elements!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Missing elements!\e[0m \n");
 	else if (flag == -2)
-		printf("\e[31m>> [PARSING ERORR] empty line in map!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Empty line in map!\e[0m \n");
 	else if (flag == -1)
 		write(2, "\e[31mError\e[0m\nMap not closed!\n", 32);
 	else if (flag == 0)
@@ -103,6 +105,32 @@ char	**square_format(char **str, t_game *map)
 	return (tmp);
 }
 
+int	check_door_logic(char **str, int *flag)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] == 'D')
+			{
+				if (!((j && str[i][j - 1] == '1') && str[i][j + 1] == '1') && !((i && str[i - 1][j] == '1') && (str[i + 1] && str[i + 1][j] == '1')))
+				{
+					*flag = -6;
+					return (1);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 t_game	*get_map(char **str, char *content, t_game *map)
 {
 	int		i;
@@ -116,7 +144,7 @@ t_game	*get_map(char **str, char *content, t_game *map)
 		return (free(map), handle_map_error(-2), NULL);
 	str = square_format(str, map);
 	flag = check_map_validation(str, &i);
-	if (flag != 1)
+	if (flag != 1 || check_door_logic(str, &flag))
 		return (free(map), handle_map_error(flag), NULL);
 	new = NULL;
 	i = 0;

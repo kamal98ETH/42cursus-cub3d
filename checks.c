@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:02:42 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/19 05:49:11 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:32:14 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,10 @@ int	check_if_map(char *str)
 	else if (elems[0] && !ft_strncmp(elems[0], "EA", 3))
 		return (ft_free(elems), 0);
 	else if (elems[0] && !ft_strncmp(elems[0], "WE", 3))
+		return (ft_free(elems), 0);
+	else if (elems[0] && !ft_strncmp(elems[0], "DR", 3))
+		return (ft_free(elems), 0);
+	else if (elems[0] && !ft_strncmp(elems[0], "DF", 3))
 		return (ft_free(elems), 0);
 	return (ft_free(elems), 1);
 }

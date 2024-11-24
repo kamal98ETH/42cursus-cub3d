@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/22 15:09:41 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:44:00 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	color_fetched(t_val *val, t_ray ray, float y, float wall_height)
 {
 	if (ray.door == 'D')
-		return (txtr_fetch(&val->game->no, ray, y, wall_height));
+		return (txtr_fetch(&val->game->dr, ray, y, wall_height));
 	if (ray.door == 'd')
-		return (txtr_fetch(&val->game->so, ray, y, wall_height));
+		return (txtr_fetch(&val->game->df, ray, y, wall_height));
 	if (ray.dir == 'N')
 		return (txtr_fetch(&val->game->no, ray, y, wall_height));
 	if (ray.dir == 'S')

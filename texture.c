@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:33:19 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/01 01:54:19 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:37:57 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	txtr_fetch(t_texture *txtr, t_ray ray, float y_off, float wall_height)
 void	check_if_open(t_game map)
 {
 	if (!map.ea.img.img || !map.no.img.img \
-		|| !map.so.img.img || !map.we.img.img)
+		|| !map.so.img.img || !map.we.img.img || !map.dr.img.img || !map.df.img.img)
 	{
 		printf("\e[31m>> [TEXTURE ERORR] can't open file!\e[0m \n");
 		exit(1);
@@ -54,6 +54,10 @@ void	ft_open_textures(t_val *val)
 		&(map->so.width), &(map->so.height));
 	map->we.img.img = mlx_xpm_file_to_image(val->mlx_ptr, map->we.path, \
 		&(map->we.width), &(map->we.height));
+	map->dr.img.img = mlx_xpm_file_to_image(val->mlx_ptr, map->dr.path, \
+		&(map->dr.width), &(map->dr.height));
+	map->df.img.img = mlx_xpm_file_to_image(val->mlx_ptr, map->df.path, \
+		&(map->df.width), &(map->df.height));
 	check_if_open(*map);
 	map->ea.img.img_data = mlx_get_data_addr(map->ea.img.img, \
 		&(map->ea.img.bpp), &(map->ea.img.sline), &(map->ea.img.endian));
@@ -63,5 +67,9 @@ void	ft_open_textures(t_val *val)
 		&(map->so.img.bpp), &(map->so.img.sline), &(map->so.img.endian));
 	map->we.img.img_data = mlx_get_data_addr(map->we.img.img, \
 		&(map->we.img.bpp), &(map->we.img.sline), &(map->we.img.endian));
+	map->dr.img.img_data = mlx_get_data_addr(map->dr.img.img, \
+		&(map->dr.img.bpp), &(map->dr.img.sline), &(map->dr.img.endian));
+	map->df.img.img_data = mlx_get_data_addr(map->df.img.img, \
+		&(map->df.img.bpp), &(map->df.img.sline), &(map->df.img.endian));
 	printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n");
 }

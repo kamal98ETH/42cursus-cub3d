@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   fetch.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/10/31 18:14:51 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:46:21 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int	fetch_texture(t_game *map, char **elems, int flag)
 		map->ea.path = ft_strdup(elems[1]);
 	else if (flag == 4 && elems[1] && !map->we.path)
 		map->we.path = ft_strdup(elems[1]);
+	else if (flag == 5 && elems[1] && !map->dr.path)
+		map->dr.path = ft_strdup(elems[1]);
+	else if (flag == 6 && elems[1] && !map->df.path)
+		map->df.path = ft_strdup(elems[1]);
 	else
 		return (0);
 	return (1);
@@ -79,6 +83,10 @@ int	get_elements(t_game *map, char *str)
 		flag = fetch_texture(map, elems, 3);
 	else if (elems[0] && !ft_strncmp(elems[0], "WE", 3))
 		flag = fetch_texture(map, elems, 4);
+	else if (elems[0] && !ft_strncmp(elems[0], "DR", 3))
+		flag = fetch_texture(map, elems, 5);
+	else if (elems[0] && !ft_strncmp(elems[0], "DF", 3))
+		flag = fetch_texture(map, elems, 6);
 	else
 		return (ft_free(elems), 0);
 	return (ft_free(elems), flag);
@@ -97,6 +105,10 @@ int	check_filename_extension(t_game m)
 		return (1);
 	if (m.so.path && ft_strncmp(m.so.path + ft_strlen(m.so.path) - 4, t, 5))
 		return (1);
+	if (m.dr.path && ft_strncmp(m.dr.path + ft_strlen(m.dr.path) - 4, t, 5))
+		return (1);
+	if (m.df.path && ft_strncmp(m.df.path + ft_strlen(m.df.path) - 4, t, 5))
+		return (1);
 	return (0);
 }
 
@@ -109,7 +121,7 @@ t_game	*data_treatment(char **arr, char *content)
 	i = 0;
 	map = malloc(sizeof(t_game));
 	map_init(map);
-	while (arr[i] && i < 6)
+	while (arr[i] && i < 8)
 	{
 		if (!get_elements(map, arr[i]))
 		{
