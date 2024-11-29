@@ -39,7 +39,14 @@ void affmap(t_game *map)
 		printf("DIR: %.2f\n", map->plyr_dir);
 		printf("--------------------------------- map ----------------------------------\n");
 		if (map->map)
-			printf("%s\n", map->map);
+			{
+				int i = 0;
+				while(map->map[i])
+				{
+					printf("%s\n", map->map[i]);
+					i++;
+				}
+			}
 		else
 			printf("No map found!\n");
 	}
@@ -140,6 +147,5 @@ t_game	*parsing(char *filename)
 	if (!map)
 		return (NULL);
 	affmap(map);
-	map->map_size = ft_strlen(map->map);
 	return (map);
 }

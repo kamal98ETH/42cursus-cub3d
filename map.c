@@ -71,7 +71,7 @@ char	**allocate_square_space(char **str, t_game *map)
 			map->map_x = ft_strlen(str[i]);
 		i++;
 	}
-	map->map_y = i * TILE;
+	map->map_y = i;
 	tmp = malloc(sizeof(char *) * (i + 1));
 	tmp[i] = NULL;
 	return (tmp);
@@ -101,7 +101,7 @@ char	**square_format(char **str, t_game *map)
 		}
 		i++;
 	}
-	map->map_x = map->map_x * TILE;
+	map->map_x = map->map_x;
 	return (tmp);
 }
 
@@ -135,7 +135,6 @@ t_game	*get_map(char **str, char *content, t_game *map)
 {
 	int		i;
 	int		flag;
-	char	*new;
 	char	*tmp;
 
 	i = 0;
@@ -146,16 +145,7 @@ t_game	*get_map(char **str, char *content, t_game *map)
 	flag = check_map_validation(str, &i);
 	if (flag != 1 || check_door_logic(str, &flag))
 		return (free(map), handle_map_error(flag), NULL);
-	new = NULL;
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		new = join_optclean(new, str[i], 1);
-		new = join_optclean(new, "\n", 1);
-		i++;
-	}
-	map->map = new;
+	map->map = str;
 	get_player_position(map, str);
-	return (ft_free(str), map);
+	return (map);
 }

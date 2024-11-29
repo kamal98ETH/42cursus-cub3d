@@ -47,6 +47,20 @@ int	check_for_doors(t_val *val, int x, int y)
 	}
 	
 }
+void apply_movement(t_val *val, float x, float y)
+{
+	if ((empty_space(*val, x, y) == 1 || check_for_doors(val, x, y))\
+	 && (corresponding_tile(*val, val->game->plyr_x, y) != '1'\
+	 || corresponding_tile(*val, x, val->game->plyr_y) != '1'))
+	{
+		val->game->plyr_x = x;
+		val->game->plyr_y = y;
+	}
+	else if ((empty_space(*val, x, val->game->plyr_y) == '1' || check_for_doors(val, x, val->game->plyr_y)))
+		val->game->plyr_x = x;
+	else if ((empty_space(*val, val->game->plyr_x, y) == '1' || check_for_doors(val, val->game->plyr_x, y)))
+		val->game->plyr_y = y;
+}
 
 void	move_player(t_val *val)
 {
@@ -106,16 +120,10 @@ void	move_player(t_val *val)
 	}
 	// printf("plr.x: %.2f, x: %.2f\n", val->game->plyr_x, x);
 	// printf("plr.y: %.2f, y: %.2f\n", val->game->plyr_y, y);
-	if (flag && (empty_space(*val, x, y) == 1 || check_for_doors(val, x, y))\
-	 && (corresponding_tile(*val, x, val->game->plyr_y) == '0' || corresponding_tile(*val, x, val->game->plyr_y) == '0'))	
-	{
-		val->game->plyr_x = x;
-		val->game->plyr_y = y;
-	}
-	else if (flag && (empty_space(*val, x, val->game->plyr_y) == 1 || check_for_doors(val, x, val->game->plyr_y)))
-		val->game->plyr_x = x;
-	else if (flag && (empty_space(*val, val->game->plyr_x, y) == 1 || check_for_doors(val, val->game->plyr_x, y)))
-		val->game->plyr_y = y;
+	if (!flag)
+		return ;
+	apply_movement(val, x, y);
+	
 
 		
 	// if (flag)
@@ -171,27 +179,7 @@ char	corresponding_tile(t_val val, float x, float y)
 
 	X = floor(x / TILE);
 	Y = floor(y / TILE);
-	if (X < 0 || Y < 0)
+	if (X < 0 || Y < 0 || X >= val.game->map_x || Y >= val.game->map_y)
 		return (0);
-	i = 0;
-	offset = 0;
-	while (i < Y)
-	{
-		while (val.game->map[offset] && val.game->map[offset] != '\n')
-			offset++;
-		if (val.game->map[offset])
-			offset++;
-		if (!val.game->map[offset])
-			return (0);
-		i++;
-	}
-	i = 0;
-	while (val.game->map[offset] && val.game->map[offset] != '\n' && i < X)
-	{
-		offset++;
-		i++;
-	}
-	if (!val.game->map[offset] || val.game->map[offset] == '\n')
-		return (0);
-	return (val.game->map[offset]);
+	return (val.game->map[Y][X]);
 }

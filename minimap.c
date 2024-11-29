@@ -14,11 +14,10 @@
 
 int	get_scale(int map_x, int map_y)
 {
-	// printf("map_x = %d, map_y = %d\n", map_x, map_y);
 	if (map_x > map_y)
-		return (10 * TILE / MINIMAP_X);
+		return (MSCALE * TILE / MINIMAP_X);
 	else
-		return (10 * TILE / MINIMAP_Y);
+		return (MSCALE * TILE / MINIMAP_Y);
 }
 
 void	color_mini_horizontal_line(t_val *val, int *x, int y, int mini_y)
@@ -33,8 +32,8 @@ void	color_mini_horizontal_line(t_val *val, int *x, int y, int mini_y)
 		if (mini_x <= 2 || mini_x >= MINIMAP_X -2
 			|| mini_y <= 2 || mini_y >= MINIMAP_Y -2)
 			color_map_pixel(*val, mini_x, mini_y, 0xffffff);
-		else if (*x < 0 || y < 0 || *x >= val->game->map_x
-			|| y >= val->game->map_y || corresponding_tile(*val, *x, y) == ' ')
+		else if (*x < 0 || y < 0 || *x >= val->game->map_x * TILE
+			|| y >= val->game->map_y * TILE || corresponding_tile(*val, *x, y) == ' ')
 			color_map_pixel(*val, mini_x, mini_y, 0xcccccc);
 		else if (mini_x >= MINIMAP_X / 2 - 2 && mini_x <= MINIMAP_X / 2 + 2
 			&& mini_y >= MINIMAP_Y / 2 - 2 && mini_y <= MINIMAP_Y / 2 + 2)

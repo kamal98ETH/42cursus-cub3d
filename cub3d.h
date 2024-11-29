@@ -26,14 +26,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <math.h>
-#include <stdio.h>
+#include <stdio.h>	
 
 #include <limits.h>
 
 #define TILE 200
-#define	MSCALE 12
-#define	MVTSPEED TILE / 10
-#define RTTSPEED .06
+#define	MSCALE 14
+#define	MVTSPEED TILE / 14
+#define RTTSPEED .04
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
@@ -111,7 +111,7 @@ typedef	struct s_game
 	float		plyr_x;
 	float		plyr_y;
 	float		plyr_dir;
-	char		*map;
+	char		**map;
 	int			map_size;
 	int			map_x;
 	int			map_y;

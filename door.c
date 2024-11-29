@@ -22,18 +22,17 @@ int	door_init(t_val *val)
 	x = 0;
 	y = 0;
 	val->game->doors = NULL;
-	while (i < val->game->map_size)
+	while (y < val->game->map_y)
 	{
-		if (val->game->map[i] == 'D')
-			if (push_door_list(val, x, y))
-				return (1);
-		if (val->game->map[i] == '\n')
+		while (x < val->game->map_x)
 		{
-			x = -1;
-			y++;
+			if (val->game->map[y][x] == 'D')
+				if (push_door_list(val, x, y))
+					return (1);
+			x++;
 		}
-		x++;
-		i++;
+		x = 0;
+		y++;
 	}
 	return (0);
 }
