@@ -109,6 +109,8 @@ int	check_filename_extension(t_game m)
 		return (1);
 	if (m.df.path && ft_strncmp(m.df.path + ft_strlen(m.df.path) - 4, t, 5))
 		return (1);
+	if (m.en.path && ft_strncmp(m.en.path + ft_strlen(m.en.path) - 4, t, 5))
+		return (1);
 	return (0);
 }
 

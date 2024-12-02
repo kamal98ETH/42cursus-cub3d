@@ -58,6 +58,8 @@ void	ft_open_textures(t_val *val)
 		&(map->dr.width), &(map->dr.height));
 	map->df.img.img = mlx_xpm_file_to_image(val->mlx_ptr, map->df.path, \
 		&(map->df.width), &(map->df.height));
+	map->en.img.img = mlx_xpm_file_to_image(val->mlx_ptr, map->en.path, \
+		&(map->en.width), &(map->en.height));
 	check_if_open(*map);
 	map->ea.img.img_data = mlx_get_data_addr(map->ea.img.img, \
 		&(map->ea.img.bpp), &(map->ea.img.sline), &(map->ea.img.endian));
@@ -71,5 +73,7 @@ void	ft_open_textures(t_val *val)
 		&(map->dr.img.bpp), &(map->dr.img.sline), &(map->dr.img.endian));
 	map->df.img.img_data = mlx_get_data_addr(map->df.img.img, \
 		&(map->df.img.bpp), &(map->df.img.sline), &(map->df.img.endian));
+	map->en.img.img_data = mlx_get_data_addr(map->en.img.img, \
+		&(map->en.img.bpp), &(map->en.img.sline), &(map->en.img.endian));
 	printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n");
 }

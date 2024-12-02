@@ -65,6 +65,18 @@ void	draw_map_from_center(t_val *val, int x, int y)
 		y += scale;
 		mini_y++;
 	}
+	// draw enemy on minimap
+	float dx = val->game->plyr_x - val->game->enemy_x;
+	float dy = val->game->plyr_y - val->game->enemy_y;
+
+	int enemy_x = MINIMAP_X / 2 - dx / TILE * scale;
+	int enemy_y = MINIMAP_Y / 2 - dy / TILE * scale;
+
+	color_map_pixel(*val, enemy_x - 1, enemy_y, 0xffff00);
+	color_map_pixel(*val, enemy_x + 1, enemy_y, 0xffff00);
+	color_map_pixel(*val, enemy_x, enemy_y - 1, 0xffff00);
+	color_map_pixel(*val, enemy_x, enemy_y + 1, 0xffff00);
+	color_map_pixel(*val, enemy_x, enemy_y, 0xffff00);
 }
 
 void	draw_map(t_val *val)
@@ -72,4 +84,4 @@ void	draw_map(t_val *val)
 	draw_map_from_center(val, val->game->plyr_x, val->game->plyr_y);
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr,
 		val->img_map_ptr, 10, val->height -10 - MINIMAP_Y);
-}
+}	

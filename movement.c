@@ -166,6 +166,8 @@ void	color_game_pixel(t_val val, int x, int y, int color)
 
 	if (x < 0 || y < 0 || x >= val.width || y >= val.height)
 		return ;
+	if (color < 0)
+		return ;
 	offset = y * val.data.sline + x * (val.data.bpp / 8);
 	*(int *)(val.data.img_data + offset) = color;
 }

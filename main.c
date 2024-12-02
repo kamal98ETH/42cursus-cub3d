@@ -12,6 +12,15 @@
 
 #include "cub3d.h"
 
+
+// enemy hardcode for now
+void enemy_hardcode(t_val *val)
+{
+	val->game->enemy_x = 10 * TILE + 20;
+	val->game->enemy_y = 2 * TILE + 20;
+	val->game->en.path = ft_strdup("textures/obunga.xpm");
+}
+
 int	main(int ac, char **av)
 {
 	t_val	*val;
@@ -28,6 +37,8 @@ int	main(int ac, char **av)
 	val->width = 1000;
 	val->start = 1;
 
+	//to be deleted
+	enemy_hardcode(val);
 	//to be deleted
 	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
 	// val->game->plyr_x = 1244.980347;
