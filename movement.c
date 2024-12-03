@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:57:29 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 22:00:26 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:03:53 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	empty_space(t_val val, float x, float y)
 	char	c;
 
 	c = corresponding_tile(val, x, y);
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'X')
 		return (1);
 	else if (c == 'D')
 		return (2);

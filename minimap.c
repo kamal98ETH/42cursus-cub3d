@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 20:30:28 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/24 21:31:45 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:40:02 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,17 @@ void	draw_map_from_center(t_val *val, int x, int y)
 		mini_y++;
 	}
 	// draw enemy on minimap
-	float dx = val->game->plyr_x - val->game->enemy_x;
-	float dy = val->game->plyr_y - val->game->enemy_y;
+	// float dx = val->game->plyr_x - val->game->enemy_x;
+	// float dy = val->game->plyr_y - val->game->enemy_y;
 
-	int enemy_x = MINIMAP_X / 2 - dx / TILE * scale;
-	int enemy_y = MINIMAP_Y / 2 - dy / TILE * scale;
+	// int enemy_x = MINIMAP_X / 2 - dx / TILE * scale;
+	// int enemy_y = MINIMAP_Y / 2 - dy / TILE * scale;
 
-	color_map_pixel(*val, enemy_x - 1, enemy_y, 0xffff00);
-	color_map_pixel(*val, enemy_x + 1, enemy_y, 0xffff00);
-	color_map_pixel(*val, enemy_x, enemy_y - 1, 0xffff00);
-	color_map_pixel(*val, enemy_x, enemy_y + 1, 0xffff00);
-	color_map_pixel(*val, enemy_x, enemy_y, 0xffff00);
+	// color_map_pixel(*val, enemy_x - 1, enemy_y, 0xffff00);
+	// color_map_pixel(*val, enemy_x + 1, enemy_y, 0xffff00);
+	// color_map_pixel(*val, enemy_x, enemy_y - 1, 0xffff00);
+	// color_map_pixel(*val, enemy_x, enemy_y + 1, 0xffff00);
+	// color_map_pixel(*val, enemy_x, enemy_y, 0xffff00);
 }
 
 void	draw_map(t_val *val)

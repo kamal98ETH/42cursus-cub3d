@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:02:42 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:32:14 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:02:14 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	check_map_validation(char **s, int *i)
 		while (s[*i][j])
 		{
 			if (s[*i][j] == 'S' || s[*i][j] == 'W' || s[*i][j] == 'N'\
-			|| s[*i][j] == 'E' || s[*i][j] == '0' || s[*i][j] == 'D')
+			|| s[*i][j] == 'E' || s[*i][j] == '0' || s[*i][j] == 'D' || s[*i][j] == 'X')
 			{
 				if (!(*i && valid(s[*i - 1][j]) && j && valid(s[*i][j - 1]) \
 				&& s[*i + 1] && valid(s[*i + 1][j]) && valid(s[*i][j + 1])))
 					return (-1);
-				if (s[*i][j] != '0' && s[*i][j] != 'D')
+				if (s[*i][j] != '0' && s[*i][j] != 'D' && s[*i][j] != 'X')
 					flag++;
 			}
 			else if (s[*i][j] != '1' && s[*i][j] != ' ' && s[*i][j] != '2')

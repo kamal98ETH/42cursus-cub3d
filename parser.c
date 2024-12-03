@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:43:25 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:53:38 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	map_init(t_game *map)
 	map->we.path = NULL;
 	map->dr.path = NULL;
 	map->df.path = NULL;
+	map->en.path = NULL;
 	map->map = NULL;
 }
 
@@ -86,6 +87,8 @@ void	free_map(t_game *map)
 			free(map->dr.path);
 		if (map->df.path)
 			free(map->df.path);
+		if (map->en.path)
+			free(map->en.path);
 		if (map->map)
 			free(map->map);
 		free(map);
@@ -104,29 +107,55 @@ void	get_player_direction(t_game *map, char flag)
 		map->plyr_dir = 1.5 * PI;
 }
 
-void	get_player_position(t_game *map, char **tmp)
+void	get_player_position(t_game *map)
 {
 	int		i;
 	int		j;
 
 	j = 0;
-	while (tmp[j])
+	while (map->map[j])
 	{
 		i = 0;
-		while (tmp[j][i])
+		while (map->map[j][i])
 		{
-			if (tmp[j][i] == 'N' || tmp[j][i] == 'S' \
-			|| tmp[j][i] == 'W' || tmp[j][i] == 'E')
+			if (map->map[j][i] == 'N' || map->map[j][i] == 'S' \
+			|| map->map[j][i] == 'W' || map->map[j][i] == 'E')
 			{
 				map->plyr_x = (float)(i * TILE + 20);
 				map->plyr_y = (float)(j * TILE + 20);
-				get_player_direction(map, tmp[j][i]);
+				get_player_direction(map, map->map[j][i]);
 				return ;
 			}
 			i++;
 		}
 		j++;
 	}
+}
+
+int	get_enemy_position(t_game *map)
+{
+	int		i;
+	int		j;
+	int		flag;
+
+	j = 0;
+	flag = 0;
+	while (map->map[j])
+	{
+		i = 0;
+		while (map->map[j][i])
+		{
+			if (map->map[j][i] == 'X')
+			{
+				map->enemy_x = (float)(i * TILE + 20);
+				map->enemy_y = (float)(j * TILE + 20);
+				flag++;
+			}
+			i++;
+		}
+		j++;
+	}
+	return (flag);
 }
 
 t_game	*parsing(char *filename)

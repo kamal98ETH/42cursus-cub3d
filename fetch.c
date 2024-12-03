@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:46:21 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:43:50 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	fetch_texture(t_game *map, char **elems, int flag)
 		map->dr.path = ft_strdup(elems[1]);
 	else if (flag == 6 && elems[1] && !map->df.path)
 		map->df.path = ft_strdup(elems[1]);
+	else if (flag == 7 && elems[1] && !map->en.path)
+		map->en.path = ft_strdup(elems[1]);
 	else
 		return (0);
 	return (1);
@@ -87,6 +89,8 @@ int	get_elements(t_game *map, char *str)
 		flag = fetch_texture(map, elems, 5);
 	else if (elems[0] && !ft_strncmp(elems[0], "DF", 3))
 		flag = fetch_texture(map, elems, 6);
+	else if (elems[0] && !ft_strncmp(elems[0], "X", 2))
+		flag = fetch_texture(map, elems, 7);
 	else
 		return (ft_free(elems), 0);
 	return (ft_free(elems), flag);
@@ -123,7 +127,7 @@ t_game	*data_treatment(char **arr, char *content)
 	i = 0;
 	map = malloc(sizeof(t_game));
 	map_init(map);
-	while (arr[i] && i < 8)
+	while (arr[i] && i < 9)
 	{
 		if (!get_elements(map, arr[i]))
 		{

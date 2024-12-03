@@ -6,20 +6,11 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/24 01:27:49 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:06:55 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
-// enemy hardcode for now
-void enemy_hardcode(t_val *val)
-{
-	val->game->enemy_x = 10 * TILE + 20;
-	val->game->enemy_y = 2 * TILE + 20;
-	val->game->en.path = ft_strdup("textures/obunga.xpm");
-}
 
 int	main(int ac, char **av)
 {
@@ -37,8 +28,6 @@ int	main(int ac, char **av)
 	val->width = 1000;
 	val->start = 1;
 
-	//to be deleted
-	enemy_hardcode(val);
 	//to be deleted
 	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
 	// val->game->plyr_x = 1244.980347;

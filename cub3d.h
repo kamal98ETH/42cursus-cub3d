@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/02 23:03:13 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:55:29 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,9 @@ void	open_door_nearby(t_val val);
 int		push_door_list(t_val *val, int x, int y);
 
 /* parsing .... */
-void	get_player_position(t_game *map, char **tmp);
+void	get_player_position(t_game *map);
 void	get_player_direction(t_game *map, char flag);
+int		get_enemy_position(t_game *map);
 t_game	*data_treatment(char **arr, char *content);
 char	**square_format(char **str, t_game *map);
 int		get_elements(t_game *map, char *str);
@@ -203,13 +204,11 @@ int		is_whitespace(int c);
 void	ft_free(char **arr);
 int		unique_atoi(const char *str, int *flag);
 char	*join_optclean(char *s1, char *s2, int flag);
+char	**multi_split(char const *s, char *c);
 
 /* texture functions */
 void	ft_open_textures(t_val *val);
 int		txtr_fetch(t_texture *txtr, t_ray ray, float y, float wall_height);
-
-/* split functions */
-char	**multi_split(char const *s, char *c);
 
 /* hooks */
 void	mlx_hooks(t_val *val);

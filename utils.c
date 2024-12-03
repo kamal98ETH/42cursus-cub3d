@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:08:42 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/19 05:50:00 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:58:42 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_whitespace(int c)
 int	valid(int c)
 {
 	if (c == '1' || c == '0' || c == 'S' \
-		|| c == 'W' || c == 'N' || c == 'E' || c == 'D')
+		|| c == 'W' || c == 'N' || c == 'E' || c == 'D' || c == 'X')
 		return (1);
 	return (0);
 }
