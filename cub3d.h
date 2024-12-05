@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/03 22:55:29 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:05:45 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 #define TILE 200
 #define	MSCALE 16
 #define	MVTSPEED TILE / 20
-#define	ENYSPEED TILE / 30
-#define RTTSPEED .04
+#define	ENYSPEED TILE / 26	
+#define RTTSPEED .03
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
@@ -106,14 +106,14 @@ typedef	struct s_game
 	t_texture	so;
 	t_texture	dr;
 	t_texture	df;
-	t_texture	en;  //enemy
+	t_texture	en;
 	t_col		fcol;
 	t_col		ccol;
 	float		plyr_x;
 	float		plyr_y;
-	float		enemy_x; //enemy
-	float		enemy_y; //enemy
-	float		enemy_dir; //enemy
+	float		enemy_x;
+	float		enemy_y;
+	float		enemy_dir;
 	float		plyr_dir;
 	float		dist;
 	char		**map;

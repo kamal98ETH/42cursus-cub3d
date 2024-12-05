@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:55:17 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:34:16 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:51:21 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,9 @@ int	ft_close(t_val *val)
 	return (0);
 }
 
-// int	mouse_hook(int keycode, int x, int y, t_val *val)
+// int	mouse_hook(int x, int y, t_val *val)
 // {
-// 	// printf("button: %d, x: %d, y: %d\n", keycode, x, y);
-// 	if (x < val->width)  // left
-// 		val->game->plyr_dir = 10;
-// 		// val->game->plyr_dir = limit_angle(val->game->plyr_dir + RTTSPEED);
-// 	else
-// 		val->game->plyr_dir = limit_angle(val->game->plyr_dir - RTTSPEED);
+// 	printf("button: %d, x: %d\n", x, y);
 // }
 
 void mlx_hooks(t_val *val)

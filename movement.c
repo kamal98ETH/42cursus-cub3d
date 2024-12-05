@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:57:29 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/03 23:03:53 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/04 21:35:05 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,21 @@ void	move_player(t_val *val)
 	int		tmpx;
 	int		tmpy;
 
-	mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &tmpx, &tmpy);
-
-	if (tmpx >= val->width)
-		val->game->plyr_dir = limit_angle(val->game->plyr_dir - RTTSPEED);
-	else if (tmpx <= 0)
-		val->game->plyr_dir = limit_angle(val->game->plyr_dir + RTTSPEED);
-	else if (tmpx != val->tmpx)
-		val->game->plyr_dir = limit_angle(val->game->plyr_dir + (val->tmpx - tmpx) * 0.004f);
-	mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &(val->tmpx), &(val->tmpy));
-	
 	flag = 0;
+	// mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &tmpx, &tmpy);
+	// if (tmpx >= val->width)
+	// 	val->game->plyr_dir = limit_angle(val->game->plyr_dir - RTTSPEED);
+	// else if (tmpx <= 0)
+	// 	val->game->plyr_dir = limit_angle(val->game->plyr_dir + RTTSPEED);
+	// else if (tmpx != val->tmpx)
+	// 	val->game->plyr_dir = limit_angle(val->game->plyr_dir + (val->tmpx - tmpx) * 0.004f);
+	// mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &(val->tmpx), &(val->tmpy));
 	if (val->keys[LA_K]) // left
 		val->game->plyr_dir = limit_angle(val->game->plyr_dir + RTTSPEED);
 	if (val->keys[RA_K])
 		val->game->plyr_dir = limit_angle(val->game->plyr_dir - RTTSPEED);
-
 	x = val->game->plyr_x;
 	y = val->game->plyr_y;
-
-
 	if (val->keys[W_K]) // forward 
 	{
 		// printf("forward\n");
@@ -118,26 +113,9 @@ void	move_player(t_val *val)
 		x += cos(PI /2 - val->game->plyr_dir) * MVTSPEED;
 		y += sin(PI /2 - val->game->plyr_dir) * MVTSPEED;
 	}
-	// printf("plr.x: %.2f, x: %.2f\n", val->game->plyr_x, x);
-	// printf("plr.y: %.2f, y: %.2f\n", val->game->plyr_y, y);
 	if (!flag)
 		return ;
 	apply_movement(val, x, y);
-	
-
-		
-	// if (flag)
-	// {
-	// 	printf("---- doors in the map ----\n");
-	// 	for (t_door *door = val->game->doors; door; door = door->next)
-	// 	{
-	// 		printf("door number: %p, tile x: %d, tile y: %d, state: ", door, door->tile_x, door->tile_y);
-	// 		if (door->state == OPEN)
-	// 			printf("OPEN\n");
-	// 		if (door->state == CLOSED)
-	// 			printf("CLOSED\n");
-	// }
-	// }
 }
 
 float	limit_angle(float angle)

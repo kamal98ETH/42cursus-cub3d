@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/03 23:06:55 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:49:03 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ int	main(int ac, char **av)
 	
 	door_init(val);
 	mlx_hooks(val);
+	mlx_mouse_hide(val->mlx_ptr, val->win_ptr);
+	// mlx_mouse_move(val->mlx_ptr, val->win_ptr, val->width / 2, val->height / 2);
 	mlx_loop_hook(val->mlx_ptr, render, val);
 	
-	mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &(val->tmpx), &(val->tmpy));
+
 	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
 	
 
