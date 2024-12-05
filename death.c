@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   death.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 22:58:56 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/02 23:05:47 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ been Killed! ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 
 void	check_death(t_val *val)
 {
-	float	dx;
-	float	dy;
+	double	dx;
+	double	dy;
 
 	dx = val->game->enemy_x - val->game->plyr_x;
 	dy = val->game->enemy_y - val->game->plyr_y;

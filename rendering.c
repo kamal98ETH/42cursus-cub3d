@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 15:18:07 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 22:26:46 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	color_fetched(t_val *val, t_ray ray, float y, float wall_height)
+void	reset_minimap(t_val *val)
+{
+	ft_bzero(val->map_data.img_data, MINIMAP_X * MINIMAP_Y * 4);
+}
+
+int	color_fetched(t_val *val, t_ray ray, double y, double wall_height)
 {
 	if (ray.door == 'D')
 		return (txtr_fetch(&val->game->dr, ray, y, wall_height));
@@ -28,14 +33,15 @@ int	color_fetched(t_val *val, t_ray ray, float y, float wall_height)
 		return (txtr_fetch(&val->game->we, ray, y, wall_height));
 }
 
-void	cast_and_draw(t_val *val, int x, float ray_angle)
+void	cast_and_draw(t_val *val, int x, double ray_angle)
 {
 	int		y;
-	float	wall_height;
-	float	y_top;
+	double	wall_height;
+	double	y_top;
 	t_ray	ray;
 
 	cast_ray(*val, &ray, ray_angle);
+	draw_line(*val, ray.x, ray.y, 0xFFFF00);
 	wall_height = ray.dist * cos(val->game->plyr_dir - ray_angle);
 	if (wall_height != 0)
 		wall_height = (TILE * val->height) / wall_height;
@@ -57,12 +63,12 @@ void	cast_and_draw(t_val *val, int x, float ray_angle)
 void	draw_walls(t_val *val)
 {
 	int		x;
-	float	angle_diff;
-	float	ray_angle;
+	double	angle_diff;
+	double	ray_angle;
 
 	x = 0;
 	ray_angle = val->game->plyr_dir + FOV / 2;
-	angle_diff = FOV / (float)(val->width);
+	angle_diff = FOV / (double)(val->width);
 	while (x < val->width)
 	{
 		cast_and_draw(val, x, ray_angle);
@@ -84,17 +90,17 @@ int enemy_texture_fetch(t_texture *txtr, int x, int y, int tile)
 	return (*(((int *)txtr->img.img_data) + offset));
 }
 
-int check_vision(float angle_diff)
+int check_vision(double angle_diff)
 {
 	if (angle_diff < FOV / 2)
 		return (0);
 	return (1);
 }
 
-int	get_angle_diff(t_val *val, float *angle_diff)
+int	get_angle_diff(t_val *val, double *angle_diff)
 {
-	float	angle_one;
-	float	angle_two;
+	double	angle_one;
+	double	angle_two;
 	t_ray	ray;
 
 	angle_one = val->game->plyr_dir - val->game->enemy_dir;
@@ -117,7 +123,7 @@ void	draw_enemy(t_val *val, int tile)
 	int		j;
 	int		x_start;
 	int		y_start;
-	float	angle;
+	double	angle;
 
 	y_start = val->height / 2 - tile / 2;
 	if (get_angle_diff(val, &angle))
@@ -139,14 +145,14 @@ void	draw_enemy(t_val *val, int tile)
 
 void	move_enemy(t_val *val)
 {
-	float	dx;
-	float	dy;
-	float	dist;
+	double	dx;
+	double	dy;
+	double	dist;
 
 	dx = val->game->enemy_x - val->game->plyr_x;
 	dy = val->game->enemy_y - val->game->plyr_y;
 	dist = sqrt(pow(dx, 2) + pow(dy, 2)) / TILE;
-	val->game->enemy_dir = -(float)atan2(dy, dx);
+	val->game->enemy_dir = -(double)atan2(dy, dx);
 	val->game->enemy_dir = limit_angle(val->game->enemy_dir);
 	val->game->dist = dist;
 	dx = (-dx) * (ENYSPEED / (dist * TILE));
@@ -160,6 +166,7 @@ int	render(t_val *val)
 	move_player(val);
 	move_enemy(val);
 	check_death(val);
+	reset_minimap(val);
 	draw_walls(val);
 	draw_enemy(val, val->height / val->game->dist);
 	draw_map(val);

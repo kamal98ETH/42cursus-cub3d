@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:33:19 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/11/24 01:37:57 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	txtr_fetch(t_texture *txtr, t_ray ray, float y_off, float wall_height)
+int	txtr_fetch(t_texture *txtr, t_ray ray, double y_off, double wall_height)
 {
 	int	x_off;
 	int	offset;

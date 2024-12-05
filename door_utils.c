@@ -6,13 +6,13 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 01:05:46 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/23 01:06:30 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_door	*coordinate_to_door(t_val val, float x, float y)
+t_door	*coordinate_to_door(t_val val, double x, double y)
 {
 	int		x_tile;
 	int		y_tile;

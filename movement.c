@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 09:57:29 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/04 21:35:05 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	empty_space(t_val val, float x, float y)
+int	empty_space(t_val val, double x, double y)
 {
 	char	c;
 
@@ -47,7 +47,7 @@ int	check_for_doors(t_val *val, int x, int y)
 	}
 	
 }
-void apply_movement(t_val *val, float x, float y)
+void apply_movement(t_val *val, double x, double y)
 {
 	if ((empty_space(*val, x, y) == 1 || check_for_doors(val, x, y))\
 	 && (corresponding_tile(*val, val->game->plyr_x, y) != '1'\
@@ -64,8 +64,8 @@ void apply_movement(t_val *val, float x, float y)
 
 void	move_player(t_val *val)
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 	int		flag;
 	int		tmpx;
 	int		tmpy;
@@ -118,7 +118,7 @@ void	move_player(t_val *val)
 	apply_movement(val, x, y);
 }
 
-float	limit_angle(float angle)
+double	limit_angle(double angle)
 {
 	while (angle < 0)
 		angle += 2 * PI;
@@ -150,7 +150,7 @@ void	color_game_pixel(t_val val, int x, int y, int color)
 	*(int *)(val.data.img_data + offset) = color;
 }
 
-char	corresponding_tile(t_val val, float x, float y)
+char	corresponding_tile(t_val val, double x, double y)
 {
 	int	X;
 	int	Y;

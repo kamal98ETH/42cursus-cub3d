@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/03 22:53:38 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ void	get_player_position(t_game *map)
 			if (map->map[j][i] == 'N' || map->map[j][i] == 'S' \
 			|| map->map[j][i] == 'W' || map->map[j][i] == 'E')
 			{
-				map->plyr_x = (float)(i * TILE + 20);
-				map->plyr_y = (float)(j * TILE + 20);
+				map->plyr_x = (double)(i * TILE + 20);
+				map->plyr_y = (double)(j * TILE + 20);
 				get_player_direction(map, map->map[j][i]);
 				return ;
 			}
@@ -147,8 +147,8 @@ int	get_enemy_position(t_game *map)
 		{
 			if (map->map[j][i] == 'X')
 			{
-				map->enemy_x = (float)(i * TILE + 20);
-				map->enemy_y = (float)(j * TILE + 20);
+				map->enemy_x = (double)(i * TILE + 20);
+				map->enemy_y = (double)(j * TILE + 20);
 				flag++;
 			}
 			i++;

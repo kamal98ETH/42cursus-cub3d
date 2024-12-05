@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 15:05:45 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/05 22:25:18 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@
 
 #define TILE 200
 #define	MSCALE 16
-#define	MVTSPEED TILE / 20
+#define	MVTSPEED TILE / 10
 #define	ENYSPEED TILE / 26	
 #define RTTSPEED .03
 #define PI 3.1415926535
 #define FOV PI / 3.0
 #define MINIMAP_X 200
 #define MINIMAP_Y 150
+#define FADEFACTOR 0.98
 
 #define	W_KEYCODE 119
 #define	S_KEYCODE 115
@@ -109,13 +110,13 @@ typedef	struct s_game
 	t_texture	en;
 	t_col		fcol;
 	t_col		ccol;
-	float		plyr_x;
-	float		plyr_y;
-	float		enemy_x;
-	float		enemy_y;
-	float		enemy_dir;
-	float		plyr_dir;
-	float		dist;
+	double		plyr_x;
+	double		plyr_y;
+	double		enemy_x;
+	double		enemy_y;
+	double		enemy_dir;
+	double		plyr_dir;
+	double		dist;
 	char		**map;
 	int			map_size;
 	int			map_x;
@@ -127,7 +128,7 @@ typedef struct s_ray
 {
 	double	x;
 	double	y;
-	float	dist;
+	double	dist;
 	char	dir;
 	char	door;
 }	t_ray;
@@ -151,26 +152,27 @@ typedef struct s_val
 }	t_val;
 
 void	draw_map(t_val *val);
+void	draw_line(t_val val, double endX, double endY, int color);
 int		render(t_val *val);
-float	limit_angle(float angle);
-char	corresponding_tile(t_val val, float x, float y);
-int		empty_space(t_val val, float x, float y);
+double	limit_angle(double angle);
+char	corresponding_tile(t_val val, double x, double y);
+int		empty_space(t_val val, double x, double y);
 void	color_map_pixel(t_val val, int x, int y, int color);
 void	color_game_pixel(t_val val, int x, int y, int color);
 
 void	move_player(t_val *val);
 
 /* raycasting*/
-void	right_half(t_val val, t_ray *ray, float angle, float angle_tan);
-void	left_half(t_val val, t_ray *ray, float angle, float angle_tan);
-void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan);
-void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan);
-void	cast_ray(t_val val, t_ray *ray, float angle);
+void	right_half(t_val val, t_ray *ray, double angle, double angle_tan);
+void	left_half(t_val val, t_ray *ray, double angle, double angle_tan);
+void	upper_half(t_val val, t_ray *ray, double angle, double angle_tan);
+void	lower_half(t_val val, t_ray *ray, double angle, double angle_tan);
+void	cast_ray(t_val val, t_ray *ray, double angle);
 
 /* doors*/
 int		door_init(t_val *val);
 int		clean_doors(t_door *doors);
-t_door	*coordinate_to_door(t_val val, float x, float y);
+t_door	*coordinate_to_door(t_val val, double x, double y);
 void	open_door_nearby(t_val val);
 int		push_door_list(t_val *val, int x, int y);
 
@@ -208,7 +210,7 @@ char	**multi_split(char const *s, char *c);
 
 /* texture functions */
 void	ft_open_textures(t_val *val);
-int		txtr_fetch(t_texture *txtr, t_ray ray, float y, float wall_height);
+int		txtr_fetch(t_texture *txtr, t_ray ray, double y, double wall_height);
 
 /* hooks */
 void	mlx_hooks(t_val *val);

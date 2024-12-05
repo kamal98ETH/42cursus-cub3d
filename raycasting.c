@@ -6,34 +6,51 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/22 11:13:07 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/05 22:24:49 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// void	draw_line(t_val val, float endX, float endY, int color)
-// {
-// 	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
-// 	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
-
-// 	int	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-// 	deltaX /= pixels;
-// 	deltaY /= pixels;
-// 	double	pixelX = val.game->plyr_x /MSCALE;
-// 	double	pixelY = val.game->plyr_y /MSCALE;
-// 	while (pixels)
-// 	{
-// 		color_map_pixel(val, round(pixelX), round(pixelY), color);
-// 		pixelX += deltaX;
-// 		pixelY += deltaY;
-// 		pixels--;
-// 	}
-// }
-
-void	vertical_cast(t_val val, t_ray *ray, float angle)
+void	draw_line(t_val val, double endX, double endY, int color)
 {
-	float	angle_tan;
+	double	start_x = MINIMAP_X /2;
+	double	start_y = MINIMAP_Y /2;
+	
+	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
+	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
+
+	int	pixels = ceil(sqrt((deltaX * deltaX) + (deltaY * deltaY)));
+	deltaX /= pixels;
+	deltaY /= pixels;
+
+	// Extract color components
+    int red = (color >> 16) & 0xFF;
+    int green = (color >> 8) & 0xFF;
+    int blue = color & 0xFF;
+
+    while (pixels)
+    {
+		if (start_x < 0 || start_x >= MINIMAP_X || start_y < 0 || start_y >= MINIMAP_Y)
+			return ;
+        // Reduce color intensity for fading
+        red *= FADEFACTOR;
+        green *= FADEFACTOR;
+        blue *= FADEFACTOR;
+
+        // Recombine the faded color
+        int faded_color = (red << 16) | (green << 8) | blue;
+
+        color_map_pixel(val, ceil(start_x), ceil(start_y), faded_color);
+        start_x += deltaX;
+        start_y += deltaY;
+        pixels--;
+    }
+}
+
+void	vertical_cast(t_val val, t_ray *ray, double angle)
+{
+	double	angle_tan;
 
 	angle_tan = tan(angle);
 	if (cos(angle) <= 1.0 && cos(angle) > 0)
@@ -49,9 +66,9 @@ void	vertical_cast(t_val val, t_ray *ray, float angle)
 			+ pow(ray->y - val.game->plyr_y, 2));
 }
 
-void	horizontal_cast(t_val val, t_ray *ray, float angle)
+void	horizontal_cast(t_val val, t_ray *ray, double angle)
 {
-	float	angle_tan;
+	double	angle_tan;
 
 	angle_tan = 1 / tan(angle);
 	if (sin(angle) <= 1.0 && sin(angle) > 0)
@@ -67,7 +84,7 @@ void	horizontal_cast(t_val val, t_ray *ray, float angle)
 			+ pow(ray->y - val.game->plyr_y, 2));
 }
 
-void	cast_ray(t_val val, t_ray *ray, float angle)
+void	cast_ray(t_val val, t_ray *ray, double angle)
 {
 	t_ray	h_ray;
 	t_ray	v_ray;

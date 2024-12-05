@@ -6,16 +6,16 @@
 /*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 02:44:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/11/22 11:12:19 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:14:42 by kez-zoub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	right_half(t_val val, t_ray *ray, float angle, float angle_tan)
+void	right_half(t_val val, t_ray *ray, double angle, double angle_tan)
 {
-	float	xo;
-	float	yo;
+	double	xo;
+	double	yo;
 	t_door	*door;
 
 	ray->dir = 'E';
@@ -41,10 +41,10 @@ void	right_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		ray->door = 'd';
 }
 
-void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
+void	left_half(t_val val, t_ray *ray, double angle, double angle_tan)
 {
-	float	xo;
-	float	yo;
+	double	xo;
+	double	yo;
 	t_door	*door;
 
 	ray->dir = 'W';
@@ -53,9 +53,9 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	ray->y = val.game->plyr_y + (val.game->plyr_x - ray->x) * angle_tan;
 	xo = -TILE;
 	yo = TILE * angle_tan;
-	while (empty_space(val, ray->x - 0.1, ray->y))
+	while (empty_space(val, ray->x - 1, ray->y))
 	{
-		door = coordinate_to_door(val, ray->x - 0.1, ray->y);
+		door = coordinate_to_door(val, ray->x - 1, ray->y);
 		if (door && door->state == CLOSED)
 		{
 			ray->x -= TILE / 2;
@@ -70,10 +70,10 @@ void	left_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		ray->door = 'd';
 }
 
-void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
+void	upper_half(t_val val, t_ray *ray, double angle, double angle_tan)
 {
-	float	xo;
-	float	yo;
+	double	xo;
+	double	yo;
 	t_door	*door;
 
 	ray->dir = 'N';
@@ -82,9 +82,9 @@ void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
 	ray->x = val.game->plyr_x + (val.game->plyr_y - ray->y) * angle_tan;
 	yo = -TILE;
 	xo = TILE * angle_tan;
-	while (empty_space(val, ray->x, ray->y - 0.1))
+	while (empty_space(val, ray->x, ray->y - 1))
 	{
-		door = coordinate_to_door(val, ray->x, ray->y - 0.1);
+		door = coordinate_to_door(val, ray->x, ray->y - 1);
 		if (door && door->state == CLOSED)
 		{
 			ray->x += TILE / 2 * angle_tan;
@@ -99,10 +99,10 @@ void	upper_half(t_val val, t_ray *ray, float angle, float angle_tan)
 		ray->door = 'd';
 }
 
-void	lower_half(t_val val, t_ray *ray, float angle, float angle_tan)
+void	lower_half(t_val val, t_ray *ray, double angle, double angle_tan)
 {
-	float	xo;
-	float	yo;
+	double	xo;
+	double	yo;
 	t_door	*door;
 
 	ray->dir = 'S';
