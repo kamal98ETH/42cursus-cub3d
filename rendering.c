@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 22:26:46 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:10:48 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	cast_and_draw(t_val *val, int x, double ray_angle)
 	draw_line(*val, ray.x, ray.y, 0xFFFF00);
 	wall_height = ray.dist * cos(val->game->plyr_dir - ray_angle);
 	if (wall_height != 0)
-		wall_height = (TILE * val->height) / wall_height;
-	y_top = (val->height / 2) - (wall_height / 2);
+		wall_height = (TILE * HEIGHT) / wall_height;
+	y_top = (HEIGHT / 2) - (wall_height / 2);
 	y = 0;
-	while (y < val->height)
+	while (y < HEIGHT)
 	{
 		if (y < y_top + wall_height && y > y_top)
 			color_game_pixel(*val, x, y,
@@ -68,8 +68,8 @@ void	draw_walls(t_val *val)
 
 	x = 0;
 	ray_angle = val->game->plyr_dir + FOV / 2;
-	angle_diff = FOV / (double)(val->width);
-	while (x < val->width)
+	angle_diff = FOV / (double)(WIDTH);
+	while (x < WIDTH)
 	{
 		cast_and_draw(val, x, ray_angle);
 		ray_angle = ray_angle - angle_diff;
@@ -78,10 +78,10 @@ void	draw_walls(t_val *val)
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr, val->img_ptr, 0, 0);
 }
 
-int enemy_texture_fetch(t_texture *txtr, int x, int y, int tile)
+int	enemy_texture(t_texture *txtr, int x, int y, int tile)
 {
-	int x_off;
-	int y_off;
+	int	x_off;
+	int	y_off;
 	int	offset;
 
 	x_off = x * txtr->width / tile;
@@ -90,7 +90,7 @@ int enemy_texture_fetch(t_texture *txtr, int x, int y, int tile)
 	return (*(((int *)txtr->img.img_data) + offset));
 }
 
-int check_vision(double angle_diff)
+int	check_vision(double angle_diff)
 {
 	if (angle_diff < FOV / 2)
 		return (0);
@@ -125,10 +125,10 @@ void	draw_enemy(t_val *val, int tile)
 	int		y_start;
 	double	angle;
 
-	y_start = val->height / 2 - tile / 2;
+	y_start = HEIGHT / 2 - tile / 2;
 	if (get_angle_diff(val, &angle))
 		return ;
-	x_start = val->width / 2 + (val->width / 2) * (angle / (FOV / 2)) - tile / 2;
+	x_start = WIDTH / 2 * (1 + (angle / (FOV / 2))) - tile / 2;
 	i = x_start;
 	while (i < x_start + tile) 
 	{
@@ -136,7 +136,7 @@ void	draw_enemy(t_val *val, int tile)
 		while (j < y_start + tile)
 		{
 			color_game_pixel(*val, i, j, \
-			enemy_texture_fetch(&val->game->en, i - x_start, j - y_start, tile));
+			enemy_texture(&val->game->en, i - x_start, j - y_start, tile));
 			j++;
 		}
 		i++;
@@ -147,18 +147,18 @@ void	move_enemy(t_val *val)
 {
 	double	dx;
 	double	dy;
-	double	dist;
+	double	angle;
 
 	dx = val->game->enemy_x - val->game->plyr_x;
 	dy = val->game->enemy_y - val->game->plyr_y;
-	dist = sqrt(pow(dx, 2) + pow(dy, 2)) / TILE;
+	val->game->dist = sqrt(pow(dx, 2) + pow(dy, 2)) / TILE;
 	val->game->enemy_dir = -(double)atan2(dy, dx);
 	val->game->enemy_dir = limit_angle(val->game->enemy_dir);
-	val->game->dist = dist;
-	dx = (-dx) * (ENYSPEED / (dist * TILE));
-	dy = (-dy) * (ENYSPEED / (dist * TILE));
-	val->game->enemy_x += dx;
-	val->game->enemy_y += dy;
+	dx = (-dx) * (ENYSPEED / (val->game->dist * TILE));
+	dy = (-dy) * (ENYSPEED / (val->game->dist * TILE));
+	dx = val->game->enemy_x + dx;
+	dy = val->game->enemy_y + dy;
+	apply_movement(val, dx, dy, 1);
 }
 
 int	render(t_val *val)
@@ -168,7 +168,7 @@ int	render(t_val *val)
 	check_death(val);
 	reset_minimap(val);
 	draw_walls(val);
-	draw_enemy(val, val->height / val->game->dist);
+	draw_enemy(val, HEIGHT / val->game->dist);
 	draw_map(val);
 	return (0);
 }

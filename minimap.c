@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 20:30:28 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 21:51:40 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/06 10:27:54 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	draw_map(t_val *val)
 		mini_y++;
 	}
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr,
-			val->img_map_ptr, 10, val->height -10 - MINIMAP_Y);
+			val->img_map_ptr, 10, HEIGHT -10 - MINIMAP_Y);
 }

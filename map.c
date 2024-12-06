@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/03 23:00:27 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 10:24:51 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ char	*get_data(char *str)
 void	handle_map_error(int flag)
 {
 	if (flag == -7)
-		printf("\e[31m>> [TEXTURE ERORR] You need enemy start position!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] nUnknown enemy position!\e[0m \n");
 	else if (flag == -6)
-		printf("\e[31m>> [TEXTURE ERORR] Illogical door placment!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Illogical door placment!\e[0m \n");
 	else if (flag == -5)
 		printf("\e[31m>> [TEXTURE ERORR] Only .xpm file!\e[0m \n");
 	else if (flag == -4)
 		printf("\e[31m>> [PARSING ERORR] Bad element!\e[0m \n");
 	else if (flag == -3)
-		printf("\e[31m>> [PARSING ERORR] Missing elements!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Map data not found!\e[0m \n");
 	else if (flag == -2)
 		printf("\e[31m>> [PARSING ERORR] Empty line in map!\e[0m \n");
 	else if (flag == -1)
@@ -142,15 +142,14 @@ t_game	*get_map(char **str, char *content, t_game *map)
 	i = 0;
 	tmp = ft_strnstr(content, str[0], ft_strlen(content));
 	if (ft_strnstr(tmp, "\n\n", ft_strlen(tmp)))
-		return (free(map), handle_map_error(-2), NULL);
+		return (free_map(map), handle_map_error(-2), NULL);
 	str = square_format(str, map);
 	flag = check_map_validation(str, &i);
-	if (flag != 1 || check_door_logic(str, &flag))
-		return (free(map), handle_map_error(flag), NULL);
 	map->map = str;
+	if (flag != 1 || check_door_logic(str, &flag))
+		return (free_map(map), handle_map_error(flag), NULL);
 	get_player_position(map);
-	// printf("player x: %f, player y: %f\n", map->plyr_x, map->plyr_y);
 	if (get_enemy_position(map) != 1)
-		return (free(map), handle_map_error(0), NULL);
+		return (free_map(map), handle_map_error(0), NULL);
 	return (map);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 22:25:18 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:04:10 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@
 #include <stdio.h>	
 #include <limits.h>
 
+#define HEIGHT 800
+#define WIDTH 1000
+
 #define TILE 200
-#define	MSCALE 16
-#define	MVTSPEED TILE / 10
-#define	ENYSPEED TILE / 26	
+#define	MSCALE 20
+#define	MVTSPEED TILE / 20
+#define	ENYSPEED TILE / 22	
 #define RTTSPEED .03
 #define PI 3.1415926535
 #define FOV PI / 3.0
@@ -141,12 +144,8 @@ typedef struct s_val
 	void	*img_map_ptr;
 	t_data	data;
 	t_data	map_data;
-	int		width;
-	int		height;
 	t_game	*game;
 	int		keys[6];
-	int		start;
-
 	int		tmpx;
 	int		tmpy;
 }	t_val;
@@ -216,5 +215,11 @@ int		txtr_fetch(t_texture *txtr, t_ray ray, double y, double wall_height);
 void	mlx_hooks(t_val *val);
 
 void	check_death(t_val *val);
+
+void	apply_movement(t_val *val, double x, double y, int flag);
+
+void	img_destructor(void *mlx_ptr, void *img_ptr);
+
+void	ft_clean(t_val *val);
 
 #endif

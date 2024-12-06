@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/06 11:47:11 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	map_init(t_game *map)
 	map->fcol.stat = 0;
 	map->plyr_x = 0;
 	map->plyr_y = 0;
+	map->enemy_x = 0;
+	map->enemy_y = 0;
 	map->map_x = 0;
 	map->map_y = 0;
 	map->no.path = NULL;
@@ -90,7 +92,7 @@ void	free_map(t_game *map)
 		if (map->en.path)
 			free(map->en.path);
 		if (map->map)
-			free(map->map);
+			ft_free(map->map);
 		free(map);
 	}
 }
@@ -121,8 +123,8 @@ void	get_player_position(t_game *map)
 			if (map->map[j][i] == 'N' || map->map[j][i] == 'S' \
 			|| map->map[j][i] == 'W' || map->map[j][i] == 'E')
 			{
-				map->plyr_x = (double)(i * TILE + 20);
-				map->plyr_y = (double)(j * TILE + 20);
+				map->plyr_x = (double)(i * TILE + TILE / 2);
+				map->plyr_y = (double)(j * TILE + TILE / 2);
 				get_player_direction(map, map->map[j][i]);
 				return ;
 			}
@@ -147,8 +149,8 @@ int	get_enemy_position(t_game *map)
 		{
 			if (map->map[j][i] == 'X')
 			{
-				map->enemy_x = (double)(i * TILE + 20);
-				map->enemy_y = (double)(j * TILE + 20);
+				map->enemy_x = (double)(i * TILE + TILE / 2);;
+				map->enemy_y = (double)(j * TILE + TILE / 2);;
 				flag++;
 			}
 			i++;
@@ -175,6 +177,5 @@ t_game	*parsing(char *filename)
 	free(tmp);
 	if (!map)
 		return (NULL);
-	affmap(map);
 	return (map);
 }

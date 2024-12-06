@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/03 22:43:50 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 10:25:45 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,15 @@ t_game	*data_treatment(char **arr, char *content)
 
 	i = 0;
 	map = malloc(sizeof(t_game));
+	if (!map)
+		return (NULL);
 	map_init(map);
 	while (arr[i] && i < 9)
 	{
 		if (!get_elements(map, arr[i]))
 		{
 			printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-			return (free(map), NULL);
+			return (free_map(map), NULL);
 		}
 		i++;
 	}
@@ -144,5 +146,5 @@ t_game	*data_treatment(char **arr, char *content)
 		handle_map_error(-3);
 	else
 		handle_map_error(-4);
-	return (free_map(map), NULL); // potonial leak in texture paths string
+	return (free_map(map), NULL);
 }

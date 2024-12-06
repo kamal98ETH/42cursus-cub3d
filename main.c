@@ -6,11 +6,85 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 14:49:03 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 11:54:48 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	img_destructor(void *mlx_ptr, void *img_ptr)
+{
+	if (img_ptr)
+		mlx_destroy_image(mlx_ptr, img_ptr);
+}
+
+void	ft_clean(t_val *val)
+{
+	img_destructor(val->mlx_ptr, val->game->no.img.img);
+	img_destructor(val->mlx_ptr, val->game->so.img.img);
+	img_destructor(val->mlx_ptr, val->game->ea.img.img);
+	img_destructor(val->mlx_ptr, val->game->we.img.img);
+	img_destructor(val->mlx_ptr, val->game->dr.img.img);
+	img_destructor(val->mlx_ptr, val->game->df.img.img);
+	img_destructor(val->mlx_ptr, val->game->en.img.img);
+	img_destructor(val->mlx_ptr, val->img_ptr);
+	img_destructor(val->mlx_ptr, val->img_map_ptr);
+	mlx_destroy_window(val->mlx_ptr, val->win_ptr);
+	mlx_destroy_display(val->mlx_ptr);
+	clean_doors(val->game->doors);
+	free_map(val->game);
+	free(val->mlx_ptr);
+	free(val);
+}
+
+t_val	*val_init(char *filename)
+{
+	t_val	*val;
+
+	val = (t_val *)malloc(sizeof(t_val));
+	if (!val)
+		return (NULL);
+	val->mlx_ptr = NULL;
+	val->win_ptr = NULL;
+	val->img_ptr = NULL;
+	val->img_map_ptr = NULL;
+	val->keys[0] = 0;
+	val->keys[1] = 0;
+	val->keys[2] = 0;
+	val->keys[3] = 0;
+	val->keys[4] = 0;
+	val->keys[5] = 0;
+	val->tmpx = 0;
+	val->tmpy = 0;
+	val->game = parsing(filename);
+	if (!val->game)
+		return (free(val), NULL);
+	return (val);
+}
+
+t_val	*loading(char *filename)
+{
+	t_val	*val;
+
+	val = val_init(filename);
+	if (!val)
+		return (NULL);
+	val->mlx_ptr = mlx_init();
+	if (!val->mlx_ptr)
+		return (free(val), NULL);
+	val->win_ptr = mlx_new_window(val->mlx_ptr, WIDTH, HEIGHT, "cub3D");
+	if (!val->win_ptr)
+		return (mlx_destroy_display(val->mlx_ptr), free(val), NULL);
+	val->img_ptr = mlx_new_image(val->mlx_ptr, WIDTH, HEIGHT);
+	val->img_map_ptr = mlx_new_image(val->mlx_ptr, MINIMAP_X, MINIMAP_Y);
+	if (!val->img_ptr || !val->img_map_ptr)
+		return (ft_clean(val), NULL);
+	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
+	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
+	ft_open_textures(val);
+	door_init(val);
+	return (val);
+}
 
 int	main(int ac, char **av)
 {
@@ -18,59 +92,14 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (printf("usage:\n\t./cub3d <map filename>\n"), 1);
-	val = (t_val *)malloc(sizeof(t_val));
+	val = loading(av[1]);
 	if (!val)
 		return (1);
-	val->game = parsing(av[1]);
-	if (!val->game)
-		return (free(val), 1);
-	val->height = 800;
-	val->width = 1000;
-	val->start = 1;
-
-	//to be deleted
-	// printf("map x: %d, map y: %d\n", val->game->map_x, val->game->map_y);
-	// val->game->plyr_x = 1244.980347;
-	// val->game->plyr_y = 2805.075684;
-	// val->game->plyr_dir = 1.372170 * PI;
-
-	int i = 0;
-	while (i < 6)
-		val->keys[i++] = 0;
-
-	if (!val->game->map)
-	{
-		free(val->game);
-		free(val);
-		return (1);
-	}
-	val->mlx_ptr = mlx_init(); // check if these fail
-	val->win_ptr = mlx_new_window(val->mlx_ptr, val->width, val->height, "cub3D");
-	val->img_ptr = mlx_new_image(val->mlx_ptr, val->width, val->height);
-	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
-	val->img_map_ptr = mlx_new_image(val->mlx_ptr, MINIMAP_X, MINIMAP_Y);
-	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
-	
-	ft_open_textures(val);
-	
-	door_init(val);
 	mlx_hooks(val);
-	mlx_mouse_hide(val->mlx_ptr, val->win_ptr);
-	// mlx_mouse_move(val->mlx_ptr, val->win_ptr, val->width / 2, val->height / 2);
+	mlx_mouse_move(val->mlx_ptr, val->win_ptr, WIDTH / 2, HEIGHT / 2);
+	mlx_mouse_get_pos(val->mlx_ptr, val->win_ptr, &(val->tmpx), &(val->tmpy));
 	mlx_loop_hook(val->mlx_ptr, render, val);
-	
-
-	// printf("player init coordinates: x: %f, y: %f\n", val->game->plyr_x, val->game->plyr_y);
-	
-
 	mlx_loop(val->mlx_ptr);
-	mlx_destroy_image(val->mlx_ptr, val->img_ptr);
-	mlx_destroy_image(val->mlx_ptr, val->img_map_ptr);
-	mlx_destroy_window(val->mlx_ptr, val->win_ptr);
-	mlx_destroy_display(val->mlx_ptr);
-	free_map(val->game);
-	free(val->mlx_ptr);
-	clean_doors(val->game->doors);
-	free(val);
+	ft_clean(val);
 	return (0);
 }
