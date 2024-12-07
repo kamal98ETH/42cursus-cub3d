@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/07 11:04:35 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 12:04:26 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@
 # define WIDTH 1000
 
 # define TILE 200
-# define MSCALE 20
-# define MVTSPEED 30
-# define ENYSPEED 20
-# define RTTSPEED .03
+# define MSCALE 10
+# define MVTSPEED 22
+# define ENYSPEED 14
+# define RTTSPEED .04
 # define PI 3.1415926535
 # define FOV 1.0471975512
 # define MINIMAP_X 200
 # define MINIMAP_Y 150
-# define FADEFACTOR 0.9
+# define FADEFACTOR 0.95
 
 # define W_KEYCODE 119
 # define S_KEYCODE 115
@@ -160,6 +160,7 @@ void	color_game_pixel(t_val val, int x, int y, int color);
 void	move_player(t_val *val);
 void	move_enemy(t_val *val);
 void	apply_movement(t_val *val, double x, double y, int flag);
+void	angle_movement(t_val *val);
 void	check_death(t_val *val);
 
 /* raycasting*/

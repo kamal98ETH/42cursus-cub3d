@@ -6,11 +6,24 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:16:00 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 17:20:11 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 12:08:58 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	near_wall(t_val *val, double x, double y)
+{
+	int	factor;
+
+	factor = TILE / 10;
+	if (corresponding_tile(*val, x + factor, y) == '1'
+		|| corresponding_tile(*val, x - factor, y) == '1'
+		|| corresponding_tile(*val, x, y + factor) == '1'
+		|| corresponding_tile(*val, x, y - factor) == '1')
+		return (0);
+	return (1);
+}
 
 void	apply_movement(t_val *val, double x, double y, int flag)
 {
@@ -24,18 +37,19 @@ void	apply_movement(t_val *val, double x, double y, int flag)
 		x_corr = &(val->game->enemy_x);
 		y_corr = &(val->game->enemy_y);
 	}
-	if ((empty_space(*val, x, y) == 1 || check_for_doors(val, x, y, flag)) \
-	&& (corresponding_tile(*val, *x_corr, y) != '1' \
-	|| corresponding_tile(*val, x, *y_corr) != '1'))
+	if ((empty_space(*val, x, y) == 1 || check_for_doors(val, x, y, flag))
+		&& (corresponding_tile(*val, *x_corr, y) != '1'
+			|| corresponding_tile(*val, x, *y_corr) != '1')
+		&& near_wall(val, x, y))
 	{
 		*x_corr = x;
 		*y_corr = y;
 	}
-	else if ((empty_space(*val, x, *y_corr) == '1'
-			|| check_for_doors(val, x, *y_corr, flag)))
+	else if ((empty_space(*val, x, *y_corr) == 1 || check_for_doors \
+		(val, x, *y_corr, flag)) && near_wall(val, x, *y_corr))
 		*x_corr = x;
-	else if ((empty_space(*val, *x_corr, y) == '1'
-			|| check_for_doors(val, *x_corr, y, flag)))
+	else if ((empty_space(*val, *x_corr, y) == 1 || check_for_doors \
+		(val, *x_corr, y, flag)) && near_wall(val, *x_corr, y))
 		*y_corr = y;
 }
 
