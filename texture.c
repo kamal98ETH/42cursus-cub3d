@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:33:19 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 11:46:20 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:19:25 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ int	txtr_fetch(t_texture *txtr, t_ray ray, double y_off, double wall_height)
 		x_off = TILE - ((int)ray.x % TILE);
 	x_off = x_off * txtr->width / TILE;
 	y_off = y_off * txtr->height / wall_height;
+	offset = (int)y_off * txtr->width + x_off;
+	return (*(((int *)txtr->img.img_data) + offset));
+}
+
+int	enemy_texture(t_texture *txtr, int x, int y, int tile)
+{
+	int	x_off;
+	int	y_off;
+	int	offset;
+
+	x_off = x * txtr->width / tile;
+	y_off = y * txtr->height / tile;
 	offset = (int)y_off * txtr->width + x_off;
 	return (*(((int *)txtr->img.img_data) + offset));
 }

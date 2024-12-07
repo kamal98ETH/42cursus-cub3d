@@ -6,95 +6,37 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 11:47:11 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:15:24 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
-void affmap(t_game *map)
+int	map_init(t_game **map)
 {
-	printf("\n------------------------------ affichage -------------------------------\n");
-	if(map)
-	{
-		if (map->ccol.stat)
-			printf("ccol: %x\n", map->ccol.hexacode);
-		if (map->ccol.stat)
-			printf("fcol: %x\n", map->fcol.hexacode);
-		if (map->no.path)
-			printf("NO: %s\n", map->no.path);
-		if (map->so.path)
-			printf("SO: %s\n", map->so.path);
-		if (map->ea.path)
-			printf("EA: %s\n", map->ea.path);
-		if (map->we.path)
-			printf("WE: %s\n", map->we.path);
-		if (map->dr.path)
-			printf("DR: %s\n", map->dr.path);
-		if (map->df.path)
-			printf("DF: %s\n", map->df.path);
-		printf("POS: %.2f , %.2f\n", map->plyr_x, map->plyr_y);
-		printf("DIR: %.2f\n", map->plyr_dir);
-		printf("--------------------------------- map ----------------------------------\n");
-		if (map->map)
-			{
-				int i = 0;
-				while(map->map[i])
-				{
-					printf("%s\n", map->map[i]);
-					i++;
-				}
-			}
-		else
-			printf("No map found!\n");
-	}
-}
-/*------------------------------------------------------------------------------    TO BE DELETED      <-------*/
+	t_game	*tmp;
 
-void	map_init(t_game *map)
-{
-	map->ccol.stat = 0;
-	map->fcol.stat = 0;
-	map->plyr_x = 0;
-	map->plyr_y = 0;
-	map->enemy_x = 0;
-	map->enemy_y = 0;
-	map->map_x = 0;
-	map->map_y = 0;
-	map->no.path = NULL;
-	map->ea.path = NULL;
-	map->so.path = NULL;
-	map->we.path = NULL;
-	map->dr.path = NULL;
-	map->df.path = NULL;
-	map->en.path = NULL;
-	map->map = NULL;
-}
-
-void	free_map(t_game *map)
-{
-	if (map)
-	{
-		if (map->no.path)
-			free(map->no.path);
-		if (map->so.path)
-			free(map->so.path);
-		if (map->ea.path)
-			free(map->ea.path);
-		if (map->we.path)
-			free(map->we.path);
-		if (map->dr.path)
-			free(map->dr.path);
-		if (map->df.path)
-			free(map->df.path);
-		if (map->en.path)
-			free(map->en.path);
-		if (map->map)
-			ft_free(map->map);
-		free(map);
-	}
+	tmp = (t_game *)malloc(sizeof(t_game));
+	if (!tmp)
+		return (1);
+	tmp->ccol.stat = 0;
+	tmp->fcol.stat = 0;
+	tmp->plyr_x = 0;
+	tmp->plyr_y = 0;
+	tmp->enemy_x = 0;
+	tmp->enemy_y = 0;
+	tmp->map_x = 0;
+	tmp->map_y = 0;
+	tmp->no.path = NULL;
+	tmp->ea.path = NULL;
+	tmp->so.path = NULL;
+	tmp->we.path = NULL;
+	tmp->dr.path = NULL;
+	tmp->df.path = NULL;
+	tmp->en.path = NULL;
+	tmp->map = NULL;
+	*map = tmp;
+	return (0);
 }
 
 void	get_player_direction(t_game *map, char flag)
@@ -111,8 +53,8 @@ void	get_player_direction(t_game *map, char flag)
 
 void	get_player_position(t_game *map)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	j = 0;
 	while (map->map[j])
@@ -149,8 +91,8 @@ int	get_enemy_position(t_game *map)
 		{
 			if (map->map[j][i] == 'X')
 			{
-				map->enemy_x = (double)(i * TILE + TILE / 2);;
-				map->enemy_y = (double)(j * TILE + TILE / 2);;
+				map->enemy_x = (double)(i * TILE + TILE / 2);
+				map->enemy_y = (double)(j * TILE + TILE / 2);
 				flag++;
 			}
 			i++;

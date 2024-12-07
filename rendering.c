@@ -6,32 +6,11 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/06 12:10:48 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:51:48 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	reset_minimap(t_val *val)
-{
-	ft_bzero(val->map_data.img_data, MINIMAP_X * MINIMAP_Y * 4);
-}
-
-int	color_fetched(t_val *val, t_ray ray, double y, double wall_height)
-{
-	if (ray.door == 'D')
-		return (txtr_fetch(&val->game->dr, ray, y, wall_height));
-	if (ray.door == 'd')
-		return (txtr_fetch(&val->game->df, ray, y, wall_height));
-	if (ray.dir == 'N')
-		return (txtr_fetch(&val->game->no, ray, y, wall_height));
-	if (ray.dir == 'S')
-		return (txtr_fetch(&val->game->so, ray, y, wall_height));
-	if (ray.dir == 'E')
-		return (txtr_fetch(&val->game->ea, ray, y, wall_height));
-	if (ray.dir == 'W')
-		return (txtr_fetch(&val->game->we, ray, y, wall_height));
-}
 
 void	cast_and_draw(t_val *val, int x, double ray_angle)
 {
@@ -78,25 +57,6 @@ void	draw_walls(t_val *val)
 	mlx_put_image_to_window(val->mlx_ptr, val->win_ptr, val->img_ptr, 0, 0);
 }
 
-int	enemy_texture(t_texture *txtr, int x, int y, int tile)
-{
-	int	x_off;
-	int	y_off;
-	int	offset;
-
-	x_off = x * txtr->width / tile;
-	y_off = y * txtr->height / tile;
-	offset = (int)y_off * txtr->width + x_off;
-	return (*(((int *)txtr->img.img_data) + offset));
-}
-
-int	check_vision(double angle_diff)
-{
-	if (angle_diff < FOV / 2)
-		return (0);
-	return (1);
-}
-
 int	get_angle_diff(t_val *val, double *angle_diff)
 {
 	double	angle_one;
@@ -112,7 +72,7 @@ int	get_angle_diff(t_val *val, double *angle_diff)
 		*angle_diff = angle_one;
 	else
 		*angle_diff = angle_two;
-	if (ray.dist < val->game->dist * TILE || check_vision(*angle_diff))
+	if (ray.dist < val->game->dist * TILE || *angle_diff > FOV / 2)
 		return (1);
 	return (0);
 }
@@ -130,7 +90,7 @@ void	draw_enemy(t_val *val, int tile)
 		return ;
 	x_start = WIDTH / 2 * (1 + (angle / (FOV / 2))) - tile / 2;
 	i = x_start;
-	while (i < x_start + tile) 
+	while (i < x_start + tile)
 	{
 		j = y_start;
 		while (j < y_start + tile)
@@ -143,30 +103,12 @@ void	draw_enemy(t_val *val, int tile)
 	}
 }
 
-void	move_enemy(t_val *val)
-{
-	double	dx;
-	double	dy;
-	double	angle;
-
-	dx = val->game->enemy_x - val->game->plyr_x;
-	dy = val->game->enemy_y - val->game->plyr_y;
-	val->game->dist = sqrt(pow(dx, 2) + pow(dy, 2)) / TILE;
-	val->game->enemy_dir = -(double)atan2(dy, dx);
-	val->game->enemy_dir = limit_angle(val->game->enemy_dir);
-	dx = (-dx) * (ENYSPEED / (val->game->dist * TILE));
-	dy = (-dy) * (ENYSPEED / (val->game->dist * TILE));
-	dx = val->game->enemy_x + dx;
-	dy = val->game->enemy_y + dy;
-	apply_movement(val, dx, dy, 1);
-}
-
 int	render(t_val *val)
 {
 	move_player(val);
 	move_enemy(val);
 	check_death(val);
-	reset_minimap(val);
+	ft_bzero(val->map_data.img_data, MINIMAP_X * MINIMAP_Y * 4);
 	draw_walls(val);
 	draw_enemy(val, HEIGHT / val->game->dist);
 	draw_map(val);

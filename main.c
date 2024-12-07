@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/06 11:54:48 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:09:18 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ t_val	*loading(char *filename)
 	val->img_map_ptr = mlx_new_image(val->mlx_ptr, MINIMAP_X, MINIMAP_Y);
 	if (!val->img_ptr || !val->img_map_ptr)
 		return (ft_clean(val), NULL);
-	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), &(val->data.sline), &(val->data.endian));
-	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, &(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
+	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), \
+		&(val->data.sline), &(val->data.endian));
+	val->map_data.img_data = mlx_get_data_addr(val->img_map_ptr, \
+		&(val->map_data.bpp), &(val->map_data.sline), &(val->map_data.endian));
 	ft_open_textures(val);
 	door_init(val);
 	return (val);

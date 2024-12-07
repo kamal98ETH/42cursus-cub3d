@@ -10,7 +10,8 @@ COMPILER = cc
 FLAGS = -g
 # FLAGS	=	-fsanitize=address -g3
 
-SRCS = main.c raycasting.c circle_halves.c rendering.c door.c door_utils.c minimap.c parser.c fetch.c map.c split.c utils.c checks.c texture.c multi_split.c  movement.c hooks.c death.c
+SRCS = main.c raycasting.c circle_halves.c rendering.c door.c door_utils.c minimap.c parser.c \
+ fetch.c map.c split.c utils.c checks.c color.c texture.c multi_split.c clean.c movement.c mov_utils.c hooks.c death.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -33,12 +34,12 @@ $(LIBFT):
 
 clean:
 		rm -f $(OBJS)
-		$(MAKE) -C MiniLibX clean
-		$(MAKE) -C libft clean
+		# $(MAKE) -C MiniLibX clean  		# uncomment to clean minilibx
+		# $(MAKE) -C libft clean     		# uncomment to clean libft
 
 fclean: clean
 		rm -f $(NAME)
-		rm -f $(LIBFT)
+		# rm -f $(LIBFT) 			 		# uncomment to clean libft
 
 re: fclean all
 

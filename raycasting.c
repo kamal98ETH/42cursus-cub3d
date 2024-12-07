@@ -3,49 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:45:51 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 22:24:49 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:54:39 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+int	faded_color(int color)
+{
+	int	red;
+	int	green;
+	int	blue;
+
+	red = (color >> 16) & 0xFF;
+	green = (color >> 8) & 0xFF;
+	blue = color & 0xFF;
+	red *= FADEFACTOR;
+	green *= FADEFACTOR;
+	blue *= FADEFACTOR;
+	return ((red << 16) | (green << 8) | blue);
+}
+
 void	draw_line(t_val val, double endX, double endY, int color)
 {
-	double	start_x = MINIMAP_X /2;
-	double	start_y = MINIMAP_Y /2;
-	
-	double	deltaX = (endX - val.game->plyr_x) /MSCALE;
-	double	deltaY = (endY - val.game->plyr_y) /MSCALE;
+	double	start_x;
+	double	start_y;
+	double	delta_x;
+	double	delta_y;
+	int		pixels;
 
-	int	pixels = ceil(sqrt((deltaX * deltaX) + (deltaY * deltaY)));
-	deltaX /= pixels;
-	deltaY /= pixels;
-
-	// Extract color components
-    int red = (color >> 16) & 0xFF;
-    int green = (color >> 8) & 0xFF;
-    int blue = color & 0xFF;
-
-    while (pixels)
-    {
-		if (start_x < 0 || start_x >= MINIMAP_X || start_y < 0 || start_y >= MINIMAP_Y)
+	start_x = MINIMAP_X / 2;
+	start_y = MINIMAP_Y / 2;
+	delta_x = (endX - val.game->plyr_x) / MSCALE;
+	delta_y = (endY - val.game->plyr_y) / MSCALE;
+	pixels = ceil(sqrt((delta_x * delta_x) + (delta_y * delta_y)));
+	delta_x /= pixels;
+	delta_y /= pixels;
+	while (pixels)
+	{
+		if (start_x < 0 || start_x >= MINIMAP_X || start_y < 0
+			|| start_y >= MINIMAP_Y || pixels < 0 || color == 0)
 			return ;
-        // Reduce color intensity for fading
-        red *= FADEFACTOR;
-        green *= FADEFACTOR;
-        blue *= FADEFACTOR;
-
-        // Recombine the faded color
-        int faded_color = (red << 16) | (green << 8) | blue;
-
-        color_map_pixel(val, ceil(start_x), ceil(start_y), faded_color);
-        start_x += deltaX;
-        start_y += deltaY;
-        pixels--;
-    }
+		color = faded_color(color);
+		color_map_pixel(val, ceil(start_x), ceil(start_y), color);
+		start_x += delta_x;
+		start_y += delta_y;
+		pixels--;
+	}
 }
 
 void	vertical_cast(t_val val, t_ray *ray, double angle)

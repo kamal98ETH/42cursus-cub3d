@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 10:24:51 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:10:39 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -7)
+	if (flag == -8)
+		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
+	else if (flag == -7)
 		printf("\e[31m>> [PARSING ERORR] nUnknown enemy position!\e[0m \n");
 	else if (flag == -6)
 		printf("\e[31m>> [PARSING ERORR] Illogical door placment!\e[0m \n");
@@ -105,32 +107,6 @@ char	**square_format(char **str, t_game *map)
 	}
 	map->map_x = map->map_x;
 	return (tmp);
-}
-
-int	check_door_logic(char **str, int *flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		while (str[i][j])
-		{
-			if (str[i][j] == 'D')
-			{
-				if (!((j && str[i][j - 1] == '1') && str[i][j + 1] == '1') && !((i && str[i - 1][j] == '1') && (str[i + 1] && str[i + 1][j] == '1')))
-				{
-					*flag = -6;
-					return (1);
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
 }
 
 t_game	*get_map(char **str, char *content, t_game *map)

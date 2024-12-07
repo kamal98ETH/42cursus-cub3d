@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 10:25:45 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:07:49 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,10 @@ int	fetch_texture(t_game *map, char **elems, int flag)
 	return (1);
 }
 
-int	get_elements(t_game *map, char *str)
+int	get_elements(t_game *map, char *str, int flag)
 {
 	char	**elems;
-	int		flag;
 
-	flag = 0;
-	if (coma_check(str))
-		return (0);
 	elems = multi_split(str, "\t\n\v\f\r ,");
 	if (elems[0] && !ft_strncmp(elems[0], "C", 2))
 		flag = fetch_color(map, elems, 0);
@@ -125,17 +121,13 @@ t_game	*data_treatment(char **arr, char *content)
 	t_game	*map;
 
 	i = 0;
-	map = malloc(sizeof(t_game));
-	if (!map)
+	map = NULL;
+	if (map_init(&map))
 		return (NULL);
-	map_init(map);
 	while (arr[i] && i < 9)
 	{
-		if (!get_elements(map, arr[i]))
-		{
-			printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-			return (free_map(map), NULL);
-		}
+		if (coma_check(arr[i]) || !get_elements(map, arr[i], 0))
+			return (free_map(map), handle_map_error(-3), NULL);
 		i++;
 	}
 	if (check_filename_extension(*map))
