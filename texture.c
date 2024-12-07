@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:33:19 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/07 10:19:25 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:58:48 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,4 @@ void	ft_open_textures(t_val *val)
 	set_txt(&(map->dr.img));
 	set_txt(&(map->df.img));
 	set_txt(&(map->en.img));
-	printf("\e[32m>> [TEXTURE] textures loaded successfully!\e[0m \n");
 }

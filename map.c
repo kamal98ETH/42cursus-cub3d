@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 17:10:39 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:57:25 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void	handle_map_error(int flag)
 	if (flag == -8)
 		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
 	else if (flag == -7)
-		printf("\e[31m>> [PARSING ERORR] nUnknown enemy position!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Unknown enemy position!\e[0m \n");
 	else if (flag == -6)
 		printf("\e[31m>> [PARSING ERORR] Illogical door placment!\e[0m \n");
 	else if (flag == -5)
 		printf("\e[31m>> [TEXTURE ERORR] Only .xpm file!\e[0m \n");
 	else if (flag == -4)
-		printf("\e[31m>> [PARSING ERORR] Bad element!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Double or Missing elements!\e[0m \n");
 	else if (flag == -3)
 		printf("\e[31m>> [PARSING ERORR] Map data not found!\e[0m \n");
 	else if (flag == -2)
