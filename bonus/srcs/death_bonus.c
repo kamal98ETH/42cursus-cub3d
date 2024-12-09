@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 22:58:56 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:23:15 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	check_death(t_val *val)
 	if (dx < TILE / 2 && dy < TILE / 2)
 	{
 		draw_death1();
+		ft_clean(val);
 		exit(0);
 	}
 }
