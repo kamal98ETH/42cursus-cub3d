@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fetch.c                                            :+:      :+:    :+:   */
+/*   fetch_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 15:12:07 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 17:07:49 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 int	fetch_color(t_game *map, char **elems, int opt)
 {
@@ -117,7 +117,6 @@ int	check_filename_extension(t_game m)
 t_game	*data_treatment(char **arr, char *content)
 {
 	int		i;
-	int		n;
 	t_game	*map;
 
 	i = 0;

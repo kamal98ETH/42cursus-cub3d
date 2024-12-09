@@ -1,46 +1,80 @@
-NAME = cub3D
+MSDIR = mandatory/srcs/
+BSDIR = bonus/srcs/
+MODIR = mandatory/objs/
+BODIR = bonus/objs/
 
-MINILIBX = MiniLibX/libmlx_linux.a
+MINILIBX	= MiniLibX/libmlx_linux.a			#get rid of this 
 
-LIBFT = libft/libft.a
+LIBFT		= libft/libft.a
 
-COMPILER = cc
+CC			= cc
 
-# FLAGS = -Wall -Wextra -Werror
-FLAGS = -g
+TARGET		= cub3D
+NAME		= .name
+NAME_BONUS	= .bonus
+
+FLAGS		= -Wall -Wextra -Werror
+MLXFLAGS	= -L ./MiniLibX -lmlx -lXext -lX11 -lm
 # FLAGS	=	-fsanitize=address -g3
 
-SRCS = main.c raycasting.c circle_halves.c rendering.c door.c door_utils.c minimap.c parser.c \
- fetch.c map.c split.c utils.c checks.c color.c texture.c multi_split.c clean.c movement.c mov_utils.c hooks.c death.c
+C_FILE		= main.c raycasting.c circle_halves.c rendering.c \
+			parser.c fetch.c map.c split.c utils.c checks.c color.c texture.c \
+			multi_split.c clean.c movement.c mov_utils.c hooks.c
 
-OBJS = $(SRCS:.c=.o)
+BONUS_C_FILE = main_bonus.c raycasting_bonus.c circle_halves_bonus.c rendering_bonus.c door_bonus.c door_utils_bonus.c \
+			minimap_bonus.c parser_bonus.c fetch_bonus.c map_bonus.c split_bonus.c utils_bonus.c checks_bonus.c color_bonus.c texture_bonus.c \
+			multi_split_bonus.c clean_bonus.c movement_bonus.c mov_utils_bonus.c hooks_bonus.c death_bonus.c
+
+SRCS		= $(addprefix $(MSDIR), $(C_FILE))
+BONUS_SRCS	= $(addprefix $(BSDIR), $(BONUS_C_FILE))
+
+OBJ			=	$(patsubst $(MSDIR)%.c, $(MODIR)%.o, $(SRCS))
+OBJ_BONUS	=	$(patsubst $(BSDIR)%.c, $(BODIR)%.o, $(BONUS_SRCS))
 
 all: $(MINILIBX) $(LIBFT) $(NAME)
 
-bonus: all
+$(NAME): $(OBJ)
+		@echo "\n"
+		$(CC) $(FLAGS) $(OBJ) $(LIBFT) -o $(TARGET) -L ./MiniLibX -lmlx -lXext -lX11 -lm
+		@rm -rf $(NAME_BONUS)
+		@touch $(NAME)
 
-$(NAME): $(OBJS)
-		@echo "\n" 
-		$(COMPILER) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME) -L ./MiniLibX -lmlx -lXext -lX11 -lm
+bonus: $(MINILIBX) $(LIBFT) $(NAME_BONUS)
 
-.c.o:
-	$(COMPILER) $(FLAGS) -c $< -o $@
+$(NAME_BONUS): $(OBJ_BONUS)
+		@echo "\n"
+		$(CC) $(FLAGS) $(OBJ_BONUS) $(LIBFT) -o $(TARGET) -L ./MiniLibX -lmlx -lXext -lX11 -lm
+		@rm -rf $(NAME)
+		@touch $(NAME_BONUS)
 
-$(MINILIBX):
+$(MODIR)%.o: $(MSDIR)%.c
+		@mkdir -p $(MODIR)
+		$(CC) $(FLAGS) -c $< -o $@
+
+$(BODIR)%.o: $(BSDIR)%.c
+		@mkdir -p $(BODIR)
+		$(CC) $(FLAGS) -c $< -o $@
+
+$(MINILIBX): ./MiniLibX/libmlx_linux.a ./MiniLibX/libmlx.a
 			$(MAKE) -C MiniLibX
 
 $(LIBFT):
 			$(MAKE) -C libft
 
 clean:
-		rm -f $(OBJS)
+		@rm -rf $(MODIR)
+		@rm -rf $(BODIR)
 		# $(MAKE) -C MiniLibX clean  		# uncomment to clean minilibx
 		# $(MAKE) -C libft clean     		# uncomment to clean libft
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -rf $(TARGET)
+		@rm -rf $(NAME)
+		@rm -rf $(NAME_BONUS)
 		# rm -f $(LIBFT) 			 		# uncomment to clean libft
 
 re: fclean all
 
-.SECONDARY: $(OBJS)
+.SECONDARY: $(OBJ) $(OBJ_BONUS)
+
+.PHONY : bonus all clean fclean re

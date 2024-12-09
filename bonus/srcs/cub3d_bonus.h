@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/07 12:04:26 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:24:30 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <string.h>
-# include "MiniLibX/mlx.h"
-# include "libft/libft.h"
+# include "../../MiniLibX/mlx.h"
+# include "../../libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -117,7 +117,6 @@ typedef struct s_game
 	double		plyr_dir;
 	double		dist;
 	char		**map;
-	int			map_size;
 	int			map_x;
 	int			map_y;
 	t_door		*doors;
@@ -164,10 +163,10 @@ void	angle_movement(t_val *val);
 void	check_death(t_val *val);
 
 /* raycasting*/
-void	right_half(t_val val, t_ray *ray, double angle, double angle_tan);
-void	left_half(t_val val, t_ray *ray, double angle, double angle_tan);
-void	upper_half(t_val val, t_ray *ray, double angle, double angle_tan);
-void	lower_half(t_val val, t_ray *ray, double angle, double angle_tan);
+void	right_half(t_val val, t_ray *ray, double angle_tan);
+void	left_half(t_val val, t_ray *ray, double angle_tan);
+void	upper_half(t_val val, t_ray *ray, double angle_tan);
+void	lower_half(t_val val, t_ray *ray, double angle_tan);
 void	cast_ray(t_val val, t_ray *ray, double angle);
 
 /* doors*/

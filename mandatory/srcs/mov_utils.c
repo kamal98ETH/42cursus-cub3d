@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:16:00 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/07 12:08:58 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:52:55 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,14 @@ int	near_wall(t_val *val, double x, double y)
 	return (1);
 }
 
-void	apply_movement(t_val *val, double x, double y, int flag)
+void	apply_movement(t_val *val, double x, double y)
 {
 	double	*x_corr;
 	double	*y_corr;
 
 	x_corr = &(val->game->plyr_x);
 	y_corr = &(val->game->plyr_y);
-	if (flag)
-	{
-		x_corr = &(val->game->enemy_x);
-		y_corr = &(val->game->enemy_y);
-	}
-	if ((empty_space(*val, x, y) == 1 || check_for_doors(val, x, y, flag))
+	if ((empty_space(*val, x, y) == 1)
 		&& (corresponding_tile(*val, *x_corr, y) != '1'
 			|| corresponding_tile(*val, x, *y_corr) != '1')
 		&& near_wall(val, x, y))
@@ -45,11 +40,11 @@ void	apply_movement(t_val *val, double x, double y, int flag)
 		*x_corr = x;
 		*y_corr = y;
 	}
-	else if ((empty_space(*val, x, *y_corr) == 1 || check_for_doors \
-		(val, x, *y_corr, flag)) && near_wall(val, x, *y_corr))
+	else if ((empty_space(*val, x, *y_corr) == 1)
+		&& near_wall(val, x, *y_corr))
 		*x_corr = x;
-	else if ((empty_space(*val, *x_corr, y) == 1 || check_for_doors \
-		(val, *x_corr, y, flag)) && near_wall(val, *x_corr, y))
+	else if ((empty_space(*val, *x_corr, y) == 1)
+		&& near_wall(val, *x_corr, y))
 		*y_corr = y;
 }
 
@@ -58,7 +53,7 @@ int	empty_space(t_val val, double x, double y)
 	char	c;
 
 	c = corresponding_tile(val, x, y);
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'X')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
 	else if (c == 'D')
 		return (2);
@@ -78,8 +73,6 @@ char	corresponding_tile(t_val val, double x, double y)
 {
 	int	c_x;
 	int	c_y;
-	int	i;
-	int	offset;
 
 	c_x = floor(x / TILE);
 	c_y = floor(y / TILE);

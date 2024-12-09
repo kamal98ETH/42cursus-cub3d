@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:02:42 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/06 16:54:27 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:54:40 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ int	check_map_validation(char **s, int *i)
 		j = 0;
 		while (s[*i][j])
 		{
-			if (s[*i][j] == 'S' || s[*i][j] == 'W' || s[*i][j] == 'N'\
-	|| s[*i][j] == 'E' || s[*i][j] == '0' || s[*i][j] == 'D' || s[*i][j] == 'X')
+			if (s[*i][j] == 'S' || s[*i][j] == 'W' || s[*i][j] == 'N'
+				|| s[*i][j] == 'E' || s[*i][j] == '0')
 			{
 				if (!(*i && valid(s[*i - 1][j]) && j && valid(s[*i][j - 1]) \
 				&& s[*i + 1] && valid(s[*i + 1][j]) && valid(s[*i][j + 1])))
 					return (-1);
-				if (s[*i][j] != '0' && s[*i][j] != 'D' && s[*i][j] != 'X')
+				if (s[*i][j] != '0')
 					flag++;
 			}
 			else if (s[*i][j] != '1' && s[*i][j] != ' ' && s[*i][j] != '2')
@@ -103,10 +103,6 @@ int	check_if_map(char *str)
 	else if (elems[0] && !ft_strncmp(elems[0], "EA", 3))
 		return (ft_free(elems), 0);
 	else if (elems[0] && !ft_strncmp(elems[0], "WE", 3))
-		return (ft_free(elems), 0);
-	else if (elems[0] && !ft_strncmp(elems[0], "DR", 3))
-		return (ft_free(elems), 0);
-	else if (elems[0] && !ft_strncmp(elems[0], "DF", 3))
 		return (ft_free(elems), 0);
 	return (ft_free(elems), 1);
 }

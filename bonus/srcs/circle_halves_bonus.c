@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   circle_halves.c                                    :+:      :+:    :+:   */
+/*   circle_halves_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 02:44:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/05 16:14:42 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-void	right_half(t_val val, t_ray *ray, double angle, double angle_tan)
+void	right_half(t_val val, t_ray *ray, double angle_tan)
 {
 	double	xo;
 	double	yo;
@@ -41,7 +41,7 @@ void	right_half(t_val val, t_ray *ray, double angle, double angle_tan)
 		ray->door = 'd';
 }
 
-void	left_half(t_val val, t_ray *ray, double angle, double angle_tan)
+void	left_half(t_val val, t_ray *ray, double angle_tan)
 {
 	double	xo;
 	double	yo;
@@ -70,7 +70,7 @@ void	left_half(t_val val, t_ray *ray, double angle, double angle_tan)
 		ray->door = 'd';
 }
 
-void	upper_half(t_val val, t_ray *ray, double angle, double angle_tan)
+void	upper_half(t_val val, t_ray *ray, double angle_tan)
 {
 	double	xo;
 	double	yo;
@@ -99,7 +99,7 @@ void	upper_half(t_val val, t_ray *ray, double angle, double angle_tan)
 		ray->door = 'd';
 }
 
-void	lower_half(t_val val, t_ray *ray, double angle, double angle_tan)
+void	lower_half(t_val val, t_ray *ray, double angle_tan)
 {
 	double	xo;
 	double	yo;

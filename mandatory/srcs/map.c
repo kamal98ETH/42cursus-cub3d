@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/07 14:57:25 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:00:06 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,12 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -8)
-		printf("\e[31m>> [PARSING ERORR] bad element!\e[0m \n");
-	else if (flag == -7)
-		printf("\e[31m>> [PARSING ERORR] Unknown enemy position!\e[0m \n");
-	else if (flag == -6)
-		printf("\e[31m>> [PARSING ERORR] Illogical door placment!\e[0m \n");
+	if (flag == -6)
+		printf("\e[31m>> [TEXTURE ERORR] Missing texture!\e[0m \n");
 	else if (flag == -5)
 		printf("\e[31m>> [TEXTURE ERORR] Only .xpm file!\e[0m \n");
 	else if (flag == -4)
-		printf("\e[31m>> [PARSING ERORR] Double or Missing elements!\e[0m \n");
+		printf("\e[31m>> [PARSING ERORR] Error in paths and colors!\e[0m \n");
 	else if (flag == -3)
 		printf("\e[31m>> [PARSING ERORR] Map data not found!\e[0m \n");
 	else if (flag == -2)
@@ -71,7 +67,7 @@ char	**allocate_square_space(char **str, t_game *map)
 	tmp = NULL;
 	while (str[i])
 	{
-		if (ft_strlen(str[i]) > map->map_x)
+		if (ft_strlen(str[i]) > (size_t)map->map_x)
 			map->map_x = ft_strlen(str[i]);
 		i++;
 	}
@@ -122,10 +118,8 @@ t_game	*get_map(char **str, char *content, t_game *map)
 	str = square_format(str, map);
 	flag = check_map_validation(str, &i);
 	map->map = str;
-	if (flag != 1 || check_door_logic(str, &flag))
+	if (flag != 1)
 		return (free_map(map), handle_map_error(flag), NULL);
 	get_player_position(map);
-	if (get_enemy_position(map) != 1)
-		return (free_map(map), handle_map_error(0), NULL);
 	return (map);
 }

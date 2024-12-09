@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   door.c                                             :+:      :+:    :+:   */
+/*   door_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:08:13 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/06 17:11:15 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 int	check_door_logic(char **str, int *flag)
 {
@@ -65,11 +65,9 @@ int	check_for_doors(t_val *val, int x, int y, int flag)
 
 int	door_init(t_val *val)
 {
-	int		i;
 	int		x;
 	int		y;
 
-	i = 0;
 	x = 0;
 	y = 0;
 	val->game->doors = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   death.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kez-zoub <kez-zoub@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 22:58:56 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/05 16:13:24 by kez-zoub         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:53:13 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void	check_death(t_val *val)
 
 	dx = val->game->enemy_x - val->game->plyr_x;
 	dy = val->game->enemy_y - val->game->plyr_y;
-	dx = abs(dx);
-	dy = abs(dy);
+	dx = fabs(dx);
+	dy = fabs(dy);
 	if (dx < TILE / 2 && dy < TILE / 2)
 	{
 		draw_death1();
