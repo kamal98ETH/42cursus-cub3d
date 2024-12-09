@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/08 18:24:30 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:35:28 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 # define WIDTH 1000
 
 # define TILE 200
-# define MSCALE 10
-# define MVTSPEED 22
-# define ENYSPEED 14
+# define MSCALE 14
+# define MVTSPEED 14
+# define ENYSPEED 12
 # define RTTSPEED .04
 # define PI 3.1415926535
 # define FOV 1.0471975512

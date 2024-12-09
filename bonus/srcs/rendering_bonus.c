@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:33:48 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:54:19 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	draw_enemy(t_val *val, int tile)
 
 int	render(t_val *val)
 {
-	move_player(val);
 	move_enemy(val);
+	move_player(val);
 	check_death(val);
 	ft_bzero(val->map_data.img_data, MINIMAP_X * MINIMAP_Y * 4);
 	draw_walls(val);

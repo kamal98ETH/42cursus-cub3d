@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/08 19:00:06 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:14:13 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ char	*get_data(char *str)
 
 void	handle_map_error(int flag)
 {
-	if (flag == -6)
+	if (flag == -7)
+		printf("\e[31m>> [PARSING ERORR] Map misconfiguration!\e[0m \n");
+	else if (flag == -6)
 		printf("\e[31m>> [TEXTURE ERORR] Missing texture!\e[0m \n");
 	else if (flag == -5)
 		printf("\e[31m>> [TEXTURE ERORR] Only .xpm file!\e[0m \n");

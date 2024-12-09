@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:02:42 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/08 18:54:40 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:13:57 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	check_map_validation(char **s, int *i)
 				if (s[*i][j] != '0')
 					flag++;
 			}
-			else if (s[*i][j] != '1' && s[*i][j] != ' ' && s[*i][j] != '2')
-				return (flag);
+			else if (s[*i][j] != '1' && s[*i][j] != ' ')
+				return (-7);
 			j++;
 		}
 		(*i)++;
