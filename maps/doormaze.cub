@@ -4,7 +4,7 @@ WE ./textures/metal/metal3.xpm
 EA ./textures/metal/metal4.xpm
 DR ./textures/doors/metaldoor.xpm
 DF ./textures/doors/metalgate2.xpm
-X  ./textures/chinwi.xpm
+X  ./textures/enemys/chinwi.xpm
 F 207,175,123
 C 156,184,250
 
