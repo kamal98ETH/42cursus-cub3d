@@ -1,0 +1,20 @@
+NO ./textures/test/north.xpm
+SO ./textures/test/south.xpm
+WE ./textures/test/west.xpm
+EA ./textures/test/east.xpm
+DR ./textures/doors/wooddoor.xpm
+DF ./textures/doors/wallgate.xpm
+X  ./textures/enemys/obunga.xpm
+
+F 212,163,115
+C 113,142,187
+
+1111111111
+1000000001
+1000000001
+1000000001
+10E00000011111
+10000000000001
+10000000000001
+100000000000X1
+11111111111111

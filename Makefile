@@ -3,8 +3,6 @@ BSDIR = bonus/srcs/
 MODIR = mandatory/objs/
 BODIR = bonus/objs/
 
-MINILIBX	= MiniLibX/libmlx_linux.a			#get rid of this 
-
 LIBFT		= libft/libft.a
 
 CC			= cc
@@ -13,8 +11,8 @@ TARGET		= cub3D
 NAME		= .name
 NAME_BONUS	= .bonus
 
-FLAGS		= -Wall -Wextra -Werror
-MLXFLAGS	= -L ./MiniLibX -lmlx -lXext -lX11 -lm
+FLAGS		= -Wall -Wextra -Werror -g3
+MLXFLAGS	= -lmlx -lXext -lX11 -lm
 # FLAGS	=	-fsanitize=address -g3
 
 C_FILE		= main.c raycasting.c circle_halves.c rendering.c \
@@ -31,19 +29,19 @@ BONUS_SRCS	= $(addprefix $(BSDIR), $(BONUS_C_FILE))
 OBJ			=	$(patsubst $(MSDIR)%.c, $(MODIR)%.o, $(SRCS))
 OBJ_BONUS	=	$(patsubst $(BSDIR)%.c, $(BODIR)%.o, $(BONUS_SRCS))
 
-all: $(MINILIBX) $(LIBFT) $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
 		@echo "\n"
-		$(CC) $(FLAGS) $(OBJ) $(LIBFT) -o $(TARGET) -L ./MiniLibX -lmlx -lXext -lX11 -lm
+		$(CC) $(FLAGS) $(OBJ) $(LIBFT) -o $(TARGET) $(MLXFLAGS)
 		@rm -rf $(NAME_BONUS)
 		@touch $(NAME)
 
-bonus: $(MINILIBX) $(LIBFT) $(NAME_BONUS)
+bonus: $(LIBFT) $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS)
 		@echo "\n"
-		$(CC) $(FLAGS) $(OBJ_BONUS) $(LIBFT) -o $(TARGET) -L ./MiniLibX -lmlx -lXext -lX11 -lm
+		$(CC) $(FLAGS) $(OBJ_BONUS) $(LIBFT) -o $(TARGET) $(MLXFLAGS)
 		@rm -rf $(NAME)
 		@touch $(NAME_BONUS)
 
@@ -55,23 +53,19 @@ $(BODIR)%.o: $(BSDIR)%.c
 		@mkdir -p $(BODIR)
 		$(CC) $(FLAGS) -c $< -o $@
 
-$(MINILIBX): ./MiniLibX/libmlx_linux.a ./MiniLibX/libmlx.a
-			$(MAKE) -C MiniLibX
-
 $(LIBFT):
 			$(MAKE) -C libft
 
 clean:
 		@rm -rf $(MODIR)
 		@rm -rf $(BODIR)
-		# $(MAKE) -C MiniLibX clean  		# uncomment to clean minilibx
-		# $(MAKE) -C libft clean     		# uncomment to clean libft
+		$(MAKE) -C libft clean
 
 fclean: clean
 		@rm -rf $(TARGET)
 		@rm -rf $(NAME)
 		@rm -rf $(NAME_BONUS)
-		# rm -f $(LIBFT) 			 		# uncomment to clean libft
+		rm -f $(LIBFT)
 
 re: fclean all
 

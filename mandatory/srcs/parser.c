@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/08 18:53:36 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:21:39 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ int	map_init(t_game **map)
 	tmp->plyr_y = 0;
 	tmp->map_x = 0;
 	tmp->map_y = 0;
+	tmp->we.img.img = NULL;
+	tmp->so.img.img = NULL;
+	tmp->no.img.img = NULL;
+	tmp->ea.img.img = NULL;
 	tmp->no.path = NULL;
 	tmp->ea.path = NULL;
 	tmp->so.path = NULL;

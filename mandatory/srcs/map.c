@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:26:13 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/09 12:14:13 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/31 21:08:01 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ char	*get_data(char *str)
 	rsize = 0;
 	ft_bzero(buff, 1025);
 	if (!check_name(str))
+	{
+		printf("Error: only .cub files!\n");
 		return (NULL);
+	}
 	fd = open(str, O_RDWR);
 	if (fd == -1)
 		return (NULL);
@@ -112,9 +115,14 @@ t_game	*get_map(char **str, char *content, t_game *map)
 	int		i;
 	int		flag;
 	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
-	tmp = ft_strnstr(content, str[0], ft_strlen(content));
+	tmp2 = join_optclean("\n", str[0], 0);
+	tmp2 = join_optclean(tmp2, "\n", 1);
+	tmp = ft_strnstr(content, tmp2, ft_strlen(content));
+	free(tmp2);
+	tmp++;
 	if (ft_strnstr(tmp, "\n\n", ft_strlen(tmp)))
 		return (free_map(map), handle_map_error(-2), NULL);
 	str = square_format(str, map);

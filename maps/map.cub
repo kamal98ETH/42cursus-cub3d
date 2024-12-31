@@ -1,10 +1,11 @@
-NO ./textures/brick-wall_.xpm
-SO ./textures/brick-wall_.xpm
-WE ./textures/eagle.xpm
-EA ./textures/eagle.xpm
-DR ./textures/door1.xpm
-DF ./textures/wood2.xpm
-X  ./textures/obunga.xpm
+NO ./textures/classic/brick-wall_.xpm
+SO ./textures/classic/brick-wall_.xpm
+WE ./textures/classic/eagle.xpm
+EA ./textures/classic/eagle.xpm
+DR ./textures/doors/door1.xpm
+DF ./textures/wood/wood2.xpm
+X  ./textures/enemys/obunga.xpm
+
 F 207,175,123
 C 156,184,250
 

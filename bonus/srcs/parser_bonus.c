@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 17:12:38 by laoubaid          #+#    #+#             */
-/*   Updated: 2024/12/08 17:46:00 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/31 21:20:47 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ int	map_init(t_game **map)
 		return (1);
 	tmp->ccol.stat = 0;
 	tmp->fcol.stat = 0;
-	tmp->plyr_x = 0;
-	tmp->plyr_y = 0;
-	tmp->enemy_x = 0;
-	tmp->enemy_y = 0;
-	tmp->map_x = 0;
-	tmp->map_y = 0;
+	tmp->we.img.img = NULL;
+	tmp->so.img.img = NULL;
+	tmp->no.img.img = NULL;
+	tmp->ea.img.img = NULL;
+	tmp->dr.img.img = NULL;
+	tmp->df.img.img = NULL;
+	tmp->en.img.img = NULL;
 	tmp->no.path = NULL;
 	tmp->ea.path = NULL;
 	tmp->so.path = NULL;
@@ -35,6 +36,7 @@ int	map_init(t_game **map)
 	tmp->df.path = NULL;
 	tmp->en.path = NULL;
 	tmp->map = NULL;
+	tmp->doors = NULL;
 	*map = tmp;
 	return (0);
 }
@@ -57,6 +59,8 @@ void	get_player_position(t_game *map)
 	int	j;
 
 	j = 0;
+	map->plyr_x = 0;
+	map->plyr_y = 0;
 	while (map->map[j])
 	{
 		i = 0;
@@ -84,6 +88,8 @@ int	get_enemy_position(t_game *map)
 
 	j = 0;
 	flag = 0;
+	map->enemy_x = 0;
+	map->enemy_y = 0;
 	while (map->map[j])
 	{
 		i = 0;

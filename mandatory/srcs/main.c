@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:20 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/08 18:48:30 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/31 21:28:53 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_clean(t_val *val)
 	img_destructor(val->mlx_ptr, val->game->ea.img.img);
 	img_destructor(val->mlx_ptr, val->game->we.img.img);
 	img_destructor(val->mlx_ptr, val->img_ptr);
-	mlx_destroy_window(val->mlx_ptr, val->win_ptr);
+	if (val->win_ptr)
+		mlx_destroy_window(val->mlx_ptr, val->win_ptr);
 	mlx_destroy_display(val->mlx_ptr);
 	free_map(val->game);
 	free(val->mlx_ptr);
@@ -64,6 +65,7 @@ t_val	*loading(char *filename)
 	val->mlx_ptr = mlx_init();
 	if (!val->mlx_ptr)
 		return (free(val), NULL);
+	ft_open_textures(val);
 	val->win_ptr = mlx_new_window(val->mlx_ptr, WIDTH, HEIGHT, "cub3D");
 	if (!val->win_ptr)
 		return (mlx_destroy_display(val->mlx_ptr), free(val), NULL);
@@ -72,7 +74,6 @@ t_val	*loading(char *filename)
 		return (ft_clean(val), NULL);
 	val->data.img_data = mlx_get_data_addr(val->img_ptr, &(val->data.bpp), \
 		&(val->data.sline), &(val->data.endian));
-	ft_open_textures(val);
 	return (val);
 }
 

@@ -6,7 +6,7 @@
 /*   By: laoubaid <laoubaid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 21:51:23 by kez-zoub          #+#    #+#             */
-/*   Updated: 2024/12/08 19:01:55 by laoubaid         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:50:59 by laoubaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <string.h>
-# include "../../MiniLibX/mlx.h"
+# include <mlx.h>
 # include "../../libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
@@ -28,9 +28,9 @@
 # define HEIGHT 800
 # define WIDTH 1000
 
-# define TILE 200
-# define MSCALE 10
-# define MVTSPEED 12
+# define TILE 400
+# define MSCALE 20
+# define MVTSPEED 24
 # define RTTSPEED .03
 # define PI 3.1415926535
 # define FOV 1.0471975512
