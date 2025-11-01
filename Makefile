@@ -11,9 +11,8 @@ TARGET		= cub3D
 NAME		= .name
 NAME_BONUS	= .bonus
 
-FLAGS		= -Wall -Wextra -Werror -g3
+FLAGS		= -Wall -Wextra -Werror
 MLXFLAGS	= -lmlx -lXext -lX11 -lm
-# FLAGS	=	-fsanitize=address -g3
 
 C_FILE		= main.c raycasting.c circle_halves.c rendering.c \
 			parser.c fetch.c map.c split.c utils.c checks.c color.c texture.c \
